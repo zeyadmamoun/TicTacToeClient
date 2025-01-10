@@ -86,7 +86,4 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
             Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
 }

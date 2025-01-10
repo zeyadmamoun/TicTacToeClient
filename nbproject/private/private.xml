@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="SimpleServer/client">
-            <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/screens/LoginScreenFXML.fxml</file>
             <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/alphaclient/AlphaClient.java</file>
             <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/screens/LoginScreenFXMLController.java</file>
-            <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/screens/RegisterScreen.fxml</file>
             <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/screens/RegisterScreenController.java</file>
             <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/network/Client.java</file>
-            <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/screens/ModesFXMLController.java</file>
         </group>
     </open-files>
 </project-private>
