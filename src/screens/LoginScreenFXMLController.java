@@ -16,6 +16,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -85,5 +87,15 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
         } catch (IOException ex) {
             Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void loginFailed() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Login Failed");
+        alert.setHeaderText("check your credientials");
+        alert.setContentText("non valid username or password");
+
+        alert.showAndWait();
     }
 }

@@ -5,7 +5,6 @@
  */
 package screens;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,18 +15,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import network.Client;
+import network.Client.RegisterUIHandler;
 
 /**
  * FXML Controller class
  *
  * @author zeyad_maamoun
  */
-public class RegisterScreenController implements Initializable {
+public class RegisterScreenController implements Initializable, RegisterUIHandler {
     
     private Stage stage;
     private Scene scene;
@@ -58,6 +59,7 @@ public class RegisterScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
+        client.setRegisterHandler(this);
     }   
     
     @FXML
@@ -77,6 +79,30 @@ public class RegisterScreenController implements Initializable {
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    @Override
+    public void success() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) signup_btn_s.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void failed() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Signup Failed");
+        alert.setHeaderText("check your credientials");
+        alert.setContentText("something wrong happend");
+
+        alert.showAndWait();
     }
     
 }

@@ -30,6 +30,7 @@ public class Client extends Thread {
     private JSONObject obj;
     private boolean haveAccess = false;
     private LoginUiHandler loginHandler;
+    private RegisterUIHandler registerHandler;
     private DashboadrdUiHandler dashboadrdUiHandler;
     //private instance so no one can accesss it directly
     private static Client instance;
@@ -59,6 +60,10 @@ public class Client extends Thread {
     public void setLoginHandler(LoginUiHandler handler) {
         this.loginHandler = handler;
     }
+    
+    public void setRegisterHandler(RegisterUIHandler handler) {
+        this.registerHandler = handler;
+    }
 
     public void setDashboradHandler(DashboadrdUiHandler handler) {
         this.dashboadrdUiHandler = handler;
@@ -78,28 +83,39 @@ public class Client extends Thread {
                         result = obj.getInt("status");
                         if (result == 0) {
                             System.out.println("user not found");
+                            Platform.runLater(() -> {
+                                loginHandler.loginFailed();
+                            });
                         } else {
                             userName = obj.getString("username");
                             System.out.println("login successfull");
-                        }
-                        if (loginHandler != null) {
-                            Platform.runLater(() -> {
-                                loginHandler.loginSuccess();
-                            });
-                        }
+                            if (loginHandler != null) {
+                                Platform.runLater(() -> {
+                                    loginHandler.loginSuccess();
+                                });
+                            }
+                        }                       
                         break;
+/////////////////////////////////////////////////////////////////////////////////
                     case "register_response":
                         result = obj.getInt("status");
                         if (result == 0) {
                             System.out.println("registeration failed");
+                            Platform.runLater(() -> {
+                                registerHandler.failed();
+                            });
                         } else {
                             System.out.println("registeration successfull");
+                            Platform.runLater(() -> {
+                                registerHandler.success();
+                            });
                         }
                         break;
+/////////////////////////////////////////////////////////////////////////////////
                     case "players_list":
                         playersListHandler();
-
                         break;
+/////////////////////////////////////////////////////////////////////////////////
                     case "requestToPlay":
                         System.out.println(obj.getString("player1"));
                         System.out.println(obj.getString("player2"));
@@ -108,6 +124,7 @@ public class Client extends Thread {
                             dashboadrdUiHandler.generateRequestPopup(obj.getString("player1"));
                         });
                         break;
+/////////////////////////////////////////////////////////////////////////////////
                 }
             }
         } catch (IOException ex) {
@@ -158,10 +175,12 @@ public class Client extends Thread {
     public interface LoginUiHandler {
 
         void loginSuccess();
+        void loginFailed();
     }
 
-    interface RegisterUIHandler {
-
+    public interface RegisterUIHandler {
+        void success();
+        void failed();
     }
 
     public interface DashboadrdUiHandler {
