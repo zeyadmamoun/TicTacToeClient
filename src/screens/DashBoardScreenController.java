@@ -35,11 +35,13 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
         client.setDashboradHandler(this);
+        mainHeader.setText(client.getUserName());
     }
 
     @Override
     public void updatePlayerList(ArrayList<String> players) {
         playersList.getItems().clear();
+        players.remove(client.getUserName());
         playersList.getItems().addAll(players);
         
     }

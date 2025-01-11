@@ -24,21 +24,22 @@ import screens.LoginScreenFXMLController;
  */
 public class Client extends Thread {
 
-    Socket soc;
-    DataInputStream ear;
-    DataOutputStream mouth;
-    JSONObject obj;
+    private Socket soc;
+    private DataInputStream ear;
+    private DataOutputStream mouth;
+    private JSONObject obj;
     private boolean haveAccess = false;
     private LoginUiHandler loginHandler;
     private DashboadrdUiHandler dashboadrdUiHandler;
     //private instance so no one can accesss it directly
     private static Client instance;
+    private String userName;
 
     // private constructor so no one can make any new instance from this class.
     private Client() {
         try {
-            soc = new Socket("192.168.1.4", 5005);
-            //soc = new Socket("127.0.0.1", 5005);
+            //soc = new Socket("192.168.1.4", 5005);
+            soc = new Socket("127.0.0.1", 5005);
             ear = new DataInputStream(soc.getInputStream());
             mouth = new DataOutputStream(soc.getOutputStream());
             start();
@@ -78,6 +79,7 @@ public class Client extends Thread {
                         if (result == 0) {
                             System.out.println("user not found");
                         } else {
+                            userName = obj.getString("username");
                             System.out.println("login successfull");
                         }
                         if (loginHandler != null) {
@@ -95,18 +97,8 @@ public class Client extends Thread {
                         }
                         break;
                     case "players_list":
-                        if (dashboadrdUiHandler != null) {
-                            System.out.println(obj);
-                            JSONArray jsonArray = obj.getJSONArray("list");
-                            ArrayList<String> players = new ArrayList<>();
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                String element = jsonArray.getString(i);
-                                players.add(element);
-                            }
-                            Platform.runLater(() -> {
-                                dashboadrdUiHandler.updatePlayerList(players);
-                            });
-                        }
+                        playersListHandler();
+
                         break;
                 }
             }
@@ -131,17 +123,32 @@ public class Client extends Thread {
         mouth.writeUTF(obj.toString());
     }
 
+    private void playersListHandler() {
+        JSONArray jsonArray = obj.getJSONArray("list");
+        ArrayList<String> players = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String element = jsonArray.getString(i);
+            players.add(element);
+        }
+        Platform.runLater(() -> {
+            dashboadrdUiHandler.updatePlayerList(players);
+        });
+    }
+
     public interface LoginUiHandler {
 
         void loginSuccess();
     }
 
     interface RegisterUIHandler {
-        
+
     }
 
     public interface DashboadrdUiHandler {
 
         void updatePlayerList(ArrayList<String> players);
+    }
+    public String getUserName(){
+        return userName;
     }
 }
