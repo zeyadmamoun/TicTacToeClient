@@ -100,6 +100,14 @@ public class Client extends Thread {
                         playersListHandler();
 
                         break;
+                    case "requestToPlay":
+                        System.out.println(obj.getString("player1"));
+                        System.out.println(obj.getString("player2"));
+                        
+                        Platform.runLater(() -> {
+                            dashboadrdUiHandler.generateRequestPopup(obj.getString("player1"));
+                        });
+                        break;
                 }
             }
         } catch (IOException ex) {
@@ -135,6 +143,18 @@ public class Client extends Thread {
         });
     }
 
+    public void sendRequestHandler(String toPlayer) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "requestToPlay");
+        obj.put("player1", userName);
+        obj.put("player2", toPlayer);
+        try {
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public interface LoginUiHandler {
 
         void loginSuccess();
@@ -147,8 +167,11 @@ public class Client extends Thread {
     public interface DashboadrdUiHandler {
 
         void updatePlayerList(ArrayList<String> players);
+
+        void generateRequestPopup(String fromPlayer);
     }
-    public String getUserName(){
+
+    public String getUserName() {
         return userName;
     }
 }
