@@ -5,23 +5,20 @@
  */
 package screens;
 
-import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import network.Client;
 
 /**
@@ -32,7 +29,7 @@ import network.Client;
 public class DashBoardScreenController implements Initializable, Client.DashboadrdUiHandler {
 
     Client client;
-
+    String toPlayer;
     @FXML
     private ListView<String> playersList;
     @FXML
@@ -49,8 +46,8 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         playersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                String selectedPlayer = playersList.getSelectionModel().getSelectedItem();
-                client.sendRequestHandler(selectedPlayer);
+                toPlayer = playersList.getSelectionModel().getSelectedItem();
+                client.sendRequestHandler(toPlayer);
             }
 
         });
@@ -66,12 +63,31 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void generateRequestPopup(String fromPlayer) {
-       
-            System.out.println(fromPlayer + "want's to play with you");
-            Alert a = new Alert(AlertType.NONE);
-            a.setAlertType(AlertType.CONFIRMATION);
-            a.setContentText(fromPlayer+"want's to play with you");
-            a.show();
+
+        System.out.println(fromPlayer + "want's to play with you");
+        Alert a = new Alert(AlertType.NONE);
+        a.setAlertType(AlertType.CONFIRMATION);
+        a.setContentText(fromPlayer + "want's to play with you");
+        //a.show();
+        Optional<ButtonType> result = a.showAndWait();
+        // Handle the user's response
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+           //handle accept
+            
+        } else {
+            //handle refuse
+            client.sendRefuseToPlayer(fromPlayer,toPlayer);
+           
+        }
+    }
+
+    @Override
+    public void generateResponsePopup(String fromPlayer) {
+        
+        Alert a = new Alert(AlertType.NONE);
+        a.setAlertType(AlertType.INFORMATION);
+        a.setContentText("sadly "+toPlayer+" refused pls don't cry");
+        a.show();
     }
 
 }

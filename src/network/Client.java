@@ -103,9 +103,15 @@ public class Client extends Thread {
                     case "requestToPlay":
                         System.out.println(obj.getString("player1"));
                         System.out.println(obj.getString("player2"));
-                        
+
                         Platform.runLater(() -> {
                             dashboadrdUiHandler.generateRequestPopup(obj.getString("player1"));
+                        });
+                        break;
+                    case "playerResponse":
+                        System.out.println(obj.toString());
+                        Platform.runLater(() -> {
+                            dashboadrdUiHandler.generateResponsePopup(obj.getString("fromplayer"));
                         });
                         break;
                 }
@@ -155,6 +161,19 @@ public class Client extends Thread {
         }
     }
 
+    public void sendRefuseToPlayer(String fromPlayer,String toPlayer) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "playerResponse");
+        obj.put("response", 0);
+        obj.put("fromplayer", fromPlayer);
+        obj.put("toplayer", toPlayer);
+        try {
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public interface LoginUiHandler {
 
         void loginSuccess();
@@ -169,6 +188,8 @@ public class Client extends Thread {
         void updatePlayerList(ArrayList<String> players);
 
         void generateRequestPopup(String fromPlayer);
+
+        void generateResponsePopup(String fromPlayer);
     }
 
     public String getUserName() {
