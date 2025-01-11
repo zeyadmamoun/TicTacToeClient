@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  * @author zeyad_maamoun
  */
 public class ModesFXMLController implements Initializable {
-    
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -40,8 +40,8 @@ public class ModesFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    } 
-    
+    }
+
     public void setScene(Scene scene) {
         this.scene = scene;
     }
@@ -56,5 +56,26 @@ public class ModesFXMLController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+    @FXML
+    private void navigateToVScomputerMode(javafx.event.ActionEvent event) throws IOException {
+        // Load the second FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LevelsScreen.fxml"));
+        root = loader.load();
+        // Get the current stage and set the new scene
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+//      private void navigateToLocalMode(javafx.event.ActionEvent event) throws IOException {
+//        // Load the second FXML
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LoginScreenFXML.fxml"));
+//        root = loader.load();
+//        // Get the current stage and set the new scene
+//        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+//        stage.setScene(new Scene(root));
+//        stage.show();
+//    }
     
 }

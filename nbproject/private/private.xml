@@ -8,5 +8,12 @@
             <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/screens/RegisterScreenController.java</file>
             <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/network/Client.java</file>
         </group>
+        <group>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/VSComputerScreen.fxml</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/nbproject/jfx-impl.xml</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/VSComputerScreenController.java</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/vscomputerscreen.css</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/ModesFXMLController.java</file>
+        </group>
     </open-files>
 </project-private>
