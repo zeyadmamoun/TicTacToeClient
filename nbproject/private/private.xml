@@ -9,10 +9,18 @@
             <file>file:/C:/Users/zeyad_maamoun/Desktop/AlphaClient/src/network/Client.java</file>
         </group>
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/mahmo/OneDrive/Documents/NetBeansProjects/TicTacToeClient/src/network/Client.java</file>
             <file>file:/C:/Users/mahmo/OneDrive/Documents/NetBeansProjects/TicTacToeClient/src/screens/LoginScreenFXMLController.java</file>
             <file>file:/C:/Users/mahmo/OneDrive/Documents/NetBeansProjects/TicTacToeClient/src/screens/DashBoardScreenController.java</file>
             <file>file:/C:/Users/mahmo/OneDrive/Documents/NetBeansProjects/TicTacToeClient/src/alphaclient/AlphaClient.java</file>
+=======
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/VSComputerScreen.fxml</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/nbproject/jfx-impl.xml</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/VSComputerScreenController.java</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/vscomputerscreen.css</file>
+            <file>file:/D:/ITI/8.%20Java/TicTacToeClient/src/screens/ModesFXMLController.java</file>
+>>>>>>> 5c91bc649df234ae638e3c936480d45d1639efe3
         </group>
     </open-files>
 </project-private>
