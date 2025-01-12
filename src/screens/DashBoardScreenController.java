@@ -8,6 +8,7 @@ package screens;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
@@ -66,12 +68,33 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void generateRequestPopup(String fromPlayer) {
-       
-            System.out.println(fromPlayer + "want's to play with you");
-            Alert a = new Alert(AlertType.NONE);
-            a.setAlertType(AlertType.CONFIRMATION);
-            a.setContentText(fromPlayer+"want's to play with you");
-            a.show();
+        System.out.println(fromPlayer + " wants to play with you");
+        Alert requestAlert = new Alert(AlertType.CONFIRMATION);
+        requestAlert.setContentText(fromPlayer + " wants to play with you. Do you accept?");
+        requestAlert.setTitle("Game Request");
+        requestAlert.setHeaderText(null);
+
+        Optional<ButtonType> result = requestAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            client.sendAcceptToPlayer(fromPlayer, client.getUserName());
+
+            Alert acceptAlert = new Alert(AlertType.INFORMATION);
+            acceptAlert.setContentText("Your request has been accepted ");
+            acceptAlert.setTitle("Game Request Accepted");
+            acceptAlert.setHeaderText(null);
+            acceptAlert.show();
+        } else {
+
+        }
+    }
+
+    @Override
+    public void generateAcceptancePopup(String fromPlayer) {
+        Alert a = new Alert(AlertType.NONE);
+        a.setAlertType(AlertType.INFORMATION);
+        a.show();
+
     }
 
 }
