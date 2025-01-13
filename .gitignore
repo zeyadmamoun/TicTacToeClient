@@ -1,12 +1,10 @@
+# Created by https://www.toptal.com/developers/gitignore/api/netbeans,windows
+# Edit at https://www.toptal.com/developers/gitignore?templates=netbeans,windows
+
 ### NetBeans ###
-# Ignore private configuration files
 **/nbproject/private/
-
-# Include NetBeans project configuration
-!**/nbproject/project.xml
-!**/nbproject/configs/
-
-# Ignore build output and generated files
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
 build/
 nbbuild/
 dist/
@@ -38,3 +36,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# End of https://www.toptal.com/developers/gitignore/api/netbeans,windows
