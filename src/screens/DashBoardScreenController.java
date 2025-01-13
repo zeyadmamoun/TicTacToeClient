@@ -74,11 +74,6 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         if (result.isPresent() && result.get() == ButtonType.OK) {
            //handle accept
             client.sendAcceptToPlayer(fromPlayer, client.getUserName());
-            Alert acceptAlert = new Alert(AlertType.INFORMATION);
-            acceptAlert.setContentText("Your request has been accepted ");
-            acceptAlert.setTitle("Game Request Accepted");
-            acceptAlert.setHeaderText(null);
-            acceptAlert.show();
         } else {
             //handle refuse
             client.sendRefuseToPlayer(fromPlayer,toPlayer);
@@ -98,8 +93,8 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void generateAcceptancePopup(String fromPlayer) {
         Alert a = new Alert(AlertType.NONE);
         a.setAlertType(AlertType.INFORMATION);
+        a.setContentText("" + toPlayer + " accept your request");
         a.show();
-
     }
 
 }
