@@ -133,7 +133,7 @@ public class Client extends Thread {
                             if (response == 1) {
                                 // Accepted
                                 Platform.runLater(() -> {
-                                    dashboadrdUiHandler.generateAcceptancePopup(obj.getString("fromplayer"));
+                                    dashboadrdUiHandler.generateAcceptancePopup(fromPlayer);
                                 });
                             } else {
                                 Platform.runLater(() -> {

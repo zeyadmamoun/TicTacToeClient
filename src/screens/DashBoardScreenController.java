@@ -84,7 +84,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         // Handle the user's response
         if (result.isPresent() && result.get() == ButtonType.OK) {
            //handle accept
-            client.sendAcceptToPlayer(fromPlayer,toPlayer);
+            client.sendAcceptToPlayer(fromPlayer,client.getUserName());
             //switchToServerGameBoard();
         } else {
             //handle refuse
