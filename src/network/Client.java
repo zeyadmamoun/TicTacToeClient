@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.LoginScreenFXMLController;
@@ -34,7 +35,7 @@ public class Client extends Thread {
     //private instance so no one can accesss it directly
     private static Client instance;
     private String userName;
-
+ 
     // private constructor so no one can make any new instance from this class.
     private Client() {
         try {
@@ -117,8 +118,8 @@ public class Client extends Thread {
                         break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
                     case "requestToPlay":
-                        System.out.println(obj.getString("player1"));
-                        System.out.println(obj.getString("player2"));
+                        System.out.println("9999"+obj.getString("player1"));
+                        System.out.println("9999"+obj.getString("player2"));
 
                         Platform.runLater(() -> {
                             dashboadrdUiHandler.generateRequestPopup(obj.getString("player1"));
@@ -132,7 +133,7 @@ public class Client extends Thread {
                             if (response == 1) {
                                 // Accepted
                                 Platform.runLater(() -> {
-                                    dashboadrdUiHandler.generateAcceptancePopup(fromPlayer);
+                                    dashboadrdUiHandler.generateAcceptancePopup(obj.getString("fromplayer"));
                                 });
                             } else {
                                 Platform.runLater(() -> {
@@ -182,6 +183,8 @@ public class Client extends Thread {
         obj.put("command", "requestToPlay");
         obj.put("player1", userName);
         obj.put("player2", toPlayer);
+        System.out.println("->>>"+userName);
+        System.out.println("->>>"+toPlayer);
         try {
             mouth.writeUTF(obj.toString());
         } catch (IOException ex) {
