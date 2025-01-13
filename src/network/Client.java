@@ -5,7 +5,6 @@
  */
 package network;
 
-import java.awt.event.ActionEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -60,7 +59,7 @@ public class Client extends Thread {
     public void setLoginHandler(LoginUiHandler handler) {
         this.loginHandler = handler;
     }
-    
+
     public void setRegisterHandler(RegisterUIHandler handler) {
         this.registerHandler = handler;
     }
@@ -82,49 +81,67 @@ public class Client extends Thread {
                     case "login_response":
                         result = obj.getInt("status");
                         if (result == 0) {
-                            System.out.println("user not found");
                             Platform.runLater(() -> {
-                                loginHandler.loginFailed();
+                                loginHandler.LoginFailed();
                             });
+                            System.out.println("user not found");
                         } else {
                             userName = obj.getString("username");
-                            System.out.println("login successfull");
                             if (loginHandler != null) {
                                 Platform.runLater(() -> {
                                     loginHandler.loginSuccess();
                                 });
                             }
-                        }                       
+                            System.out.println("login successfull");
+                        }
                         break;
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
                     case "register_response":
                         result = obj.getInt("status");
                         if (result == 0) {
-                            System.out.println("registeration failed");
                             Platform.runLater(() -> {
                                 registerHandler.failed();
                             });
+                            System.out.println("registeration failed");
                         } else {
-                            System.out.println("registeration successfull");
+                            userName = obj.getString("username");
                             Platform.runLater(() -> {
                                 registerHandler.success();
                             });
+                            System.out.println("registeration successfull");
                         }
                         break;
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////  
                     case "players_list":
                         playersListHandler();
                         break;
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
                     case "requestToPlay":
                         System.out.println(obj.getString("player1"));
                         System.out.println(obj.getString("player2"));
-                        
+
                         Platform.runLater(() -> {
                             dashboadrdUiHandler.generateRequestPopup(obj.getString("player1"));
                         });
                         break;
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+                    case "playerResponse":
+                        int response = obj.getInt("response");
+                        String fromPlayer = obj.getString("fromplayer");
+                        Platform.runLater(() -> {
+                            if (response == 1) {
+                                // Accepted
+                                Platform.runLater(() -> {
+                                    dashboadrdUiHandler.generateAcceptancePopup(fromPlayer);
+                                });
+                            } else {
+                                Platform.runLater(() -> {
+                                    dashboadrdUiHandler.generateResponsePopup(obj.getString("fromplayer"));
+                                });
+                            }
+                        });
+
+                        break;
                 }
             }
         } catch (IOException ex) {
@@ -172,14 +189,47 @@ public class Client extends Thread {
         }
     }
 
+    public void sendRefuseToPlayer(String fromPlayer, String toPlayer) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "playerResponse");
+        obj.put("response", 0);
+        obj.put("fromplayer", fromPlayer);
+        obj.put("toplayer", toPlayer);
+        try {
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void sendAcceptToPlayer(String fromPlayer, String toPlayer) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "playerResponse");
+        obj.put("response", 1);
+        obj.put("fromplayer", fromPlayer);
+        obj.put("toplayer", toPlayer);
+        try {
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+/////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
     public interface LoginUiHandler {
 
         void loginSuccess();
-        void loginFailed();
+
+        void LoginFailed();
     }
 
     public interface RegisterUIHandler {
+
         void success();
+
         void failed();
     }
 
@@ -188,9 +238,10 @@ public class Client extends Thread {
         void updatePlayerList(ArrayList<String> players);
 
         void generateRequestPopup(String fromPlayer);
+
+        void generateResponsePopup(String fromPlayer);
+
+        void generateAcceptancePopup(String fromPlayer);
     }
 
-    public String getUserName() {
-        return userName;
-    }
 }

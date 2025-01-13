@@ -5,7 +5,6 @@
  */
 package screens;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javax.security.auth.spi.LoginModule;
 import network.Client;
 import network.Client.LoginUiHandler;
 
@@ -90,12 +88,14 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     }
 
     @Override
-    public void loginFailed() {
+    public void LoginFailed() {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Login Failed");
-        alert.setHeaderText("check your credientials");
-        alert.setContentText("non valid username or password");
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Look, an Information Dialog");
+        alert.setContentText("I have a great message for you!");
 
         alert.showAndWait();
     }
+
+    
 }
