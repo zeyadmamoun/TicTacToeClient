@@ -30,6 +30,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     Client client;
     String toPlayer;
+    private String requestingPlayer;
     @FXML
     private ListView<String> playersList;
     @FXML
@@ -65,6 +66,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void generateRequestPopup(String fromPlayer) {
 
         System.out.println(fromPlayer + "want's to play with you");
+        this.requestingPlayer = fromPlayer;
         Alert a = new Alert(AlertType.NONE);
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + "want's to play with you");
@@ -73,10 +75,12 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         // Handle the user's response
         if (result.isPresent() && result.get() == ButtonType.OK) {
            //handle accept
-            client.sendAcceptToPlayer(fromPlayer, client.getUserName());
+           client.sendAcceptToPlayer(client.getUserName(), requestingPlayer);
         } else {
             //handle refuse
-            client.sendRefuseToPlayer(fromPlayer,toPlayer);
+            client.sendRefuseToPlayer(client.getUserName(), requestingPlayer);
+            System.out.println("from player"+fromPlayer);
+            System.out.println("to player"+toPlayer);
            
         }
     }
