@@ -31,6 +31,7 @@ public class Client extends Thread {
     private LoginUiHandler loginHandler;
     private RegisterUIHandler registerHandler;
     private DashboadrdUiHandler dashboadrdUiHandler;
+    private ServerGameHandler serverGameHandler;
     //private instance so no one can accesss it directly
     private static Client instance;
     private String userName;
@@ -66,6 +67,10 @@ public class Client extends Thread {
 
     public void setDashboradHandler(DashboadrdUiHandler handler) {
         this.dashboadrdUiHandler = handler;
+    }
+
+    public void setServerGameHandler(ServerGameHandler handler) {
+        this.serverGameHandler = handler;
     }
 
     @Override
@@ -133,6 +138,7 @@ public class Client extends Thread {
                                 // Accepted
                                 Platform.runLater(() -> {
                                     dashboadrdUiHandler.generateAcceptancePopup(fromPlayer);
+                                    dashboadrdUiHandler.switchToGameBoard();
                                 });
                             } else {
                                 Platform.runLater(() -> {
@@ -141,6 +147,27 @@ public class Client extends Thread {
                             }
                         });
 
+                        break;
+                    case "start":
+                        Platform.runLater(() -> {
+                            serverGameHandler.startGame();
+                        });
+                        break;
+                    case "move":
+                        Platform.runLater(() -> {
+                            serverGameHandler.drawMoveFromServer(obj.getInt("row"), obj.getInt("col"), obj.getString("token"));
+                        });
+                        break;
+                    case "win":
+                        if (obj.getString("winner").equals(userName)) {
+                            Platform.runLater(() -> {
+                                serverGameHandler.winnerAction();
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                serverGameHandler.loseAction();
+                            });
+                        }
                         break;
                 }
             }
@@ -214,11 +241,26 @@ public class Client extends Thread {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    synchronized public void sendMoveToServer(int row, int col, String token) {
+        JSONObject obj = new JSONObject();
+        obj.put("command", "move");
+        obj.put("token", token);
+        obj.put("row", row);
+        obj.put("col", col);
+        try {
+            mouth.writeUTF(obj.toString());
+            System.out.println("test if client send move" + obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public String getUserName() {
         return userName;
     }
 /////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
+
     public interface LoginUiHandler {
 
         void loginSuccess();
@@ -242,6 +284,18 @@ public class Client extends Thread {
         void generateResponsePopup(String fromPlayer);
 
         void generateAcceptancePopup(String fromPlayer);
+
+        void switchToGameBoard();
     }
 
+    public interface ServerGameHandler {
+
+        void drawMoveFromServer(int row, int col, String token);
+
+        void startGame();
+        
+        void winnerAction();
+        void loseAction();
+        
+    }
 }

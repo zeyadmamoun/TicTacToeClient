@@ -6,19 +6,26 @@
 package screens;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import network.Client;
 
 /**
@@ -31,6 +38,9 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     Client client;
     String toPlayer;
     private String requestingPlayer;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
     @FXML
     private ListView<String> playersList;
     @FXML
@@ -76,6 +86,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         if (result.isPresent() && result.get() == ButtonType.OK) {
            //handle accept
            client.sendAcceptToPlayer(client.getUserName(), requestingPlayer);
+           switchToServerGameBoard();
         } else {
             //handle refuse
             client.sendRefuseToPlayer(client.getUserName(), requestingPlayer);
@@ -101,4 +112,21 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         a.show();
     }
 
+    public void switchToServerGameBoard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ServerGameBoard.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) mainHeader.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void switchToGameBoard() {
+        switchToServerGameBoard();
+    }
 }
