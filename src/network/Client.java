@@ -23,6 +23,7 @@ import screens.LoginScreenFXMLController;
  */
 public class Client extends Thread {
 
+    private boolean isFirstPlay = true;
     private Socket soc;
     private DataInputStream ear;
     private DataOutputStream mouth;
@@ -71,6 +72,7 @@ public class Client extends Thread {
 
     public void setServerGameHandler(ServerGameHandler handler) {
         this.serverGameHandler = handler;
+        System.out.println("created");
     }
 
     @Override
@@ -153,11 +155,7 @@ public class Client extends Thread {
                             serverGameHandler.startGame();
                         });
                         break;
-                    case "move":
-                        Platform.runLater(() -> {
-                            serverGameHandler.drawMoveFromServer(obj.getInt("row"), obj.getInt("col"), obj.getString("token"));
-                        });
-                        break;
+
                     case "win":
                         if (obj.getString("winner").equals(userName)) {
                             Platform.runLater(() -> {
@@ -168,6 +166,12 @@ public class Client extends Thread {
                                 serverGameHandler.loseAction();
                             });
                         }
+                        break;
+                    case "move":
+                        Platform.runLater(() -> {
+                            System.out.println("------------->" + obj);
+                            serverGameHandler.drawMoveFromServer(obj.getInt("row"), obj.getInt("col"), obj.getString("token"));
+                        });
                         break;
                 }
             }
@@ -250,6 +254,10 @@ public class Client extends Thread {
         obj.put("col", col);
         try {
             mouth.writeUTF(obj.toString());
+            if (isFirstPlay) {
+                mouth.writeUTF(obj.toString());
+                isFirstPlay = false;
+            }
             System.out.println("test if client send move" + obj.toString());
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -293,9 +301,11 @@ public class Client extends Thread {
         void drawMoveFromServer(int row, int col, String token);
 
         void startGame();
-        
+
         void winnerAction();
+
         void loseAction();
-        
+
     }
+
 }

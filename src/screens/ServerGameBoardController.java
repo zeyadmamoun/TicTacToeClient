@@ -19,7 +19,7 @@ import network.Client;
  *
  * @author mahmo
  */
-public class ServerGameBoardController implements Initializable, Client.ServerGameHandler {
+public class ServerGameBoardController implements Initializable, Client.ServerGameHandler{
 
     /**
      * Initializes the controller class.
@@ -33,6 +33,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
 
     private char[][] board = new char[3][3];
     private Button[][] buttons;
+    boolean playerTurn = false;
     @FXML
     private Text playerOneName;
     @FXML
@@ -40,56 +41,65 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(0, 0);
         client.sendMoveToServer(0, 0, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonTwoHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(0, 1);
         client.sendMoveToServer(0, 1, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonThreeHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(0, 2);
         client.sendMoveToServer(0, 2, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonFourHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(1, 0);
         client.sendMoveToServer(1, 0, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonFiveHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(1, 1);
         client.sendMoveToServer(1, 1, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonSixHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(1, 2);
         client.sendMoveToServer(1, 2, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonSevenHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(2, 0);
         client.sendMoveToServer(2, 0, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonEightHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(2, 1);
         client.sendMoveToServer(2, 1, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonNineHandler(ActionEvent event) {
+        if(playerTurn == false){ return; }
         handleMove(2, 2);
-        client.sendMoveToServer(2, 2,String.valueOf(currentPlayer));
+        client.sendMoveToServer(2, 2, String.valueOf(currentPlayer));
     }
 
     private void handleMove(int row, int col) {
@@ -98,15 +108,14 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         } else if (board[row][col] == ' ' && currentPlayer == 'O') {
             makeMove(row, col, 'O');
         }
+        playerTurn = false;
     }
 
     private void makeMove(int row, int col, char player) {
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
-
+        buttons[row][col].setDisable(true);
     }
-
-    
 
     private void initializeGame() {
         board = new char[3][3];
@@ -129,13 +138,15 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     }
 
     @Override
-    public void drawMoveFromServer(int row, int col,String token) {
+    public void drawMoveFromServer(int row, int col, String token) {
         makeMove(row, col, token.charAt(0));
+        playerTurn = true;
     }
 
     @Override
     public void startGame() {
         currentPlayer = 'X';
+        playerTurn = true;
     }
 
     @Override
