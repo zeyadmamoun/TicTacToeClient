@@ -5,7 +5,6 @@
  */
 package screens;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,11 +15,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javax.security.auth.spi.LoginModule;
 import network.Client;
 import network.Client.LoginUiHandler;
 
@@ -86,4 +86,16 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
             Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public void LoginFailed() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Look, an Information Dialog");
+        alert.setContentText("I have a great message for you!");
+
+        alert.showAndWait();
+    }
+
+    
 }

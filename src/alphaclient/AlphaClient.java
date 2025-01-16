@@ -15,6 +15,7 @@ import javafx.stage.Stage;
  *
  * @author zeyad_maamoun
  */
+
 public class AlphaClient extends Application {
     
     @Override
