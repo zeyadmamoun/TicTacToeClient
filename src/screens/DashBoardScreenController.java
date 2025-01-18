@@ -54,6 +54,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         client = Client.getInstance();
         client.setDashboradHandler(this);
         mainHeader.setText(client.getUserName());
+        client.requestPlayersList();
         playersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -62,6 +63,12 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
             }
 
         });
+    }
+    
+    @FXML
+    void onTestButtonClicked(){
+        System.err.println("test button clicked");
+        client.sendTestMesssage();
     }
 
     @Override
@@ -78,6 +85,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         System.out.println(fromPlayer + "want's to play with you");
         this.requestingPlayer = fromPlayer;
         Alert a = new Alert(AlertType.NONE);
+        a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + "want's to play with you");
         //a.show();
@@ -100,6 +108,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void generateResponsePopup(String fromPlayer) {
         
         Alert a = new Alert(AlertType.NONE);
+        a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
         a.setContentText("sadly "+toPlayer+" refused pls don't cry");
         a.show();
@@ -107,6 +116,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     @Override
     public void generateAcceptancePopup(String fromPlayer) {
         Alert a = new Alert(AlertType.NONE);
+        a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
         a.setContentText("" + toPlayer + " accept your request");
         a.show();

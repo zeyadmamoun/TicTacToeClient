@@ -78,11 +78,6 @@
       </GridPane>
    </center>
    <bottom>
-      <Text fx:id="gameStatus" text="Game In Progress" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      
+      <Button fx:id="exit_btn" mnemonicParsing="false" onAction="#exitGame" text="Exit Game" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

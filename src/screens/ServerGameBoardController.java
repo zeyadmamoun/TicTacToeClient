@@ -5,13 +5,20 @@
  */
 package screens;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import network.Client;
 
 /**
@@ -25,6 +32,9 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
      * Initializes the controller class.
      */
     Client client;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
@@ -37,7 +47,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     @FXML
     private Text playerOneName;
     @FXML
-    private Text gameStatus;
+    private Button exit_btn;
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -127,6 +137,11 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         currentPlayer = 'O';
 
     }
+    
+    @FXML
+    void exitGame(){
+        client.exitGame();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -159,6 +174,20 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     public void loseAction() {
         System.out.println("you lose");
         playerOneName.setText("you lost ");
+    }
+
+    @Override
+    public void exitSession() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) exit_btn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ServerGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
