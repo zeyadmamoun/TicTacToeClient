@@ -38,6 +38,12 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private Text playerOneName;
     @FXML
     private Text gameStatus;
+    @FXML
+    private Text playerOneScore;
+    @FXML
+    private Text playerTwoName;
+    @FXML
+    private Text playerTwoScore;
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -148,17 +154,23 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         currentPlayer = 'X';
         playerTurn = true;
     }
-
+    @Override
+    public void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore) {
+        this.playerOneName.setText("Me");
+        this.playerOneScore.setText(Integer.toString(playerOneScore));
+        this.playerTwoName.setText(playerTwoName);
+        this.playerTwoScore.setText(Integer.toString(playerTwoScore));
+        System.out.println("playeres info "+client.getUserName());
+    }
     @Override
     public void winnerAction() {
         System.out.println("you won");
-        playerOneName.setText("you won");
+       // playerOneName.setText("you won");
     }
 
     @Override
     public void loseAction() {
         System.out.println("you lose");
-        playerOneName.setText("you lost ");
+        //playerOneName.setText("you lost ");
     }
-
-}
+} 

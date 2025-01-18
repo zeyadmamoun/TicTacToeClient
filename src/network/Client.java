@@ -151,9 +151,18 @@ public class Client extends Thread {
 
                         break;
                     case "start":
-                        Platform.runLater(() -> {
-                            serverGameHandler.startGame();
-                        });
+                        if (obj.getString("playerturn").equals(userName)) {
+                            Platform.runLater(() -> {
+                                serverGameHandler.startGame();
+                                serverGameHandler.playersInfo(obj.getString("playertwoname"),obj.getInt("playeronescore"),obj.getInt("playertwoscore"));
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                serverGameHandler.playersInfo(obj.getString("playeronename"),obj.getInt("playertwoscore"),obj.getInt("playeronescore"));
+                            });
+
+                        }
+
                         break;
 
                     case "win":
@@ -301,6 +310,8 @@ public class Client extends Thread {
         void drawMoveFromServer(int row, int col, String token);
 
         void startGame();
+
+        void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore);
 
         void winnerAction();
 

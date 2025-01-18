@@ -5,16 +5,39 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.ServerGameBoardController">
    <top>
-      <Text fx:id="playerOneName" text="Player 1 (X)" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Text>
+      <HBox alignment="CENTER" spacing="50.0">
+         <VBox alignment="CENTER">
+            <Text fx:id="playerOneName" text="Player 1 (X)">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="playerOneScore" text="Score: 0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </VBox>
+         <VBox alignment="CENTER">
+            <Text fx:id="playerTwoName" text="Player 2 (O)">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="playerTwoScore" text="Score: 0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </VBox>
+      </HBox>
    </top>
    <center>
       <GridPane prefHeight="488.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -83,6 +106,5 @@
             <Font size="24.0" />
          </font>
       </Text>
-      
    </bottom>
 </BorderPane>
