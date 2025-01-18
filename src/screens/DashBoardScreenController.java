@@ -74,13 +74,12 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void generateRequestPopup(String fromPlayer) {
-
         System.out.println(fromPlayer + "want's to play with you");
         this.requestingPlayer = fromPlayer;
         Alert a = new Alert(AlertType.NONE);
+        a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + "want's to play with you");
-        //a.show();
         Optional<ButtonType> result = a.showAndWait();
         // Handle the user's response
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -98,15 +97,17 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void generateResponsePopup(String fromPlayer) {
-        
         Alert a = new Alert(AlertType.NONE);
+        a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
         a.setContentText("sadly "+toPlayer+" refused pls don't cry");
         a.show();
     }
+    
     @Override
     public void generateAcceptancePopup(String fromPlayer) {
         Alert a = new Alert(AlertType.NONE);
+        a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
         a.setContentText("" + toPlayer + " accept your request");
         a.show();
