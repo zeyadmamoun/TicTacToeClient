@@ -41,10 +41,13 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private int score;
     @FXML
     private ListView<String> playersList;
     @FXML
     private Text mainHeader;
+    @FXML
+    private Text playerScore;
 
     /**
      * Initializes the controller class.
@@ -53,6 +56,8 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
         client.setDashboradHandler(this);
+        score = client.getScore();
+        playerScore.setText(Integer.toString(score));
         mainHeader.setText(client.getUserName());
         playersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override

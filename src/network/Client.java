@@ -36,7 +36,7 @@ public class Client extends Thread {
     //private instance so no one can accesss it directly
     private static Client instance;
     private String userName;
-
+    private int score;
     // private constructor so no one can make any new instance from this class.
     private Client() {
         try {
@@ -95,6 +95,8 @@ public class Client extends Thread {
                         } else {
                             userName = obj.getString("username");
                             if (loginHandler != null) {
+                                System.out.println("score = "+obj.getInt("score"));
+                                score = obj.getInt("score");
                                 Platform.runLater(() -> {
                                     loginHandler.loginSuccess();
                                 });
@@ -275,6 +277,9 @@ public class Client extends Thread {
 
     public String getUserName() {
         return userName;
+    }
+    public int getScore(){
+        return score;
     }
 /////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
 
