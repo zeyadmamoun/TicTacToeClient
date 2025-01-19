@@ -5,13 +5,24 @@
  */
 package screens;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import network.Client;
 
 /**
@@ -25,6 +36,9 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
      * Initializes the controller class.
      */
     Client client;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
@@ -37,6 +51,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     @FXML
     private Text playerOneName;
     @FXML
+
     private Text gameStatus;
     @FXML
     private Text playerOneScore;
@@ -47,6 +62,9 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
   
     @FXML
     private Button restartButton;
+
+    private Button exit_btn;
+
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -136,6 +154,11 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         currentPlayer = 'O';
 
     }
+    
+    @FXML
+    void exitGame(){
+        client.exitGame();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -168,13 +191,76 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     @Override
     public void winnerAction() {
         System.out.println("you won");
+
        // playerOneName.setText("you won");
+
+        playerOneName.setText("you won");
+          showVideoForResult("winner"); 
+
     }
 
     @Override
     public void loseAction() {
         System.out.println("you lose");
         //playerOneName.setText("you lost ");
+        playerOneName.setText("you lost ");
+          showVideoForResult("looser"); 
+    }
+
+    @Override
+    public void exitSession() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) exit_btn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ServerGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+private void showVideoForResult(String result) {
+        String videoPath;
+
+        if ("winner".equals(result)) {
+            videoPath = "file:/D:/Downloads/winer.mp4"; 
+        } else if ("looser".equals(result)) {
+            videoPath = "file:/D:/Downloads/looser.mp4"; 
+        } else if ("draw".equals(result)) {
+            videoPath = "file:/D:/Downloads/draw.mp4"; 
+        } else {
+            videoPath = "file:/D:/Downloads/noonewin.mp4"; 
+        }
+
+        try {
+            Media media = new Media(videoPath);
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            MediaView mediaView = new MediaView(mediaPlayer);
+
+            StackPane root = new StackPane(mediaView);
+            Scene scene = new Scene(root, 500, 500); 
+
+            Stage stage = new Stage(); 
+            stage.setTitle("Game Result");
+            stage.setScene(scene);
+            stage.show();
+
+            mediaPlayer.play();
+
+            mediaPlayer.setOnEndOfMedia(() -> {
+                System.out.println("Video ended.");
+             //   stage.close(); 
+            });
+
+            mediaPlayer.setOnError(() -> {
+                System.out.println("Error playing video: " + mediaPlayer.getError().getMessage());
+            });
+
+        } catch (Exception e) {
+            System.out.println("Error loading video: " + e.getMessage());
+        }
+
     }
 
     @FXML

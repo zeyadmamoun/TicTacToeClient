@@ -101,7 +101,7 @@ public class Client extends Thread {
                                     loginHandler.loginSuccess();
                                 });
                             }
-                            System.out.println("login successfull");
+                            System.out.println("login successfull" + userName);
                         }
                         break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,6 +168,7 @@ public class Client extends Thread {
                         break;
 
                     case "win":
+                        System.err.println("someone won");
                         if (obj.getString("winner").equals(userName)) {
                             Platform.runLater(() -> {
                                 serverGameHandler.winnerAction();
@@ -182,6 +183,11 @@ public class Client extends Thread {
                         Platform.runLater(() -> {
                             System.out.println("------------->" + obj);
                             serverGameHandler.drawMoveFromServer(obj.getInt("row"), obj.getInt("col"), obj.getString("token"));
+                        });
+                        break;
+                    case "exit_game":
+                        Platform.runLater(() -> {
+                            serverGameHandler.exitSession();
                         });
                         break;
                 }
@@ -217,6 +223,16 @@ public class Client extends Thread {
         Platform.runLater(() -> {
             dashboadrdUiHandler.updatePlayerList(players);
         });
+    }
+    
+    public void requestPlayersList(){
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "send_list");
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void sendRequestHandler(String toPlayer) {
@@ -278,11 +294,34 @@ public class Client extends Thread {
     public String getUserName() {
         return userName;
     }
+
     public int getScore(){
         return score;
     }
 /////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
 
+
+    public void exitGame() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "exit_game");
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void sendTestMesssage() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "test");
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+/////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
     public interface LoginUiHandler {
 
         void loginSuccess();
@@ -321,6 +360,8 @@ public class Client extends Thread {
         void winnerAction();
 
         void loseAction();
+
+        void exitSession();
 
     }
 

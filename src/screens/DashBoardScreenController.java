@@ -59,6 +59,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         score = client.getScore();
         playerScore.setText(Integer.toString(score));
         mainHeader.setText(client.getUserName());
+        client.requestPlayersList();
         playersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -67,6 +68,12 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
             }
 
         });
+    }
+    
+    @FXML
+    void onTestButtonClicked(){
+        System.err.println("test button clicked");
+        client.sendTestMesssage();
     }
 
     @Override
