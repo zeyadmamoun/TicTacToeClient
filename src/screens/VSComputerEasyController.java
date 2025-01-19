@@ -14,9 +14,6 @@ import javafx.scene.text.Text;
 
 public class VSComputerEasyController implements Initializable {
 
-    @FXML
-    private Text playerOneName;
-    @FXML
     private Text gameStatus;
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
@@ -26,6 +23,16 @@ public class VSComputerEasyController implements Initializable {
     private Button[][] buttons;
     private char currentPlayer = 'X';
     private boolean gameOver = false;
+    @FXML
+    private Text player1Name;
+    @FXML
+    private Text player1Score;
+    @FXML
+    private Text currentSymbol;
+    @FXML
+    private Text player2Name;
+    @FXML
+    private Text player2Score;
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {

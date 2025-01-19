@@ -44,6 +44,9 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private Text playerTwoName;
     @FXML
     private Text playerTwoScore;
+  
+    @FXML
+    private Button restartButton;
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -172,5 +175,9 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     public void loseAction() {
         System.out.println("you lose");
         //playerOneName.setText("you lost ");
+    }
+
+    @FXML
+    private void restartButtonHandler(ActionEvent event) {
     }
 } 
