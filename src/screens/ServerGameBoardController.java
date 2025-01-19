@@ -17,6 +17,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import network.Client;
@@ -168,12 +172,14 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     public void winnerAction() {
         System.out.println("you won");
         playerOneName.setText("you won");
+          showVideoForResult("winner"); 
     }
 
     @Override
     public void loseAction() {
         System.out.println("you lose");
         playerOneName.setText("you lost ");
+          showVideoForResult("looser"); 
     }
 
     @Override
@@ -187,6 +193,47 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(ServerGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+private void showVideoForResult(String result) {
+        String videoPath;
+
+        if ("winner".equals(result)) {
+            videoPath = "file:/D:/Downloads/winer.mp4"; 
+        } else if ("looser".equals(result)) {
+            videoPath = "file:/D:/Downloads/looser.mp4"; 
+        } else if ("draw".equals(result)) {
+            videoPath = "file:/D:/Downloads/draw.mp4"; 
+        } else {
+            videoPath = "file:/D:/Downloads/noonewin.mp4"; 
+        }
+
+        try {
+            Media media = new Media(videoPath);
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            MediaView mediaView = new MediaView(mediaPlayer);
+
+            StackPane root = new StackPane(mediaView);
+            Scene scene = new Scene(root, 500, 500); 
+
+            Stage stage = new Stage(); 
+            stage.setTitle("Game Result");
+            stage.setScene(scene);
+            stage.show();
+
+            mediaPlayer.play();
+
+            mediaPlayer.setOnEndOfMedia(() -> {
+                System.out.println("Video ended.");
+             //   stage.close(); 
+            });
+
+            mediaPlayer.setOnError(() -> {
+                System.out.println("Error playing video: " + mediaPlayer.getError().getMessage());
+            });
+
+        } catch (Exception e) {
+            System.out.println("Error loading video: " + e.getMessage());
         }
     }
 
