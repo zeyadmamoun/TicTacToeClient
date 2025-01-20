@@ -213,7 +213,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
             root = loader.load();
             // Get the current stage and set the new scene
-            stage = (Stage) exit_btn.getScene().getWindow();
+            stage = (Stage) playerOneName.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException ex) {
@@ -224,9 +224,9 @@ private void showVideoForResult(String result) {
         String videoPath;
 
         if ("winner".equals(result)) {
-            videoPath = "file:/D:/Downloads/winer.mp4"; 
+            videoPath = "file:/C:/Downloads/winner.mp4"; 
         } else if ("looser".equals(result)) {
-            videoPath = "file:/D:/Downloads/looser.mp4"; 
+            videoPath = "file:/C:/Downloads/looser.mp4"; 
         } else if ("draw".equals(result)) {
             videoPath = "file:/D:/Downloads/draw.mp4"; 
         } else {
@@ -240,10 +240,11 @@ private void showVideoForResult(String result) {
 
             StackPane root = new StackPane(mediaView);
             Scene scene = new Scene(root, 500, 500); 
-
+            
             Stage stage = new Stage(); 
             stage.setTitle("Game Result");
             stage.setScene(scene);
+            stage.initOwner(playerOneName.getScene().getWindow());
             stage.show();
 
             mediaPlayer.play();

@@ -23,7 +23,7 @@ import screens.LoginScreenFXMLController;
  */
 public class Client extends Thread {
 
-    private boolean isFirstPlay = true;
+
     private Socket soc;
     private DataInputStream ear;
     private DataOutputStream mouth;
@@ -281,10 +281,6 @@ public class Client extends Thread {
         obj.put("col", col);
         try {
             mouth.writeUTF(obj.toString());
-            if (isFirstPlay) {
-                mouth.writeUTF(obj.toString());
-                isFirstPlay = false;
-            }
             System.out.println("test if client send move" + obj.toString());
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
