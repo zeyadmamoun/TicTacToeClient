@@ -23,7 +23,6 @@ import screens.LoginScreenFXMLController;
  */
 public class Client extends Thread {
 
-
     private Socket soc;
     private DataInputStream ear;
     private DataOutputStream mouth;
@@ -37,6 +36,7 @@ public class Client extends Thread {
     private static Client instance;
     private String userName;
     private int score;
+
     // private constructor so no one can make any new instance from this class.
     private Client() {
         try {
@@ -95,7 +95,7 @@ public class Client extends Thread {
                         } else {
                             userName = obj.getString("username");
                             if (loginHandler != null) {
-                                System.out.println("score = "+obj.getInt("score"));
+                                System.out.println("score = " + obj.getInt("score"));
                                 score = obj.getInt("score");
                                 Platform.runLater(() -> {
                                     loginHandler.loginSuccess();
@@ -123,6 +123,10 @@ public class Client extends Thread {
 /////////////////////////////////////////////////////////////////////////////////////////////////////  
                     case "players_list":
                         playersListHandler();
+                        break;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+                    case "players_score":
+                        playerScoreHandler();
                         break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
                     case "requestToPlay":
@@ -156,11 +160,11 @@ public class Client extends Thread {
                         if (obj.getString("playerturn").equals(userName)) {
                             Platform.runLater(() -> {
                                 serverGameHandler.startGame();
-                                serverGameHandler.playersInfo(obj.getString("playertwoname"),obj.getInt("playeronescore"),obj.getInt("playertwoscore"));
+                                serverGameHandler.playersInfo(obj.getString("playertwoname"), obj.getInt("playeronescore"), obj.getInt("playertwoscore"));
                             });
                         } else {
                             Platform.runLater(() -> {
-                                serverGameHandler.playersInfo(obj.getString("playeronename"),obj.getInt("playertwoscore"),obj.getInt("playeronescore"));
+                                serverGameHandler.playersInfo(obj.getString("playeronename"), obj.getInt("playertwoscore"), obj.getInt("playeronescore"));
                             });
 
                         }
@@ -224,11 +228,28 @@ public class Client extends Thread {
             dashboadrdUiHandler.updatePlayerList(players);
         });
     }
-    
-    public void requestPlayersList(){
+
+    private void playerScoreHandler() {
+        int score = obj.getInt("score");
+        
+        Platform.runLater(() -> {
+            dashboadrdUiHandler.updatePlayerScore(score);
+        });
+    }
+    public void requestPlayersList() {
         try {
             JSONObject obj = new JSONObject();
             obj.put("command", "send_list");
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void requestPlayerScore() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "send_player_score");
             mouth.writeUTF(obj.toString());
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -291,11 +312,10 @@ public class Client extends Thread {
         return userName;
     }
 
-    public int getScore(){
+    public int getScore() {
         return score;
     }
 /////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
-
 
     public void exitGame() {
         try {
@@ -335,7 +355,7 @@ public class Client extends Thread {
     public interface DashboadrdUiHandler {
 
         void updatePlayerList(ArrayList<String> players);
-
+        void updatePlayerScore(int score);
         void generateRequestPopup(String fromPlayer);
 
         void generateResponsePopup(String fromPlayer);

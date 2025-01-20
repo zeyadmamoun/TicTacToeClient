@@ -57,9 +57,10 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         client = Client.getInstance();
         client.setDashboradHandler(this);
         score = client.getScore();
-        playerScore.setText(Integer.toString(score));
+        //playerScore.setText(Integer.toString(score));
         mainHeader.setText(client.getUserName());
         client.requestPlayersList();
+        client.requestPlayerScore();
         playersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -81,6 +82,13 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         playersList.getItems().clear();
         players.remove(client.getUserName());
         playersList.getItems().addAll(players);
+
+    }
+    @Override
+    public void updatePlayerScore(int score) {
+        this.score = score;
+        System.out.println("player score = "+this.score);
+        playerScore.setText(Integer.toString(score));
 
     }
 
