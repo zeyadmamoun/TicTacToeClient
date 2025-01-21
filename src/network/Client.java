@@ -36,6 +36,7 @@ public class Client extends Thread {
     private static Client instance;
     private String userName;
     private int score;
+    private boolean isServerAccept = false;
 
     // private constructor so no one can make any new instance from this class.
     private Client() {
@@ -79,6 +80,11 @@ public class Client extends Thread {
     public void run() {
         try {
             while (true) {
+                if (isServerAccept) {
+
+                    closingConnection();
+                    break;
+                }
                 String msg = ear.readUTF();
                 obj = new JSONObject(msg);
                 String command = obj.getString("command");
@@ -194,6 +200,10 @@ public class Client extends Thread {
                             serverGameHandler.exitSession();
                         });
                         break;
+                    case "acceptclosing": // by mohamed
+                        isServerAccept = true;
+                        closeConnectionWithServer();
+                        break;
                 }
             }
         } catch (IOException ex) {
@@ -231,11 +241,12 @@ public class Client extends Thread {
 
     private void playerScoreHandler() {
         int score = obj.getInt("score");
-        
+
         Platform.runLater(() -> {
             dashboadrdUiHandler.updatePlayerScore(score);
         });
     }
+
     public void requestPlayersList() {
         try {
             JSONObject obj = new JSONObject();
@@ -315,7 +326,6 @@ public class Client extends Thread {
     public int getScore() {
         return score;
     }
-/////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
 
     public void exitGame() {
         try {
@@ -332,6 +342,36 @@ public class Client extends Thread {
             JSONObject obj = new JSONObject();
             obj.put("command", "test");
             mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void sendRequestClose() { ///////by mohamed
+        try {
+            JSONObject objClose = new JSONObject();
+            objClose.put("command", "closetoleave");
+            mouth.writeUTF(objClose.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void closeConnectionWithServer() {      //by mohamed
+        try {
+            JSONObject objCloseConnection = new JSONObject();
+            objCloseConnection.put("command", "I'm_gone");
+            mouth.writeUTF(objCloseConnection.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void closingConnection() {
+        try {
+            mouth.close();
+            ear.close();
+            soc.close();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -355,7 +395,9 @@ public class Client extends Thread {
     public interface DashboadrdUiHandler {
 
         void updatePlayerList(ArrayList<String> players);
+
         void updatePlayerScore(int score);
+
         void generateRequestPopup(String fromPlayer);
 
         void generateResponsePopup(String fromPlayer);
