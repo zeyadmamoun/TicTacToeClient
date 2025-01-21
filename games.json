@@ -172,5 +172,195 @@
                 "userName": "Player 1"
             }
         ]
+    },
+    {
+        "gameId": "game1737491385478",
+        "date": "Tue Jan 21 22:29:47 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737493159767",
+        "date": "Tue Jan 21 22:59:21 EET 2025",
+        "moves": [{
+            "character": "X",
+            "column": 0,
+            "row": 0,
+            "userName": "ahmed"
+        }]
+    },
+    {
+        "gameId": "game1737493545259",
+        "date": "Tue Jan 21 23:05:46 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737493616617",
+        "date": "Tue Jan 21 23:06:57 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737493726715",
+        "date": "Tue Jan 21 23:08:47 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737493828075",
+        "date": "Tue Jan 21 23:10:28 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            }
+        ]
     }
 ]

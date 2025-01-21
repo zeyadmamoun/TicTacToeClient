@@ -9,25 +9,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="main-anchor-pane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.DashBoardScreenController">
     <stylesheets>
         <URL value="@dashboardscreen.css" />
     </stylesheets>
-   <children>
-      <ListView fx:id="playersList" layoutX="400.0" prefHeight="400.0" prefWidth="200.0" />
-      <Text fx:id="mainHeader" layoutX="99.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players List">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Text>
-      <Text fx:id="playerScore" layoutX="116.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Button fx:id="recordingsBtn" layoutX="50.0" layoutY="200.0" mnemonicParsing="false" onAction="#navigateToRecording" text="Recordings" />
-   </children>
+    <children>
+        <Text fx:id="mainHeader" layoutX="168.0" layoutY="57.0" styleClass="header-text" text="LEADERBOARD" />
+        
+        <HBox layoutX="20.0" layoutY="100.0" prefHeight="250.0" prefWidth="560.0" spacing="20" styleClass="main-container">
+            <VBox alignment="TOP_LEFT" prefHeight="250.0" prefWidth="345.0" spacing="20">
+                 <Button fx:id="recordBtn" onAction="#navigateToRecording" styleClass="cyber-button" text="Records" />
+            <Text fx:id="playerScore" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="118.13671875" />
+            </VBox>
+            
+            <VBox alignment="CENTER" prefHeight="250.0" prefWidth="360.0" spacing="10" styleClass="list-container">
+                <ListView fx:id="playersList" prefHeight="220.0" prefWidth="10.0" styleClass="cyber-list-view" />
+            </VBox>
+        </HBox>
+        
+        <Text fx:id="footer" layoutX="200.0" layoutY="380.0" styleClass="footer-text" text="Dashboard - Manage Players" />
+      <ImageView fx:id="profileImageView" fitHeight="94.0" fitWidth="138.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/D:/Downloads/wukong.jpg" />
+         </image>
+      </ImageView>
+    </children>
 </AnchorPane>
-

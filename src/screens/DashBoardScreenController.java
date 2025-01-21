@@ -30,6 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -57,7 +58,11 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     @FXML
     private Text playerScore;
     @FXML
-    private Button recordingsBtn;
+    private Text footer;
+    @FXML
+    private ImageView profileImageView;
+    @FXML
+    private Button recordBtn;
 
     /**
      * Initializes the controller class.
@@ -80,6 +85,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setupListView();
         client = Client.getInstance();
         client.setDashboradHandler(this);
         score = client.getScore();
@@ -120,15 +126,14 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
             }
         });
 
-        playersList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                toPlayer = newValue;
-                client.sendRequestHandler(toPlayer);
-            }
-        });
+//        playersList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                toPlayer = newValue;
+//                client.sendRequestHandler(toPlayer);
+//            }
+//        });
     }  //we need handle score
 
-    @FXML
     void onTestButtonClicked() {
         System.err.println("test button clicked");
         client.sendTestMesssage();

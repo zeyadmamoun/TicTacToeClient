@@ -158,11 +158,8 @@
                 <Font size="24.0" />
             </font>
         </Text>
-<<<<<<< HEAD
+
         <Button fx:id="recordBtn" onAction="#recordBtnHandler" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #E3F2FD; -fx-background-radius: 15; -fx-text-fill: #0D47A1 " text="Record" BorderPane.alignment="CENTER">
-=======
-        <Button fx:id="restartButton" onAction="#restartButtonHandler" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 15; -fx-text-fill: #00ffff;" text="Restart Game" BorderPane.alignment="CENTER">
->>>>>>> 4771d52262951dc2e0082b69ae05a5948ce3734b
             <font>
                 <Font size="24.0" />
             </font>
