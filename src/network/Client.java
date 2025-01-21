@@ -40,6 +40,7 @@ public class Client extends Thread {
     private static Client instance;
     private String userName;
     private int score;
+    private boolean isServerAccept = false;
 
     // private constructor so no one can make any new instance from this class.
     private Client() {
@@ -83,6 +84,11 @@ public class Client extends Thread {
     public void run() {
         try {
             while (true) {
+                if (isServerAccept) {
+
+                    closingConnection();
+                    break;
+                }
                 String msg = ear.readUTF();
                 obj = new JSONObject(msg);
                 String command = obj.getString("command");
@@ -198,6 +204,10 @@ public class Client extends Thread {
                             serverGameHandler.exitSession();
                         });
                         break;
+                    case "acceptclosing": // by mohamed
+                        isServerAccept = true;
+                        closeConnectionWithServer();
+                        break;
                 }
             }
         } catch (IOException ex) {
@@ -226,35 +236,33 @@ public class Client extends Thread {
         JSONObject jsonObject = obj.getJSONObject("list");
         Map<String, Integer> map = new HashMap<>();
         for (String key : jsonObject.keySet()) {
-            map.put(key, jsonObject.getInt(key));  
+            map.put(key, jsonObject.getInt(key));
         }
         // Printing the map
         System.out.println("hi " + map);
         Platform.runLater(() -> {
             dashboadrdUiHandler.updatePlayerList(map);
         });
-        
-        
+
     }
 
-
-private void playerScoreHandler() {
+    private void playerScoreHandler() {
         int score = obj.getInt("score");
-        
+
         Platform.runLater(() -> {
             dashboadrdUiHandler.updatePlayerScore(score);
         });
     }
+
     public void requestPlayersList() {
         try {
             JSONObject obj = new JSONObject();
             obj.put("command", "send_list");
             mouth.writeUTF(obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -263,11 +271,10 @@ private void playerScoreHandler() {
             JSONObject obj = new JSONObject();
             obj.put("command", "send_player_score");
             mouth.writeUTF(obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -278,11 +285,10 @@ private void playerScoreHandler() {
         obj.put("player2", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -294,11 +300,10 @@ private void playerScoreHandler() {
         obj.put("toplayer", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -310,11 +315,10 @@ private void playerScoreHandler() {
         obj.put("toplayer", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -327,11 +331,10 @@ private void playerScoreHandler() {
         try {
             mouth.writeUTF(obj.toString());
             System.out.println("test if client send move" + obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -342,18 +345,16 @@ private void playerScoreHandler() {
     public int getScore() {
         return score;
     }
-/////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
 
     public void exitGame() {
         try {
             JSONObject obj = new JSONObject();
             obj.put("command", "exit_game");
             mouth.writeUTF(obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -362,60 +363,89 @@ private void playerScoreHandler() {
             JSONObject obj = new JSONObject();
             obj.put("command", "test");
             mouth.writeUTF(obj.toString());
-        
 
-} catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Client.class
-.getName()).log(Level.SEVERE, null, ex);
-        
+                    .getName()).log(Level.SEVERE, null, ex);
 
-}
+        }
+    }
+
+    public void sendRequestClose() { ///////by mohamed
+        try {
+            JSONObject objClose = new JSONObject();
+            objClose.put("command", "closetoleave");
+            mouth.writeUTF(objClose.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void closeConnectionWithServer() {      //by mohamed
+        try {
+            JSONObject objCloseConnection = new JSONObject();
+            objCloseConnection.put("command", "I'm_gone");
+            mouth.writeUTF(objCloseConnection.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void closingConnection() {
+        try {
+            mouth.close();
+            ear.close();
+            soc.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 /////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
     public interface LoginUiHandler {
 
-    void loginSuccess();
+        void loginSuccess();
 
-    void LoginFailed();
-}
+        void LoginFailed();
+    }
 
-public interface RegisterUIHandler {
+    public interface RegisterUIHandler {
 
-    void success();
+        void success();
 
-    void failed();
-}
+        void failed();
+    }
 
-public interface DashboadrdUiHandler {
+    public interface DashboadrdUiHandler {
 
-    void updatePlayerList(Map<String, Integer> map);
+        void updatePlayerList(Map<String, Integer> map);
 
-    void updatePlayerScore(int score);
+        void generateRequestPopup(String fromPlayer);
 
-    void generateRequestPopup(String fromPlayer);
+        void updatePlayerScore(int score);
 
-    void generateResponsePopup(String fromPlayer);
 
-    void generateAcceptancePopup(String fromPlayer);
+        void generateResponsePopup(String fromPlayer);
 
-    void switchToGameBoard();
-}
+        void generateAcceptancePopup(String fromPlayer);
 
-public interface ServerGameHandler {
+        void switchToGameBoard();
+    }
 
-    void drawMoveFromServer(int row, int col, String token);
+    public interface ServerGameHandler {
 
-    void startGame();
+        void drawMoveFromServer(int row, int col, String token);
 
-    void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore);
+        void startGame();
 
-    void winnerAction();
+        void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore);
 
-    void loseAction();
+        void winnerAction();
 
-    void exitSession();
+        void loseAction();
 
-}
+        void exitSession();
+
+    }
 
 }
