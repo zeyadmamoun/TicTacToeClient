@@ -10,11 +10,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.LocalModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="525.0" style="-fx-background-color: #000924;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.LocalModeController">
    <top>
-      <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" prefHeight="78.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5.0" prefHeight="78.0" prefWidth="471.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="playerOneName" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
+            <Text fx:id="playerOneName" fill="AQUA" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
                <font>
                   <Font size="48.0" />
                </font>
@@ -22,7 +22,7 @@
                   <Insets right="80.0" />
                </FlowPane.margin>
             </Text>
-            <Text fx:id="playerTwoName" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2">
+            <Text fx:id="playerTwoName" fill="AQUA" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2">
                <font>
                   <Font size="48.0" />
                </font>
@@ -34,75 +34,87 @@
       </FlowPane>
    </top>
    <center>
-      <GridPane prefHeight="267.0" prefWidth="560.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <GridPane alignment="CENTER" hgap="5" style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 10;" vgap="5">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+         
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33.33" />
+                <ColumnConstraints percentWidth="33.33" />
+                <ColumnConstraints percentWidth="33.33" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="33.33" />
+                <RowConstraints percentHeight="33.33" />
+                <RowConstraints percentHeight="33.33" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="buttonOne" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonOneHandler" style="-fx-background-color: #E3F2FD;  -fx-background-radius: 5;">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+                </Button>
+                <Button fx:id="buttonTwo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonTwoHandler" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.columnIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonThree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonThreeHandler" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.columnIndex="2">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonFour" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonFourHandler" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonFive" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonFiveHandler" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonSix" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonSixHandler" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonSeven" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonSevenHandler" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonEight" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonEightHandler" prefHeight="108.0" prefWidth="165.0" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <Button fx:id="buttonNine" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonNineHandler" style="-fx-background-color: #E3F2FD; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+            </children>
          <BorderPane.margin>
-            <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+            <Insets bottom="20.0" top="20.0" />
          </BorderPane.margin>
-         <children>
-            <!-- Game Buttons -->
-            <Button fx:id="buttonOne" mnemonicParsing="false" onAction="#buttonOneHandler" prefHeight="105.0" prefWidth="202.0">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonTwo" mnemonicParsing="false" onAction="#buttonTwoHandler" prefHeight="105.0" prefWidth="202.0" GridPane.columnIndex="1">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonThree" mnemonicParsing="false" onAction="#buttonThreeHandler" prefHeight="105.0" prefWidth="202.0" GridPane.columnIndex="2">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonFour" mnemonicParsing="false" onAction="#buttonFourHandler" prefHeight="105.0" prefWidth="202.0" GridPane.rowIndex="1">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonFive" mnemonicParsing="false" onAction="#buttonFiveHandler" prefHeight="105.0" prefWidth="202.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonSix" mnemonicParsing="false" onAction="#buttonSixHandler" prefHeight="105.0" prefWidth="202.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonSeven" mnemonicParsing="false" onAction="#buttonSevenHandler" prefHeight="105.0" prefWidth="202.0" GridPane.rowIndex="2">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonEight" mnemonicParsing="false" onAction="#buttonEightHandler" prefHeight="105.0" prefWidth="202.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonNine" mnemonicParsing="false" onAction="#buttonNineHandler" prefHeight="105.0" prefWidth="202.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Button>
-         </children>
-      </GridPane>
+        </GridPane>
    </center>
    <bottom>
-      <FlowPane alignment="CENTER" hgap="20" BorderPane.alignment="CENTER">
+      <FlowPane alignment="CENTER" hgap="100.0" prefHeight="76.0" prefWidth="525.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="restartButton" mnemonicParsing="false" onAction="#restartButtonHandler" text="Restart" />
-            <Button fx:id="recordButton" mnemonicParsing="false" onAction="#recordButtonHandler" text="Start Recording" />
+            <Button fx:id="restartButton" mnemonicParsing="false" onAction="#restartButtonHandler" prefHeight="44.0" prefWidth="79.0" style="-fx-background-color: #000924; -fx-border-color: #00ffff; -fx-border-radius: 10px;" text="Restart" textFill="AQUA">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
+            <Button fx:id="recordButton" mnemonicParsing="false" onAction="#recordButtonHandler" prefHeight="43.0" prefWidth="136.0" style="-fx-background-color: #000924; -fx-border-color: #00ffff; -fx-border-radius: 10px;" text="Start Recording" textFill="AQUA">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
          </children>
       </FlowPane>
    </bottom>
