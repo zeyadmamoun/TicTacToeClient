@@ -85,7 +85,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     }
     
     
-     private void setupListView() {
+    private void setupListView() {
         playersList.setCellFactory(lv -> new ListCell<String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -107,7 +107,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
                 client.sendRequestHandler(toPlayer);
             }
         });
-    }
+    }  //we need handle score
 
     @FXML
     void onTestButtonClicked() {
