@@ -224,9 +224,9 @@ private void showVideoForResult(String result) {
         String videoPath;
 
         if ("winner".equals(result)) {
-            videoPath = "file:/C:/Downloads/winner.mp4"; 
+            videoPath = "file:/D:/Downloads/winner.mp4"; 
         } else if ("looser".equals(result)) {
-            videoPath = "file:/C:/Downloads/looser.mp4"; 
+            videoPath = "file:/D:/Downloads/looser.mp4"; 
         } else if ("draw".equals(result)) {
             videoPath = "file:/D:/Downloads/draw.mp4"; 
         } else {
