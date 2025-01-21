@@ -8,9 +8,10 @@
    <center>
       <FlowPane alignment="CENTER" hgap="40.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#navigateToVScomputerMode" text="guset" />
-            <Button mnemonicParsing="false" text="local" />
-            <Button fx:id="online_btn" mnemonicParsing="false" onAction="#navigateToLoginPage" text="online" />
+            <Button mnemonicParsing="false" onAction="#navigateToRecording" text="Recording" />
+            <Button mnemonicParsing="false" onAction="#navigateToVScomputerMode" text="Guset" />
+            <Button mnemonicParsing="false" onAction="#navigateToLocalMode" text="Local" />
+            <Button fx:id="online_btn" mnemonicParsing="false" onAction="#navigateToLoginPage" text="Online" />
          </children>
       </FlowPane>
    </center>
