@@ -283,7 +283,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         if ("winner".equals(result)) {
             videoPath = "file:/C:/Downloads/winner.mp4";
         } else if ("looser".equals(result)) {
-            videoPath = "file:/C:/Downloads/looser.mp4";
+            videoPath = "file:/C:/Downloads/looser.mp4";     
         } else if ("draw".equals(result)) {
             videoPath = "file:/D:/Downloads/draw.mp4";
         } else {

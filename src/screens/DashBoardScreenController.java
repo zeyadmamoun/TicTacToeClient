@@ -28,6 +28,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -101,6 +102,31 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         });
 
     }
+    
+    
+    private void setupListView() {
+        playersList.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    int index = getIndex() + 1;
+                    // Format with index, player name, and score aligned
+                    setText(String.format("%-3d %-20s %8d", index, item, 0));
+                }
+            }
+        });
+
+        playersList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                toPlayer = newValue;
+                client.sendRequestHandler(toPlayer);
+            }
+        });
+    }  //we need handle score
 
     @FXML
     void onTestButtonClicked() {
