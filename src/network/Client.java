@@ -10,9 +10,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import static javafx.scene.input.KeyCode.K;
+import static javafx.scene.input.KeyCode.V;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.LoginScreenFXMLController;
@@ -218,18 +222,23 @@ public class Client extends Thread {
     }
 
     private void playersListHandler() {
-        JSONArray jsonArray = obj.getJSONArray("list");
-        ArrayList<String> players = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String element = jsonArray.getString(i);
-            players.add(element);
+
+        JSONObject jsonObject = obj.getJSONObject("list");
+        Map<String, Integer> map = new HashMap<>();
+        for (String key : jsonObject.keySet()) {
+            map.put(key, jsonObject.getInt(key));  
         }
+        // Printing the map
+        System.out.println("hi " + map);
         Platform.runLater(() -> {
-            dashboadrdUiHandler.updatePlayerList(players);
+            dashboadrdUiHandler.updatePlayerList(map);
         });
+        
+        
     }
 
-    private void playerScoreHandler() {
+
+private void playerScoreHandler() {
         int score = obj.getInt("score");
         
         Platform.runLater(() -> {
@@ -241,8 +250,11 @@ public class Client extends Thread {
             JSONObject obj = new JSONObject();
             obj.put("command", "send_list");
             mouth.writeUTF(obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -251,8 +263,11 @@ public class Client extends Thread {
             JSONObject obj = new JSONObject();
             obj.put("command", "send_player_score");
             mouth.writeUTF(obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -263,8 +278,11 @@ public class Client extends Thread {
         obj.put("player2", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -276,8 +294,11 @@ public class Client extends Thread {
         obj.put("toplayer", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -289,8 +310,11 @@ public class Client extends Thread {
         obj.put("toplayer", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -303,8 +327,11 @@ public class Client extends Thread {
         try {
             mouth.writeUTF(obj.toString());
             System.out.println("test if client send move" + obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -322,8 +349,11 @@ public class Client extends Thread {
             JSONObject obj = new JSONObject();
             obj.put("command", "exit_game");
             mouth.writeUTF(obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -332,53 +362,60 @@ public class Client extends Thread {
             JSONObject obj = new JSONObject();
             obj.put("command", "test");
             mouth.writeUTF(obj.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(Client.class
+.getName()).log(Level.SEVERE, null, ex);
+        
+
+}
     }
 
 /////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
     public interface LoginUiHandler {
 
-        void loginSuccess();
+    void loginSuccess();
 
-        void LoginFailed();
-    }
+    void LoginFailed();
+}
 
-    public interface RegisterUIHandler {
+public interface RegisterUIHandler {
 
-        void success();
+    void success();
 
-        void failed();
-    }
+    void failed();
+}
 
-    public interface DashboadrdUiHandler {
+public interface DashboadrdUiHandler {
 
-        void updatePlayerList(ArrayList<String> players);
-        void updatePlayerScore(int score);
-        void generateRequestPopup(String fromPlayer);
+    void updatePlayerList(Map<String, Integer> map);
 
-        void generateResponsePopup(String fromPlayer);
+    void updatePlayerScore(int score);
 
-        void generateAcceptancePopup(String fromPlayer);
+    void generateRequestPopup(String fromPlayer);
 
-        void switchToGameBoard();
-    }
+    void generateResponsePopup(String fromPlayer);
 
-    public interface ServerGameHandler {
+    void generateAcceptancePopup(String fromPlayer);
 
-        void drawMoveFromServer(int row, int col, String token);
+    void switchToGameBoard();
+}
 
-        void startGame();
+public interface ServerGameHandler {
 
-        void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore);
+    void drawMoveFromServer(int row, int col, String token);
 
-        void winnerAction();
+    void startGame();
 
-        void loseAction();
+    void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore);
 
-        void exitSession();
+    void winnerAction();
 
-    }
+    void loseAction();
+
+    void exitSession();
+
+}
 
 }

@@ -8,6 +8,7 @@ package screens;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -46,6 +47,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private Scene scene;
     private Parent root;
     private int score;
+    ArrayList<String> playersArrayList=new ArrayList<>();
     @FXML
     private ListView<String> playersList;
     @FXML
@@ -88,10 +90,19 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     }
 
     @Override
-    public void updatePlayerList(ArrayList<String> players) {
+    public void updatePlayerList(Map<String, Integer> map) {
+       
+        playersArrayList.clear();
+        for (Map.Entry<String, Integer> me : map.entrySet()) {
+            System.out.print(me.getKey() + ":");
+            if(!client.getUserName().equals(me.getKey())){
+               playersArrayList.add(me.getKey()); 
+            }
+            //System.out.println(me.getValue());
+        }
         playersList.getItems().clear();
-        players.remove(client.getUserName());
-        playersList.getItems().addAll(players);
+        //players.remove(client.getUserName());
+        playersList.getItems().addAll(playersArrayList);
 
     }
 
