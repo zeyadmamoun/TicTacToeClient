@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
@@ -47,17 +48,35 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private Scene scene;
     private Parent root;
     private int score;
-    ArrayList<String> playersArrayList=new ArrayList<>();
+    ArrayList<String> playersArrayList = new ArrayList<>();
     @FXML
     private ListView<String> playersList;
     @FXML
     private Text mainHeader;
     @FXML
     private Text playerScore;
+    @FXML
+    private Button recordingsBtn;
 
     /**
      * Initializes the controller class.
      */
+
+    @FXML
+    private void navigateToRecording(javafx.event.ActionEvent event) throws IOException {
+        // Load the second FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/Records.fxml"));
+        Parent root = loader.load();
+
+        // Create a new stage
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+        newStage.setTitle("Recording"); // Set the title of the new stage
+
+        // Show the new stage
+        newStage.show();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
@@ -91,12 +110,12 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void updatePlayerList(Map<String, Integer> map) {
-       
+
         playersArrayList.clear();
         for (Map.Entry<String, Integer> me : map.entrySet()) {
             System.out.print(me.getKey() + ":");
-            if(!client.getUserName().equals(me.getKey())){
-               playersArrayList.add(me.getKey()); 
+            if (!client.getUserName().equals(me.getKey())) {
+                playersArrayList.add(me.getKey());
             }
             //System.out.println(me.getValue());
         }
@@ -126,7 +145,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             if (a.isShowing()) {
                 autoClosed[0] = true;
-                a.close(); 
+                a.close();
                 client.sendRefuseToPlayer(client.getUserName(), requestingPlayer);
                 System.out.println("from player " + fromPlayer);
                 System.out.println("to player " + toPlayer);

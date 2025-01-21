@@ -1,6 +1,7 @@
 package screens;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,6 +34,7 @@ public class RecordsController implements Initializable {
     
     @FXML
     private ListView<String> recordsList;
+    private ArrayList<String> recs = new ArrayList<>();
     
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -72,14 +74,15 @@ public class RecordsController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println(recordsList);
         try {
             loadGameRecords();
-            
+     
             if (recordsList != null) {
                 recordsList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
                     if (newVal != null) {
-                        String gameId = newVal.split(" - ")[0];
-                        Recording.replayMoves(gameId, this);
+                        Recording.replayMoves(newVal, this);
+                        
                     }
                 });
             }
@@ -95,8 +98,10 @@ public class RecordsController implements Initializable {
                 for (int i = 0; i < games.length(); i++) {
                     JSONObject game = games.getJSONObject(i);
                     String gameId = game.getString("gameId");
-                    recordsList.getItems().add(gameId +" - Game " + (i + 1));
+                    //recordsList.getItems().add(gameId +" - Game " + (i + 1));
+                    recs.add(gameId.substring(0, 4)+ (i + 1));
                 }
+                recordsList.getItems().addAll(recs);
             }
         } catch (Exception e) {
             System.out.println("Error loading game records: " + e.getMessage());

@@ -30,7 +30,7 @@ import network.Client;
  *
  * @author mahmo
  */
-public class ServerGameBoardController implements Initializable, Client.ServerGameHandler{
+public class ServerGameBoardController implements Initializable, Client.ServerGameHandler {
 
     /**
      * Initializes the controller class.
@@ -59,72 +59,113 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private Text playerTwoName;
     @FXML
     private Text playerTwoScore;
-  
-    @FXML
-    private Button restartButton;
 
     private Button exit_btn;
+    @FXML
+    private Text currentSymbol;
+    @FXML
+    private Button recordBtn;
+    private Recording recording;
+    private boolean isRecording = false;
+    private String gameId;
+    private String currentPlayerName;
+    private String playerTwoText;
+    private static int counter=0;
+    @FXML
+    private void recordBtnHandler(ActionEvent event) {
+        recordBtn.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+        System.out.println("New game started with game ID: " + gameId);
+        recordBtn.setText(isRecording ? "Recording" : "Start Recording");
+        if (isRecording) {
+            System.out.println("Recording started.");
+        } else {
+            System.out.println("Recording stopped.");
+        }
+    }
 
-
+    private String generateNewGameId() {
+        return "game" + counter++;
+    }
+    
     @FXML
     private void buttonOneHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(0, 0);
         client.sendMoveToServer(0, 0, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonTwoHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(0, 1);
         client.sendMoveToServer(0, 1, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonThreeHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(0, 2);
         client.sendMoveToServer(0, 2, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonFourHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(1, 0);
         client.sendMoveToServer(1, 0, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonFiveHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(1, 1);
         client.sendMoveToServer(1, 1, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonSixHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(1, 2);
         client.sendMoveToServer(1, 2, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonSevenHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(2, 0);
         client.sendMoveToServer(2, 0, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonEightHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(2, 1);
         client.sendMoveToServer(2, 1, String.valueOf(currentPlayer));
     }
 
     @FXML
     private void buttonNineHandler(ActionEvent event) {
-        if(playerTurn == false){ return; }
+        if (playerTurn == false) {
+            return;
+        }
         handleMove(2, 2);
         client.sendMoveToServer(2, 2, String.valueOf(currentPlayer));
     }
@@ -139,11 +180,22 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     }
 
     private void makeMove(int row, int col, char player) {
+        switchPlayer();
+        recordBtn.setDisable(true);
+        if (isRecording) {
+            recording.recordMove(row, col, player, currentPlayerName, gameId);
+        }
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         buttons[row][col].setDisable(true);
     }
-
+    private void switchPlayer(){
+        if(currentPlayerName == client.getUserName()){
+            currentPlayerName = playerTwoText;
+        }else{
+            currentPlayerName = client.getUserName();
+        }
+    }
     private void initializeGame() {
         board = new char[3][3];
         for (int i = 0; i < 3; i++) {
@@ -154,18 +206,21 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         currentPlayer = 'O';
 
     }
-    
-    @FXML
-    void exitGame(){
+
+    void exitGame() {
         client.exitGame();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         client = Client.getInstance();
+        currentPlayerName = client.getUserName();
         client.setServerGameHandler(this);
         buttons = new Button[][]{{buttonOne, buttonTwo, buttonThree}, {buttonFour, buttonFive, buttonSix}, {buttonSeven, buttonEight, buttonNine}};
+        recording = new Recording();
+        gameId = generateNewGameId();
         initializeGame();
     }
 
@@ -180,22 +235,24 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         currentPlayer = 'X';
         playerTurn = true;
     }
+
     @Override
     public void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore) {
+        this.playerTwoText = playerTwoName;
         this.playerOneName.setText("Me");
         this.playerOneScore.setText(Integer.toString(playerOneScore));
         this.playerTwoName.setText(playerTwoName);
         this.playerTwoScore.setText(Integer.toString(playerTwoScore));
-        System.out.println("playeres info "+client.getUserName());
+        System.out.println("playeres info " + client.getUserName());
     }
+
     @Override
     public void winnerAction() {
         System.out.println("you won");
 
-       // playerOneName.setText("you won");
-
+        // playerOneName.setText("you won");
         playerOneName.setText("you won");
-          showVideoForResult("winner"); 
+        showVideoForResult("winner");
 
     }
 
@@ -204,7 +261,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         System.out.println("you lose");
         //playerOneName.setText("you lost ");
         playerOneName.setText("you lost ");
-          showVideoForResult("looser"); 
+        showVideoForResult("looser");
     }
 
     @Override
@@ -220,17 +277,18 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
             Logger.getLogger(ServerGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-private void showVideoForResult(String result) {
+
+    private void showVideoForResult(String result) {
         String videoPath;
 
         if ("winner".equals(result)) {
-            videoPath = "file:/C:/Downloads/winner.mp4"; 
+            videoPath = "file:/C:/Downloads/winner.mp4";
         } else if ("looser".equals(result)) {
-            videoPath = "file:/C:/Downloads/looser.mp4"; 
+            videoPath = "file:/C:/Downloads/looser.mp4";
         } else if ("draw".equals(result)) {
-            videoPath = "file:/D:/Downloads/draw.mp4"; 
+            videoPath = "file:/D:/Downloads/draw.mp4";
         } else {
-            videoPath = "file:/D:/Downloads/noonewin.mp4"; 
+            videoPath = "file:/D:/Downloads/noonewin.mp4";
         }
 
         try {
@@ -239,9 +297,9 @@ private void showVideoForResult(String result) {
             MediaView mediaView = new MediaView(mediaPlayer);
 
             StackPane root = new StackPane(mediaView);
-            Scene scene = new Scene(root, 500, 500); 
-            
-            Stage stage = new Stage(); 
+            Scene scene = new Scene(root, 500, 500);
+
+            Stage stage = new Stage();
             stage.setTitle("Game Result");
             stage.setScene(scene);
             stage.initOwner(playerOneName.getScene().getWindow());
@@ -251,7 +309,7 @@ private void showVideoForResult(String result) {
 
             mediaPlayer.setOnEndOfMedia(() -> {
                 System.out.println("Video ended.");
-             //   stage.close(); 
+                //   stage.close(); 
             });
 
             mediaPlayer.setOnError(() -> {
@@ -267,4 +325,4 @@ private void showVideoForResult(String result) {
     @FXML
     private void restartButtonHandler(ActionEvent event) {
     }
-} 
+}

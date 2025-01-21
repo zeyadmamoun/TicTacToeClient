@@ -110,7 +110,7 @@ public class Recording {
                         final int column = move.getInt("column");
                         final String character = move.getString("character");
 
-                        Thread.sleep(2000); // 2 second delay
+                        Thread.sleep(1000); // 2 second delay
 
                         Platform.runLater(() -> {
                             // Convert row/column to button number (0-based to 1-based)

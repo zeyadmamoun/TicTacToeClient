@@ -58,6 +58,7 @@ public class LocalModeController implements Initializable {
     private Button recordButton;
 
     private boolean isRecording = false;
+    private static int counter = 0;
 
     @FXML
     private void recordButtonHandler(ActionEvent event) {
@@ -119,7 +120,7 @@ public class LocalModeController implements Initializable {
     }
 
     private String generateNewGameId() {
-        return "game" + System.currentTimeMillis();
+        return "game" + counter++;
     }
 
     @FXML
