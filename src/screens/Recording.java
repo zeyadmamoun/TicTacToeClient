@@ -35,7 +35,7 @@ public class Recording {
         saveToFile(gameList);
     }
 
-    private static void saveToFile(JSONArray gameList) {
+    public static void saveToFile(JSONArray gameList) {
         try (FileWriter file = new FileWriter("games.json")) {
             file.write(gameList.toString(4));
         } catch (IOException e) {
@@ -71,7 +71,7 @@ public class Recording {
         return new JSONArray(); 
     }
 
-    private static JSONObject findGameById(JSONArray gameList, String gameId) {
+    public static JSONObject findGameById(JSONArray gameList, String gameId) {
         for (int i = 0; i < gameList.length(); i++) {
             JSONObject gameRecord = gameList.getJSONObject(i);
             if (gameRecord.optString("gameId").equals(gameId)) {
@@ -81,75 +81,5 @@ public class Recording {
         return null;
     }
 
-    public static void replayMoves(String gameId, RecordsController controller) {
-        new Thread(() -> {
-            try {
-                JSONArray gameList = readFromFile();
-                JSONObject gameRecord = findGameById(gameList, gameId);
-
-                if (gameRecord != null) {
-                    JSONArray moves = gameRecord.getJSONArray("moves");
-
-                    // Clear the board first
-                    Platform.runLater(() -> {
-                        controller.buttonOne.setText("");
-                        controller.buttonTwo.setText("");
-                        controller.buttonThree.setText("");
-                        controller.buttonFour.setText("");
-                        controller.buttonFive.setText("");
-                        controller.buttonSix.setText("");
-                        controller.buttonSeven.setText("");
-                        controller.buttonEight.setText("");
-                        controller.buttonNine.setText("");
-                    });
-
-                    // Play each move with delay
-                    for (int i = 0; i < moves.length(); i++) {
-                        JSONObject move = moves.getJSONObject(i);
-                        final int row = move.getInt("row");
-                        final int column = move.getInt("column");
-                        final String character = move.getString("character");
-
-                        Thread.sleep(1000); // 2 second delay
-
-                        Platform.runLater(() -> {
-                            // Convert row/column to button number (0-based to 1-based)
-                            int buttonNum = (row * 3) + column;
-                            switch (buttonNum) {
-                                case 0:
-                                    controller.buttonOne.setText(character);
-                                    break;
-                                case 1:
-                                    controller.buttonTwo.setText(character);
-                                    break;
-                                case 2:
-                                    controller.buttonThree.setText(character);
-                                    break;
-                                case 3:
-                                    controller.buttonFour.setText(character);
-                                    break;
-                                case 4:
-                                    controller.buttonFive.setText(character);
-                                    break;
-                                case 5:
-                                    controller.buttonSix.setText(character);
-                                    break;
-                                case 6:
-                                    controller.buttonSeven.setText(character);
-                                    break;
-                                case 7:
-                                    controller.buttonEight.setText(character);
-                                    break;
-                                case 8:
-                                    controller.buttonNine.setText(character);
-                                    break;
-                            }
-                        });
-                    }
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Replay interrupted: " + e.getMessage());
-            }
-        }).start();
-    }
+    
 }

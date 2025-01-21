@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package screens;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -33,6 +34,33 @@ public class VSComputerEasyController implements Initializable {
     private Text player2Name;
     @FXML
     private Text player2Score;
+
+    @FXML
+    private Button recordButton;
+    private Recording recording;
+    private boolean isRecording = false;
+    private String gameId;
+    private String currentPlayerName;
+    private String playerTwoText;
+
+    @FXML
+    private void recordButtonHandler(ActionEvent event) {
+        recordButton.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+
+        System.out.println("New game started with game ID: " + gameId);
+        recordButton.setText(isRecording ? "Stop Recording" : "Start Recording");
+        if (isRecording) {
+            System.out.println("Recording started.");
+        } else {
+            System.out.println("Recording stopped.");
+        }
+    }
+
+    private String generateNewGameId() {
+        return "game" + System.currentTimeMillis();
+    }
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -87,6 +115,8 @@ public class VSComputerEasyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttons = new Button[][]{{buttonOne, buttonTwo, buttonThree}, {buttonFour, buttonFive, buttonSix}, {buttonSeven, buttonEight, buttonNine}};
+        recording = new Recording();
+        gameId = generateNewGameId();
         initializeGame();
     }
 
@@ -118,6 +148,10 @@ public class VSComputerEasyController implements Initializable {
     }
 
     private void makeMove(int row, int col, char player) {
+       
+            recording.recordMove(row, col, player, currentPlayerName, gameId);
+            System.out.println("record method1");
+        
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         if (checkWinner()) {
@@ -222,4 +256,3 @@ public class VSComputerEasyController implements Initializable {
         }
     }
 }
-

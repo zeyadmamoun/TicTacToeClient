@@ -70,7 +70,6 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private String gameId;
     private String currentPlayerName;
     private String playerTwoText;
-    private static int counter=0;
     @FXML
     private void recordBtnHandler(ActionEvent event) {
         recordBtn.setDisable(true);
@@ -86,7 +85,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     }
 
     private String generateNewGameId() {
-        return "game" + counter++;
+        return "game" + System.currentTimeMillis();
     }
     
     @FXML

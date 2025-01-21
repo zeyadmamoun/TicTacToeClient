@@ -62,6 +62,7 @@ public class LocalModeController implements Initializable {
 
     @FXML
     private void recordButtonHandler(ActionEvent event) {
+        recordButton.setDisable(true);
         isRecording = !isRecording;
         gameId = generateNewGameId();
 
@@ -120,7 +121,7 @@ public class LocalModeController implements Initializable {
     }
 
     private String generateNewGameId() {
-        return "game" + counter++;
+        return "game" + System.currentTimeMillis();
     }
 
     @FXML
@@ -179,6 +180,7 @@ public class LocalModeController implements Initializable {
     }
 
     public void makeMove(int row, int col) {
+        recordButton.setDisable(true);
         if (isRecording) {
             recording.recordMove(row, col, currentPlayer, playerOneName.getText(), gameId);
         }
@@ -188,10 +190,12 @@ public class LocalModeController implements Initializable {
             System.out.println(Arrays.toString(buttons));
 
             if (checkWinner() && currentPlayer == 'X') {
+                recordButton.setDisable(false);
                 System.out.println("Player 1 won");
                 initializeGame();
                 clearBoard();
             } else if (checkWinner() && currentPlayer == 'O') {
+                recordButton.setDisable(false);
                 System.out.println("Player 2 won");
                 initializeGame();
                 clearBoard();
