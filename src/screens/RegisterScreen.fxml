@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.RegisterScreenController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000924;" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="screens.RegisterScreenController">
     <children>
-      <Label layoutX="125.0" layoutY="72.0" text="Username" />
-      <Label fx:id="passssw" layoutX="127.0" layoutY="141.0" text="Password" />
-      <Label layoutX="99.0" layoutY="205.0" text="Confirm Password" />
-      <TextField fx:id="user_signup_f" layoutX="243.0" layoutY="67.0" />
-      <TextField fx:id="password_signup_f" layoutX="243.0" layoutY="136.0" />
-      <TextField fx:id="c_password_signup_f" layoutX="243.0" layoutY="200.0" />
-      <Label fx:id="result_signup" layoutX="319.0" layoutY="36.0" text="Result" />
+      <Label layoutX="105.0" layoutY="102.0" text="Username" textFill="AQUA">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="passssw" layoutX="107.0" layoutY="171.0" text="Password" textFill="AQUA">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="79.0" layoutY="235.0" text="Confirm Password" textFill="AQUA">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <TextField fx:id="user_signup_f" layoutX="253.0" layoutY="97.0" />
+      <TextField fx:id="password_signup_f" layoutX="253.0" layoutY="166.0" />
+      <TextField fx:id="c_password_signup_f" layoutX="253.0" layoutY="230.0" />
+      <Label fx:id="result_signup" layoutX="203.0" layoutY="14.0" text="Sign Up" textFill="AQUA">
+         <font>
+            <Font name="Arial Bold" size="36.0" />
+         </font></Label>
 
-      <Label fx:id="result_signup1" layoutX="71.0" layoutY="329.0" text="you have already account?" />
-      <Button fx:id="login_btn_s" layoutX="311.0" layoutY="324.0" mnemonicParsing="false" onAction="#switchToLogin" text="Login" />
-      <Button fx:id="signup_btn_s" layoutX="300.0" layoutY="261.0" mnemonicParsing="false" onAction="#signUp" text="Sign Up" />
+      <Label fx:id="result_signup1" layoutX="36.0" layoutY="308.0" text="you have already account?" textFill="AQUA" />
+      <Button fx:id="login_btn_s" layoutX="88.0" layoutY="326.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #000924;" text="Login" textFill="AQUA" />
+      <Button fx:id="signup_btn_s" layoutX="248.0" layoutY="311.0" mnemonicParsing="false" onAction="#signUp" prefHeight="31.0" prefWidth="104.0" style="-fx-background-color: #000924; -fx-border-color: #00ffff; -fx-background-radius: 10px; -fx-border-radius: 10px;" text="Sign Up" textFill="AQUA" />
    </children>
 </AnchorPane>
+
