@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="300.0" prefHeight="600.0" prefWidth="523.0" style="-fx-background-color: #000924;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.VSComputerScreenController">
 
    <padding>
@@ -34,15 +33,10 @@
                         <Font size="18.0" />
                     </font>
                 </Text>
-                <Text fx:id="player1Score" fill="WHITE" text="0">
-                    <font>
-                        <Font name="System Bold" size="20.0" />
-                    </font>
-                </Text>
             </VBox>
          
             <!-- Current Turn Indicator -->
-            <VBox alignment="CENTER" spacing="2">
+            <VBox alignment="CENTER" prefHeight="93.0" prefWidth="79.0" spacing="2">
                 <Text fill="AQUA" text="Current Turn">
                     <font>
                         <Font size="14.0" />
@@ -68,11 +62,6 @@
                 <Text fill="WHITE" text="O">
                     <font>
                         <Font size="18.0" />
-                    </font>
-                </Text>
-                <Text fx:id="player2Score" fill="WHITE" text="0">
-                    <font>
-                        <Font name="System Bold" size="20.0" />
                     </font>
                 </Text>
             </VBox>

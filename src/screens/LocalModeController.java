@@ -126,6 +126,8 @@ public class LocalModeController implements Initializable {
 
     @FXML
     private void restartButtonHandler(ActionEvent event) {
+        recordButton.setDisable(false);
+
         clearBoard();
         initializeGame();
     }

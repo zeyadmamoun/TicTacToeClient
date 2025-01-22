@@ -6,6 +6,7 @@
 package screens;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,11 +16,11 @@ import javafx.scene.text.Text;
 
 public class VSComputerEasyController implements Initializable {
 
+   
+@FXML
     private Text gameStatus;
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
-    @FXML
-    private Button restartButton;
     private char[][] board = new char[3][3];
     private Button[][] buttons;
     private char currentPlayer = 'X';
@@ -35,15 +36,16 @@ public class VSComputerEasyController implements Initializable {
     @FXML
     private Text player2Score;
 
-    @FXML
     private Button recordButton;
     private Recording recording;
     private boolean isRecording = false;
     private String gameId;
     private String currentPlayerName;
     private String playerTwoText;
-
+    private Random random = new Random();
     @FXML
+    private Button recordBtn;
+
     private void recordButtonHandler(ActionEvent event) {
         recordButton.setDisable(true);
         isRecording = !isRecording;
@@ -107,7 +109,6 @@ public class VSComputerEasyController implements Initializable {
         handleMove(2, 2);
     }
 
-    @FXML
     private void restartButtonHandler(ActionEvent event) {
         initializeGame();
     }
@@ -148,10 +149,10 @@ public class VSComputerEasyController implements Initializable {
     }
 
     private void makeMove(int row, int col, char player) {
-       
+        if (isRecording) {
             recording.recordMove(row, col, player, currentPlayerName, gameId);
             System.out.println("record method1");
-        
+        }
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         if (checkWinner()) {
@@ -164,6 +165,7 @@ public class VSComputerEasyController implements Initializable {
     }
 
     private boolean checkWinner() {
+        // Check rows, columns and diagonals
         for (int i = 0; i < 3; i++) {
             if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
                 return true;
@@ -194,65 +196,107 @@ public class VSComputerEasyController implements Initializable {
 
     private void computerMove() {
         if (gameOver) {
-            System.out.println("Game over");
             return;
         }
-        int[] bestMove = findBestMove();
-        makeMove(bestMove[0], bestMove[1], 'O');
+
+        // 70% chance to make the best move, 30% chance to make a random move
+        if (random.nextDouble() < 0.7) {
+            // Try to win
+            int[] winningMove = findWinningMove('O');
+            if (winningMove != null) {
+                makeMove(winningMove[0], winningMove[1], 'O');
+            } // Block player's winning move
+            else {
+                int[] blockingMove = findWinningMove('X');
+                if (blockingMove != null) {
+                    makeMove(blockingMove[0], blockingMove[1], 'O');
+                } // Make a strategic move
+                else {
+                    makeStrategicMove();
+                }
+            }
+        } else {
+            makeRandomMove();
+        }
+
         currentPlayer = 'X';
     }
 
-    private int[] findBestMove() {
-        int bestValue = Integer.MIN_VALUE;
-        int[] bestMove = new int[2];
+    private int[] findWinningMove(char player) {
+        // Check each empty cell for a winning move
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == ' ') {
-                    board[i][j] = 'O';
-                    int moveValue = minimax(0, false);
-                    board[i][j] = ' ';
-                    if (moveValue > bestValue) {
-                        bestMove[0] = i;
-                        bestMove[1] = j;
-                        bestValue = moveValue;
+                    board[i][j] = player;
+                    if (checkWinner()) {
+                        board[i][j] = ' ';
+                        return new int[]{i, j};
                     }
+                    board[i][j] = ' ';
                 }
             }
         }
-        return bestMove;
+        return null;
     }
 
-    private int minimax(int depth, boolean isMaximizing) {
-        if (checkWinner()) {
-            return isMaximizing ? -10 : 10;
+    private void makeStrategicMove() {
+        // Try to take center if available
+        if (board[1][1] == ' ') {
+            makeMove(1, 1, 'O');
+            return;
         }
-        if (isBoardFull()) {
-            return 0;
+
+        // Try to take corners
+        int[][] corners = {{0, 0}, {0, 2}, {2, 0}, {2, 2}};
+        for (int[] corner : corners) {
+            if (board[corner[0]][corner[1]] == ' ') {
+                makeMove(corner[0], corner[1], 'O');
+                return;
+            }
         }
-        if (isMaximizing) {
-            int bestValue = Integer.MIN_VALUE;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    if (board[i][j] == ' ') {
-                        board[i][j] = 'O';
-                        bestValue = Math.max(bestValue, minimax(depth + 1, false));
-                        board[i][j] = ' ';
-                    }
+
+        // Take any available side
+        int[][] sides = {{0, 1}, {1, 0}, {1, 2}, {2, 1}};
+        for (int[] side : sides) {
+            if (board[side[0]][side[1]] == ' ') {
+                makeMove(side[0], side[1], 'O');
+                return;
+            }
+        }
+
+        // If no strategic move is available, make a random move
+        makeRandomMove();
+    }
+
+    private void makeRandomMove() {
+        java.util.List<int[]> emptyCells = new java.util.ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') {
+                    emptyCells.add(new int[]{i, j});
                 }
             }
-            return bestValue;
+        }
+
+        if (!emptyCells.isEmpty()) {
+            int[] move = emptyCells.get(random.nextInt(emptyCells.size()));
+            makeMove(move[0], move[1], 'O');
+        }
+    }
+
+    @FXML
+    private void recordBtnHandler(ActionEvent event) {
+
+        recordButton.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+
+        System.out.println("New game started with game ID: " + gameId);
+        recordButton.setText(isRecording ? "Stop Recording" : "Start Recording");
+        if (isRecording) {
+            System.out.println("Recording started.");
         } else {
-            int bestValue = Integer.MAX_VALUE;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    if (board[i][j] == ' ') {
-                        board[i][j] = 'X';
-                        bestValue = Math.min(bestValue, minimax(depth + 1, true));
-                        board[i][j] = ' ';
-                    }
-                }
-            }
-            return bestValue;
+            System.out.println("Recording stopped.");
         }
     }
 }

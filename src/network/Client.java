@@ -46,7 +46,7 @@ public class Client extends Thread {
     private Client() {
         try {
             //soc = new Socket("192.168.1.4", 5005);
-            soc = new Socket("127.0.0.1", 5005);
+            soc = new Socket("10.178.240.133", 5005);
             ear = new DataInputStream(soc.getInputStream());
             mouth = new DataOutputStream(soc.getOutputStream());
             start();
@@ -93,7 +93,7 @@ public class Client extends Thread {
                 obj = new JSONObject(msg);
                 String command = obj.getString("command");
                 int result = 0;
-
+System.out.println(obj);
                 switch (command) {
                     case "login_response":
                         result = obj.getInt("status");
