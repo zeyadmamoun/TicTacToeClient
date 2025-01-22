@@ -8,6 +8,7 @@ package screens;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -60,14 +62,19 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     @FXML
     private Text footer;
     @FXML
-    private ImageView profileImageView;
-    @FXML
     private Button recordBtn;
+    @FXML
+    private ImageView crownImage;
+    @FXML
+    private Text kingScore;
+    @FXML
+    private Text kingName;
+    private int highestScore = 0;
+    private String highestScorePlayer;
 
     /**
      * Initializes the controller class.
      */
-
     @FXML
     private void navigateToRecording(javafx.event.ActionEvent event) throws IOException {
         // Load the second FXML
@@ -85,6 +92,10 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        ImageView imageView;
+        Image myImage = new Image(getClass().getResourceAsStream("crown.png"));
+        crownImage.setImage(myImage);
         setupListView();
         client = Client.getInstance();
         client.setDashboradHandler(this);
@@ -108,8 +119,8 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         });
 
     }
-    
-    
+    private Map<String, Integer> playerScores = new HashMap<>();
+
     private void setupListView() {
         playersList.setCellFactory(lv -> new ListCell<String>() {
             @Override
@@ -120,40 +131,44 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
                     setGraphic(null);
                 } else {
                     int index = getIndex() + 1;
+                    int score = playerScores.getOrDefault(item, 0);
                     // Format with index, player name, and score aligned
-                    setText(String.format("%-3d %-20s %8d", index, item, 0));
+                    setText(String.format("%-3d %-20s %8d", index, item, score));
                 }
             }
         });
-
-//        playersList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                toPlayer = newValue;
-//                client.sendRequestHandler(toPlayer);
-//            }
-//        });
-    }  //we need handle score
-
-    void onTestButtonClicked() {
-        System.err.println("test button clicked");
-        client.sendTestMesssage();
     }
 
     @Override
     public void updatePlayerList(Map<String, Integer> map) {
-
         playersArrayList.clear();
-        for (Map.Entry<String, Integer> me : map.entrySet()) {
-            System.out.print(me.getKey() + ":");
-            if (!client.getUserName().equals(me.getKey())) {
-                playersArrayList.add(me.getKey());
-            }
-            //System.out.println(me.getValue());
-        }
-        playersList.getItems().clear();
-        //players.remove(client.getUserName());
-        playersList.getItems().addAll(playersArrayList);
+        playerScores.clear();
 
+        // Reset highest score tracking
+        highestScore = 0;
+        highestScorePlayer = "";
+
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            String playerName = entry.getKey();
+            Integer score = entry.getValue();
+
+            playerScores.put(playerName, score);
+
+            // Update highest score if current score is higher
+            if (score > highestScore) {
+                highestScore = score;
+                highestScorePlayer = playerName;
+            }
+
+            if (!client.getUserName().equals(playerName)) {
+                playersArrayList.add(playerName);
+            }
+        }
+        kingScore.setText(Integer.toString(highestScore));
+        kingName.setText(highestScorePlayer);
+        playersList.getItems().clear();
+        playersList.getItems().addAll(playersArrayList);
+        
     }
 
     @Override

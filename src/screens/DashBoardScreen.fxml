@@ -29,10 +29,12 @@
         </HBox>
         
         <Text fx:id="footer" layoutX="200.0" layoutY="380.0" styleClass="footer-text" text="Dashboard - Manage Players" />
-      <ImageView fx:id="profileImageView" fitHeight="94.0" fitWidth="138.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="crownImage" fitHeight="150.0" fitWidth="50.0" layoutX="502.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:/D:/Downloads/wukong.jpg" />
+            <Image url="@crown.png" />
          </image>
       </ImageView>
+      <Text fx:id="kingScore" fill="WHITE" layoutX="516.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fx:id="kingName" fill="WHITE" layoutX="457.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
     </children>
 </AnchorPane>
