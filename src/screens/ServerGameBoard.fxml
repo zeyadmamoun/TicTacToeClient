@@ -159,7 +159,7 @@
             </font>
         </Text>
 
-        <Button fx:id="recordBtn" onAction="#recordBtnHandler" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #E3F2FD; -fx-background-radius: 15; -fx-text-fill: #0D47A1 " text="Record" BorderPane.alignment="CENTER">
+        <Button fx:id="recordBtn" onAction="#recordBtnHandler" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 15; -fx-text-fill: #00ffff;" text="Record" BorderPane.alignment="CENTER">
             <font>
                 <Font size="24.0" />
             </font>
