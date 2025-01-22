@@ -68,14 +68,26 @@ public class ModesFXMLController implements Initializable {
         stage.show();
     }
 
-//      private void navigateToLocalMode(javafx.event.ActionEvent event) throws IOException {
-//        // Load the second FXML
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LoginScreenFXML.fxml"));
-//        root = loader.load();
-//        // Get the current stage and set the new scene
-//        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
-    
+    @FXML
+    private void navigateToLocalMode(javafx.event.ActionEvent event) throws IOException {
+        // Load the second FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LocalMode.fxml"));
+        root = loader.load();
+        // Get the current stage and set the new scene
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    @FXML
+    private void navigateToRecording(javafx.event.ActionEvent event) throws IOException {
+        // Load the second FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/Records.fxml"));
+        root = loader.load();
+        // Get the current stage and set the new scene
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
 }

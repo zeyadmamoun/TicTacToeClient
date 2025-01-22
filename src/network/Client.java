@@ -10,9 +10,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import static javafx.scene.input.KeyCode.K;
+import static javafx.scene.input.KeyCode.V;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.LoginScreenFXMLController;
@@ -23,7 +27,6 @@ import screens.LoginScreenFXMLController;
  */
 public class Client extends Thread {
 
-    private boolean isFirstPlay = true;
     private Socket soc;
     private DataInputStream ear;
     private DataOutputStream mouth;
@@ -36,12 +39,14 @@ public class Client extends Thread {
     //private instance so no one can accesss it directly
     private static Client instance;
     private String userName;
+    private int score;
+    private boolean isServerAccept = false;
 
     // private constructor so no one can make any new instance from this class.
     private Client() {
         try {
             //soc = new Socket("192.168.1.4", 5005);
-            soc = new Socket("127.0.0.1", 5005);
+            soc = new Socket("10.178.240.133", 5005);
             ear = new DataInputStream(soc.getInputStream());
             mouth = new DataOutputStream(soc.getOutputStream());
             start();
@@ -79,11 +84,16 @@ public class Client extends Thread {
     public void run() {
         try {
             while (true) {
+                if (isServerAccept) {
+
+                    closingConnection();
+                    break;
+                }
                 String msg = ear.readUTF();
                 obj = new JSONObject(msg);
                 String command = obj.getString("command");
                 int result = 0;
-
+System.out.println(obj);
                 switch (command) {
                     case "login_response":
                         result = obj.getInt("status");
@@ -95,11 +105,13 @@ public class Client extends Thread {
                         } else {
                             userName = obj.getString("username");
                             if (loginHandler != null) {
+                                System.out.println("score = " + obj.getInt("score"));
+                                score = obj.getInt("score");
                                 Platform.runLater(() -> {
                                     loginHandler.loginSuccess();
                                 });
                             }
-                            System.out.println("login successfull");
+                            System.out.println("login successfull" + userName);
                         }
                         break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +133,10 @@ public class Client extends Thread {
 /////////////////////////////////////////////////////////////////////////////////////////////////////  
                     case "players_list":
                         playersListHandler();
+                        break;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+                    case "players_score":
+                        playerScoreHandler();
                         break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
                     case "requestToPlay":
@@ -151,12 +167,22 @@ public class Client extends Thread {
 
                         break;
                     case "start":
-                        Platform.runLater(() -> {
-                            serverGameHandler.startGame();
-                        });
+                        if (obj.getString("playerturn").equals(userName)) {
+                            Platform.runLater(() -> {
+                                serverGameHandler.startGame();
+                                serverGameHandler.playersInfo(obj.getString("playertwoname"), obj.getInt("playeronescore"), obj.getInt("playertwoscore"));
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                serverGameHandler.playersInfo(obj.getString("playeronename"), obj.getInt("playertwoscore"), obj.getInt("playeronescore"));
+                            });
+
+                        }
+
                         break;
 
                     case "win":
+                        System.err.println("someone won");
                         if (obj.getString("winner").equals(userName)) {
                             Platform.runLater(() -> {
                                 serverGameHandler.winnerAction();
@@ -172,6 +198,15 @@ public class Client extends Thread {
                             System.out.println("------------->" + obj);
                             serverGameHandler.drawMoveFromServer(obj.getInt("row"), obj.getInt("col"), obj.getString("token"));
                         });
+                        break;
+                    case "exit_game":
+                        Platform.runLater(() -> {
+                            serverGameHandler.exitSession();
+                        });
+                        break;
+                    case "acceptclosing": // by mohamed
+                        isServerAccept = true;
+                        closeConnectionWithServer();
                         break;
                 }
             }
@@ -197,15 +232,50 @@ public class Client extends Thread {
     }
 
     private void playersListHandler() {
-        JSONArray jsonArray = obj.getJSONArray("list");
-        ArrayList<String> players = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String element = jsonArray.getString(i);
-            players.add(element);
+
+        JSONObject jsonObject = obj.getJSONObject("list");
+        Map<String, Integer> map = new HashMap<>();
+        for (String key : jsonObject.keySet()) {
+            map.put(key, jsonObject.getInt(key));
         }
+        // Printing the map
+        System.out.println("hi " + map);
         Platform.runLater(() -> {
-            dashboadrdUiHandler.updatePlayerList(players);
+            dashboadrdUiHandler.updatePlayerList(map);
         });
+
+    }
+
+    private void playerScoreHandler() {
+        int score = obj.getInt("score");
+
+        Platform.runLater(() -> {
+            dashboadrdUiHandler.updatePlayerScore(score);
+        });
+    }
+
+    public void requestPlayersList() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "send_list");
+            mouth.writeUTF(obj.toString());
+
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void requestPlayerScore() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "send_player_score");
+            mouth.writeUTF(obj.toString());
+
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void sendRequestHandler(String toPlayer) {
@@ -215,8 +285,10 @@ public class Client extends Thread {
         obj.put("player2", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
+
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -228,8 +300,10 @@ public class Client extends Thread {
         obj.put("toplayer", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
+
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -241,8 +315,10 @@ public class Client extends Thread {
         obj.put("toplayer", toPlayer);
         try {
             mouth.writeUTF(obj.toString());
+
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -254,21 +330,78 @@ public class Client extends Thread {
         obj.put("col", col);
         try {
             mouth.writeUTF(obj.toString());
-            if (isFirstPlay) {
-                mouth.writeUTF(obj.toString());
-                isFirstPlay = false;
-            }
             System.out.println("test if client send move" + obj.toString());
+
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public String getUserName() {
         return userName;
     }
-/////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
 
+    public int getScore() {
+        return score;
+    }
+
+    public void exitGame() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "exit_game");
+            mouth.writeUTF(obj.toString());
+
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void sendTestMesssage() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "test");
+            mouth.writeUTF(obj.toString());
+
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
+        }
+    }
+
+    public void sendRequestClose() { ///////by mohamed
+        try {
+            JSONObject objClose = new JSONObject();
+            objClose.put("command", "closetoleave");
+            mouth.writeUTF(objClose.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void closeConnectionWithServer() {      //by mohamed
+        try {
+            JSONObject objCloseConnection = new JSONObject();
+            objCloseConnection.put("command", "I'm_gone");
+            mouth.writeUTF(objCloseConnection.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void closingConnection() {
+        try {
+            mouth.close();
+            ear.close();
+            soc.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+/////////////////////////////////////////Ui Interfaces//////////////////////////////////////////////////////////////
     public interface LoginUiHandler {
 
         void loginSuccess();
@@ -285,9 +418,12 @@ public class Client extends Thread {
 
     public interface DashboadrdUiHandler {
 
-        void updatePlayerList(ArrayList<String> players);
+        void updatePlayerList(Map<String, Integer> map);
 
         void generateRequestPopup(String fromPlayer);
+
+        void updatePlayerScore(int score);
+
 
         void generateResponsePopup(String fromPlayer);
 
@@ -302,9 +438,13 @@ public class Client extends Thread {
 
         void startGame();
 
+        void playersInfo(String playerTwoName, int playerOneScore, int playerTwoScore);
+
         void winnerAction();
 
         void loseAction();
+
+        void exitSession();
 
     }
 

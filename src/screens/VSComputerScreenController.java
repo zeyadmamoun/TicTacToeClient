@@ -11,18 +11,49 @@ import javafx.scene.text.Text;
 public class VSComputerScreenController implements Initializable {
 
     @FXML
-    private Text playerOneName;
-    @FXML
     private Text gameStatus;
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
-    @FXML
-    private Button restartButton;
 
     private char[][] board = new char[3][3];
     private Button[][] buttons;
     private char currentPlayer = 'X';
     private boolean gameOver = false;
+    @FXML
+    private Text player1Name;
+    @FXML
+    private Text player1Score;
+    @FXML
+    private Text currentSymbol;
+    @FXML
+    private Text player2Name;
+    @FXML
+    private Text player2Score;
+    @FXML
+    private Button recordBtn;
+    private Recording recording;
+    private boolean isRecording = false;
+    private String gameId;
+    private String currentPlayerName;
+    private String playerTwoText;
+
+    @FXML
+    private void recordBtnHandler(ActionEvent event) {
+        recordBtn.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+        System.out.println("New game started with game ID: " + gameId);
+        recordBtn.setText(isRecording ? "Recording" : "Start Recording");
+        if (isRecording) {
+            System.out.println("Recording started.");
+        } else {
+            System.out.println("Recording stopped.");
+        }
+    }
+
+    private String generateNewGameId() {
+        return "game" + System.currentTimeMillis();
+    }
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -69,7 +100,6 @@ public class VSComputerScreenController implements Initializable {
         handleMove(2, 2);
     }
 
-    @FXML
     private void restartButtonHandler(ActionEvent event) {
         initializeGame();
     }
@@ -81,6 +111,8 @@ public class VSComputerScreenController implements Initializable {
             {buttonFour, buttonFive, buttonSix},
             {buttonSeven, buttonEight, buttonNine}
         };
+        recording = new Recording();
+        gameId = generateNewGameId();
         initializeGame();
     }
 
@@ -113,6 +145,8 @@ public class VSComputerScreenController implements Initializable {
     }
 
     private void makeMove(int row, int col, char player) {
+        recording.recordMove(row, col, player, currentPlayerName, gameId);
+        System.out.println("record method1");
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         if (checkWinner()) {

@@ -43,8 +43,8 @@ public class LevelsScreenController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
-    
-     @FXML
+
+    @FXML
     private void navigateToVScomputerEasy(javafx.event.ActionEvent event) throws IOException {
         // Load the second FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/VSComputerEasy.fxml"));
@@ -52,6 +52,30 @@ public class LevelsScreenController implements Initializable {
         // Get the current stage and set the new scene
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    @FXML
+    private void navigateToVScomputerIntermediate(javafx.event.ActionEvent event) throws IOException {
+        // Load the second FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/VSComputerIntermediate.fxml"));
+        root = loader.load();
+        // Get the current stage and set the new scene
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    @FXML
+    private void goBack(javafx.event.ActionEvent event) throws IOException {
+        // Load the previous screen (e.g., MainMenu.fxml or another screen)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));  // Adjust the path as needed
+        root = loader.load();
+
+        // Get the current stage (window) and set the new scene
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
         stage.show();
     }
 
