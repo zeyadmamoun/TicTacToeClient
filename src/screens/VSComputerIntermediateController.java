@@ -1,5 +1,6 @@
 package screens;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,14 +8,16 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class VSComputerIntermediateController implements Initializable {
 
-    @FXML
-    private Text gameStatus;
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
 
@@ -34,6 +37,11 @@ public class VSComputerIntermediateController implements Initializable {
     private Text player2Name;
     @FXML
     private Text player2Score;
+    @FXML
+    private Button recordButton;
+    private Recording recording;
+    private boolean isRecording = false;
+    private String gameId;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -56,12 +64,13 @@ public class VSComputerIntermediateController implements Initializable {
         }
         currentPlayer = 'X';
         gameOver = false;
-        gameStatus.setText("Game In Progress");
     }
 
     @FXML
     private void buttonClickHandler(ActionEvent event) {
-        if (gameOver) return;
+        if (gameOver) {
+            return;
+        }
 
         Button clickedButton = (Button) event.getSource();
         int row = -1, col = -1;
@@ -88,40 +97,48 @@ public class VSComputerIntermediateController implements Initializable {
     }
 
     private void makeMove(int row, int col, char player) {
+        recordButton.setDisable(true);
+
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         buttons[row][col].setDisable(true);
 
         if (checkWinner()) {
             gameOver = true;
-            gameStatus.setText(player + " Wins!");
             disableAllButtons();
         } else if (isBoardFull()) {
             gameOver = true;
-            gameStatus.setText("It's a Draw!");
         }
     }
 
     private boolean checkWinner() {
         for (int i = 0; i < 3; i++) {
-            if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2]) return true;
-            if (board[0][i] != ' ' && board[0][i] == board[1][i] && board[1][i] == board[2][i]) return true;
+            if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+                return true;
+            }
+            if (board[0][i] != ' ' && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
+                return true;
+            }
         }
-        return (board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2]) ||
-               (board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0]);
+        return (board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2])
+                || (board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0]);
     }
 
     private boolean isBoardFull() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == ' ') return false;
+                if (board[i][j] == ' ') {
+                    return false;
+                }
             }
         }
         return true;
     }
 
     private void computerMove() {
-        if (gameOver) return;
+        if (gameOver) {
+            return;
+        }
 
         // Try to make a winning or blocking move
         int[] move = findBestMove();
@@ -155,7 +172,9 @@ public class VSComputerIntermediateController implements Initializable {
         List<int[]> emptyCells = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == ' ') emptyCells.add(new int[]{i, j});
+                if (board[i][j] == ' ') {
+                    emptyCells.add(new int[]{i, j});
+                }
             }
         }
         if (!emptyCells.isEmpty()) {
@@ -172,7 +191,44 @@ public class VSComputerIntermediateController implements Initializable {
         }
     }
 
+    @FXML
     private void resetButtonHandler(ActionEvent event) {
+        recordButton.setDisable(false);
+
         initializeGame();
     }
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    @FXML
+    private void goBack(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LevelsScreen.fxml"));
+        root = loader.load();
+
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void recordButtonHandler(ActionEvent event) {
+        recordButton.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+
+        System.out.println("New game started with game ID: " + gameId);
+        if (isRecording) {
+            System.out.println("Recording started.");
+        } else {
+            System.out.println("Recording stopped.");
+        }
+    }
+
+    private String generateNewGameId() {
+        return "game" + System.currentTimeMillis();
+    }
+
 }

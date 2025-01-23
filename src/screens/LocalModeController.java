@@ -5,23 +5,24 @@
  */
 package screens;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -67,14 +68,15 @@ public class LocalModeController implements Initializable {
 
     @FXML
     private Button restartButton;
-    @FXML
     private Text playerOneName;
     @FXML
     private Text currentSymbol;
     @FXML
-    private Text playerTwoName;
-    @FXML
     private Button backButton;
+    @FXML
+    private Text player1Name;
+    @FXML
+    private Text player2Name;
 
     @FXML
     private void recordButtonHandler(ActionEvent event) {
@@ -297,6 +299,9 @@ public class LocalModeController implements Initializable {
     public void draw(int row, int col) {
         buttons[row][col].setText(Character.toString(currentPlayer));
     }
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     private void drawWinnerLine(double x1, double y1, double x2, double y2) {
         System.out.printf("Drawing line from (%.2f, %.2f) to (%.2f, %.2f)%n", x1, y1, x2, y2);
@@ -325,7 +330,14 @@ public class LocalModeController implements Initializable {
     }
 
     @FXML
-    private void backButtonHandler(ActionEvent event) {
+    private void goBack(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));  // Adjust the path as needed
+        root = loader.load();
+
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
