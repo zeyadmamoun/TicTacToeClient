@@ -1,17 +1,20 @@
 package screens;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class VSComputerScreenController implements Initializable {
 
-    @FXML
-    private Text gameStatus;
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
 
@@ -22,34 +25,20 @@ public class VSComputerScreenController implements Initializable {
     @FXML
     private Text player1Name;
     @FXML
-    private Text player1Score;
-    @FXML
     private Text currentSymbol;
     @FXML
     private Text player2Name;
-    @FXML
-    private Text player2Score;
-    @FXML
-    private Button recordBtn;
     private Recording recording;
     private boolean isRecording = false;
     private String gameId;
     private String currentPlayerName;
     private String playerTwoText;
-
     @FXML
-    private void recordBtnHandler(ActionEvent event) {
-        recordBtn.setDisable(true);
-        isRecording = !isRecording;
-        gameId = generateNewGameId();
-        System.out.println("New game started with game ID: " + gameId);
-        recordBtn.setText(isRecording ? "Recording" : "Start Recording");
-        if (isRecording) {
-            System.out.println("Recording started.");
-        } else {
-            System.out.println("Recording stopped.");
-        }
-    }
+    private Button backButton;
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Button recordButton;
 
     private String generateNewGameId() {
         return "game" + System.currentTimeMillis();
@@ -100,7 +89,9 @@ public class VSComputerScreenController implements Initializable {
         handleMove(2, 2);
     }
 
+    @FXML
     private void restartButtonHandler(ActionEvent event) {
+        recordButton.setDisable(false);
         initializeGame();
     }
 
@@ -126,7 +117,6 @@ public class VSComputerScreenController implements Initializable {
         }
         currentPlayer = 'X';
         gameOver = false;
-        gameStatus.setText("Game In Progress");
     }
 
     private void handleMove(int row, int col) {
@@ -145,6 +135,8 @@ public class VSComputerScreenController implements Initializable {
     }
 
     private void makeMove(int row, int col, char player) {
+        recordButton.setDisable(true);
+
         recording.recordMove(row, col, player, currentPlayerName, gameId);
         System.out.println("record method1");
         board[row][col] = player;
@@ -292,5 +284,32 @@ public class VSComputerScreenController implements Initializable {
             }
         }
         return 0;
+    }
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    @FXML
+    private void goBack(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LevelsScreen.fxml"));
+        root = loader.load();
+
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void recordButtonHandler(ActionEvent event) {
+        recordButton.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+        System.out.println("New game started with game ID: " + gameId);
+        if (isRecording) {
+            System.out.println("Recording started.");
+        } else {
+            System.out.println("Recording stopped.");
+        }
     }
 }
