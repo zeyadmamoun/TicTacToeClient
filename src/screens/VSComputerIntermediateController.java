@@ -1,5 +1,6 @@
 package screens;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +8,13 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class VSComputerIntermediateController implements Initializable {
 
@@ -34,6 +39,10 @@ public class VSComputerIntermediateController implements Initializable {
     private Text player2Name;
     @FXML
     private Text player2Score;
+    private Button recordButton;
+    private Recording recording;
+    private boolean isRecording = false;
+    private String gameId;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -171,8 +180,40 @@ public class VSComputerIntermediateController implements Initializable {
             }
         }
     }
-
+    @FXML
     private void resetButtonHandler(ActionEvent event) {
         initializeGame();
+    }
+    
+    @FXML
+    private void recordButtonHandler(ActionEvent event) {
+        recordButton.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+
+        System.out.println("New game started with game ID: " + gameId);
+        if (isRecording) {
+            System.out.println("Recording started.");
+        } else {
+            System.out.println("Recording stopped.");
+        }
+    }
+    private String generateNewGameId() {
+        return "game" + System.currentTimeMillis();
+    }
+    
+     private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    @FXML
+    private void goBack(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LevelsScreen.fxml"));
+        root = loader.load();
+
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
