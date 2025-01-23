@@ -226,7 +226,7 @@ public class LocalModeController implements Initializable {
     public void draw(int row, int col) {
         buttons[row][col].setText(Character.toString(currentPlayer));
     }
-      private Stage stage;
+    private Stage stage;
     private Scene scene;
     private Parent root;
 
