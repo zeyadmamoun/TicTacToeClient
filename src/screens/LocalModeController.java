@@ -22,8 +22,6 @@ import javafx.scene.text.Text;
 public class LocalModeController implements Initializable {
 
     @FXML
-    private Text playerOneName;
-    @FXML
     private Button buttonOne;
     @FXML
     private Button buttonTwo;
@@ -50,15 +48,23 @@ public class LocalModeController implements Initializable {
 
     char currentPlayer = 'X';
     int row, col;
-    @FXML
-    private Text playerTwoName;
-    @FXML
-    private Button restartButton;
+    
     @FXML
     private Button recordButton;
 
     private boolean isRecording = false;
     private static int counter = 0;
+
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Text playerOneName;
+    @FXML
+    private Text currentSymbol;
+    @FXML
+    private Text playerTwoName;
+    @FXML
+    private Button backButton;
 
     @FXML
     private void recordButtonHandler(ActionEvent event) {
@@ -124,7 +130,6 @@ public class LocalModeController implements Initializable {
         return "game" + System.currentTimeMillis();
     }
 
-    @FXML
     private void restartButtonHandler(ActionEvent event) {
         recordButton.setDisable(false);
 
@@ -216,6 +221,10 @@ public class LocalModeController implements Initializable {
 
     public void draw(int row, int col) {
         buttons[row][col].setText(Character.toString(currentPlayer));
+    }
+
+    @FXML
+    private void backButtonHandler(ActionEvent event) {
     }
 
 }
