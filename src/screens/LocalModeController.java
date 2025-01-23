@@ -281,19 +281,7 @@ public class LocalModeController implements Initializable {
             a.setContentText(winner +" won");
         }
         a.show();
-//        Dialog<Boolean> dialog = new Dialog<>();
-//        dialog.setTitle("Game Challenge");
-//        dialog.setHeaderText(null);
-//
-//        dialog.getDialogPane().setStyle("-fx-background-color: #1F509A; -fx-background-radius: 10;");
-//
-//        Label titleLabel = new Label("You have received a game challenge!");
-//        titleLabel.setStyle("-fx-font-family: 'Black Han Sans'; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
-//        ButtonType acceptButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
-//        ButtonType declineButtonType = new ButtonType("Decline", ButtonBar.ButtonData.CANCEL_CLOSE);
-//
-//        dialog.getDialogPane().getButtonTypes().addAll(acceptButtonType, declineButtonType);
-//        dialog.showAndWait();
+
     }
 
     public void draw(int row, int col) {
