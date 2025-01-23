@@ -189,8 +189,8 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + " wants to play with you");
         
-         DialogPane dialogPane = a.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
+        // DialogPane dialogPane = a.getDialogPane();
+        //dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
 
         final boolean[] autoClosed = {false};
