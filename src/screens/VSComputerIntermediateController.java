@@ -185,7 +185,21 @@ public class VSComputerIntermediateController implements Initializable {
         initializeGame();
     }
     
+     private Stage stage;
+    private Scene scene;
+    private Parent root;
+
     @FXML
+    private void goBack(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LevelsScreen.fxml"));
+        root = loader.load();
+
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+     @FXML
     private void recordButtonHandler(ActionEvent event) {
         recordButton.setDisable(true);
         isRecording = !isRecording;
@@ -202,18 +216,6 @@ public class VSComputerIntermediateController implements Initializable {
         return "game" + System.currentTimeMillis();
     }
     
-     private Stage stage;
-    private Scene scene;
-    private Parent root;
-
-    @FXML
-    private void goBack(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LevelsScreen.fxml"));
-        root = loader.load();
-
-        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+    
+    
 }
