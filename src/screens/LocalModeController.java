@@ -11,7 +11,16 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 /**
@@ -39,16 +48,17 @@ public class LocalModeController implements Initializable {
     private Button buttonEight;
     @FXML
     private Button buttonNine;
-
+    @FXML
+    private Pane gamePane;
     private Recording recording;
-
+    private Line winnerLine;
     private String gameId;
     char[][] board = new char[3][3];
     Button[][] buttons = new Button[3][3];
 
     char currentPlayer = 'X';
     int row, col;
-    
+
     @FXML
     private Button recordButton;
 
@@ -73,7 +83,6 @@ public class LocalModeController implements Initializable {
         gameId = generateNewGameId();
 
         System.out.println("New game started with game ID: " + gameId);
-        recordButton.setText(isRecording ? "Stop Recording" : "Start Recording");
         if (isRecording) {
             System.out.println("Recording started.");
         } else {
@@ -130,9 +139,11 @@ public class LocalModeController implements Initializable {
         return "game" + System.currentTimeMillis();
     }
 
+    @FXML
     private void restartButtonHandler(ActionEvent event) {
+        enableBoard();
+        removeWinnerLine();
         recordButton.setDisable(false);
-
         clearBoard();
         initializeGame();
     }
@@ -157,19 +168,28 @@ public class LocalModeController implements Initializable {
     }
 
     public boolean checkWinner() {
+        double cellWidth = gamePane.getWidth() / 3.0;
+        double cellHeight = gamePane.getHeight() / 3.0;
+        double padding = 20;
         for (int i = 0; i < 3; i++) {
             if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
+                double y = (i + 0.5) * cellHeight; // Center of the row
+                drawWinnerLine(padding, y, gamePane.getWidth() - padding, y);
                 return true;
             }
             if (board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer) {
+                double x = (i + 0.5) * cellWidth; // Center of the column
+                drawWinnerLine(x, padding, x, gamePane.getHeight() - padding);
                 return true;
             }
         }
         // Check diagonals
         if (board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer) {
+            drawWinnerLine(padding, padding, gamePane.getWidth() - padding, gamePane.getHeight() - padding);
             return true;
         }
         if (board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer) {
+            drawWinnerLine(gamePane.getWidth() - padding, padding, padding, gamePane.getHeight() - padding);
             return true;
         }
         return false;
@@ -197,20 +217,34 @@ public class LocalModeController implements Initializable {
             System.out.println(Arrays.toString(buttons));
 
             if (checkWinner() && currentPlayer == 'X') {
-                recordButton.setDisable(false);
+                displayAlert("player 1");
                 System.out.println("Player 1 won");
-                initializeGame();
-                clearBoard();
+                disableBoard();
+                //initializeGame();
+                // clearBoard();
             } else if (checkWinner() && currentPlayer == 'O') {
-                recordButton.setDisable(false);
+                displayAlert("player 2");
                 System.out.println("Player 2 won");
-                initializeGame();
-                clearBoard();
+                disableBoard();
+                //initializeGame();
+                // clearBoard();
+            }else if (isBoardFull()) {
+                displayAlert("draw");
             }
             ChangePlayer();
         }
     }
 
+    public final boolean isBoardFull() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public void clearBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -219,8 +253,75 @@ public class LocalModeController implements Initializable {
         }
     }
 
+    public void disableBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setDisable(true);
+            }
+        }
+    }
+
+    public void enableBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setDisable(false);
+            }
+        }
+    }
+
+    public void displayAlert(String winner) {
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.initOwner(recordButton.getScene().getWindow());
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        if("draw".equals(winner)){
+            a.setContentText(" Draw");
+        }else{
+            a.setContentText(winner +" won");
+        }
+        a.show();
+//        Dialog<Boolean> dialog = new Dialog<>();
+//        dialog.setTitle("Game Challenge");
+//        dialog.setHeaderText(null);
+//
+//        dialog.getDialogPane().setStyle("-fx-background-color: #1F509A; -fx-background-radius: 10;");
+//
+//        Label titleLabel = new Label("You have received a game challenge!");
+//        titleLabel.setStyle("-fx-font-family: 'Black Han Sans'; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
+//        ButtonType acceptButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+//        ButtonType declineButtonType = new ButtonType("Decline", ButtonBar.ButtonData.CANCEL_CLOSE);
+//
+//        dialog.getDialogPane().getButtonTypes().addAll(acceptButtonType, declineButtonType);
+//        dialog.showAndWait();
+    }
+
     public void draw(int row, int col) {
         buttons[row][col].setText(Character.toString(currentPlayer));
+    }
+
+    private void drawWinnerLine(double x1, double y1, double x2, double y2) {
+        System.out.printf("Drawing line from (%.2f, %.2f) to (%.2f, %.2f)%n", x1, y1, x2, y2);
+        winnerLine = new Line(x1, y1, x2, y2);
+
+        // Apply a solid color as stroke
+        winnerLine.setStroke(Color.rgb(28, 147, 159)); // Middle color
+        winnerLine.setStrokeWidth(4);
+
+        // Add a glowing shadow effect
+        DropShadow glow = new DropShadow();
+        glow.setColor(Color.rgb(28, 147, 159)); // Glow matches the line color
+        glow.setRadius(20);
+        glow.setSpread(0.7);
+
+        winnerLine.setEffect(glow);
+
+        // Add the line to the pane
+        gamePane.getChildren().add(winnerLine);
+    }
+
+    private void removeWinnerLine() {
+        gamePane.getChildren().removeIf(node -> node instanceof Line); // Remove all lines from the pane
+        winnerLine = null; // Clear the reference
+        System.out.println("All winner lines removed.");
     }
 
     @FXML
