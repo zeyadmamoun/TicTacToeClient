@@ -29,12 +29,17 @@
         </HBox>
         
         <Text fx:id="footer" layoutX="200.0" layoutY="380.0" styleClass="footer-text" text="Dashboard - Manage Players" />
-      <ImageView fx:id="crownImage" fitHeight="150.0" fitWidth="50.0" layoutX="502.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="crownImage" fitHeight="150.0" fitWidth="50.0" layoutX="505.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@crown.png" />
+            <Image url="@../../../../../Downloads/cup.jpg" />
          </image>
       </ImageView>
       <Text fx:id="kingScore" fill="WHITE" layoutX="516.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <Text fx:id="kingName" fill="WHITE" layoutX="457.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <ImageView fitHeight="72.0" fitWidth="118.0" layoutX="20.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Downloads/avaterpng.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

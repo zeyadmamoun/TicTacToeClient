@@ -187,9 +187,16 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Alert a = new Alert(AlertType.NONE);
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.CONFIRMATION);
-        a.setContentText(fromPlayer + " wants to play with you");
+        a.setContentText(fromPlayer  + " Invite You play with you");
         
-         DialogPane dialogPane = a.getDialogPane();
+        
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        a.setHeaderText("Game Invitation");
+
+        DialogPane dialogPane = a.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
 
@@ -229,7 +236,15 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Alert a = new Alert(AlertType.NONE);
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
-        a.setContentText("Sadly " + toPlayer + " refused. Please don't cry.");
+          ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        a.setHeaderText("Game Invitation");
+
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
+        a.setContentText("Sadly " + toPlayer + " Refused. Please don't cry.");
         a.show();
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             if (a.isShowing()) {
@@ -245,6 +260,14 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Alert a = new Alert(AlertType.NONE);
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
+          ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        a.setHeaderText("Game Invitation");
+
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
         a.setContentText(toPlayer + " accepted your request.");
         a.show();
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
