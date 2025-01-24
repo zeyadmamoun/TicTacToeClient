@@ -13,12 +13,14 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import network.Client;
 import network.Client.RegisterUIHandler;
@@ -52,6 +54,8 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
     private Button login_btn_s;
     @FXML
     private Button signup_btn_s;
+    @FXML
+    private AnchorPane anchorPane;
 
     /**
      * Initializes the controller class.
@@ -60,7 +64,10 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
         client.setRegisterHandler(this);
-    }   
+        anchorPane.getStylesheets().add(getClass().getResource("registerscreenstyle.css").toExternalForm());
+        login_btn_s.setCursor(Cursor.HAND);
+        signup_btn_s.setCursor(Cursor.HAND);
+    }
     
     @FXML
     public void signUp(){

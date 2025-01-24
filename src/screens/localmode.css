@@ -1,53 +1,7 @@
-/* Responsive base styles */
-.root {
-    -fx-background-color: #000924;
-}
+/*
+ * Empty Stylesheet file.
+ */
 
-.button {
-    -fx-background-color: #000924;
-    -fx-border-color: #ff00ff;
-    -fx-border-radius: 15;
-    -fx-text-fill: #00ffff;
-    -fx-font-size: 14px;
-}
+.mainFxmlClass {
 
-.button:hover {
-    -fx-background-color: rgba(255, 0, 255, 0.2);
-}
-
-/* Responsive text sizing */
-Text {
-    -fx-font-size: 14px;
-}
-
-@media (min-width: 600px) {
-    Text {
-        -fx-font-size: 16px;
-    }
-    
-    .button {
-        -fx-font-size: 16px;
-    }
-}
-
-@media (min-width: 900px) {
-    Text {
-        -fx-font-size: 18px;
-    }
-    
-    .button {
-        -fx-font-size: 18px;
-    }
-}
-
-/* Game board buttons */
-.game-button {
-    -fx-background-color: transparent;
-    -fx-border-color: white;
-    -fx-border-width: 2;
-    -fx-font-size: 36px;
-}
-
-.game-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
 }

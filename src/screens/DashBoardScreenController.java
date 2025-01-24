@@ -34,6 +34,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -72,6 +73,8 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private Text kingName;
     private int highestScore = 0;
     private String highestScorePlayer;
+    @FXML
+    private AnchorPane anchorPane;
 
     /**
      * Initializes the controller class.
@@ -93,7 +96,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        anchorPane.getStylesheets().add(getClass().getResource("dashboardscreen.css").toExternalForm());
         ImageView imageView;
         Image myImage = new Image(getClass().getResourceAsStream("crown.png"));
         crownImage.setImage(myImage);
@@ -105,6 +108,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         mainHeader.setText(client.getUserName());
         client.requestPlayersList();
         client.requestPlayerScore();
+
 
         playersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -189,8 +193,8 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + " wants to play with you");
         
-        // DialogPane dialogPane = a.getDialogPane();
-        //dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
+//         DialogPane dialogPane = a.getDialogPane();
+//        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
 
         final boolean[] autoClosed = {false};
