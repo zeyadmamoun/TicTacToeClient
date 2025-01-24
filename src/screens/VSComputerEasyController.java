@@ -5,26 +5,20 @@
  */
 package screens;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class VSComputerEasyController implements Initializable {
 
+   
+@FXML
+    private Text gameStatus;
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
     private char[][] board = new char[3][3];
@@ -34,11 +28,14 @@ public class VSComputerEasyController implements Initializable {
     @FXML
     private Text player1Name;
     @FXML
+    private Text player1Score;
+    @FXML
     private Text currentSymbol;
     @FXML
     private Text player2Name;
-
     @FXML
+    private Text player2Score;
+
     private Button recordButton;
     private Recording recording;
     private boolean isRecording = false;
@@ -47,19 +44,15 @@ public class VSComputerEasyController implements Initializable {
     private String playerTwoText;
     private Random random = new Random();
     @FXML
-    private Pane gamePane;
+    private Button recordBtn;
 
-    private Line winnerLine;
-    @FXML
-    private Button restartButton;
-
-    @FXML
     private void recordButtonHandler(ActionEvent event) {
         recordButton.setDisable(true);
         isRecording = !isRecording;
         gameId = generateNewGameId();
 
         System.out.println("New game started with game ID: " + gameId);
+        recordButton.setText(isRecording ? "Stop Recording" : "Start Recording");
         if (isRecording) {
             System.out.println("Recording started.");
         } else {
@@ -116,11 +109,7 @@ public class VSComputerEasyController implements Initializable {
         handleMove(2, 2);
     }
 
-    @FXML
     private void restartButtonHandler(ActionEvent event) {
-        enableBoard();
-        removeWinnerLine();
-        recordButton.setDisable(false);
         initializeGame();
     }
 
@@ -142,6 +131,7 @@ public class VSComputerEasyController implements Initializable {
         }
         currentPlayer = 'X';
         gameOver = false;
+        gameStatus.setText("Game In Progress");
     }
 
     private void handleMove(int row, int col) {
@@ -159,8 +149,6 @@ public class VSComputerEasyController implements Initializable {
     }
 
     private void makeMove(int row, int col, char player) {
-        recordButton.setDisable(true);
-
         if (isRecording) {
             recording.recordMove(row, col, player, currentPlayerName, gameId);
             System.out.println("record method1");
@@ -176,29 +164,20 @@ public class VSComputerEasyController implements Initializable {
         }
     }
 
-     public boolean checkWinner() {
-        double cellWidth = gamePane.getWidth() / 3.0;
-        double cellHeight = gamePane.getHeight() / 3.0;
-        double padding = 20;
+    private boolean checkWinner() {
+        // Check rows, columns and diagonals
         for (int i = 0; i < 3; i++) {
             if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
-                double y = (i + 0.5) * cellHeight; // Center of the row
-                drawWinnerLine(padding, y, gamePane.getWidth() - padding, y);
                 return true;
             }
             if (board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer) {
-                double x = (i + 0.5) * cellWidth; // Center of the column
-                drawWinnerLine(x, padding, x, gamePane.getHeight() - padding);
                 return true;
             }
         }
-        // Check diagonals
         if (board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer) {
-            drawWinnerLine(padding, padding, gamePane.getWidth() - padding, gamePane.getHeight() - padding);
             return true;
         }
         if (board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer) {
-            drawWinnerLine(gamePane.getWidth() - padding, padding, padding, gamePane.getHeight() - padding);
             return true;
         }
         return false;
@@ -304,59 +283,20 @@ public class VSComputerEasyController implements Initializable {
             makeMove(move[0], move[1], 'O');
         }
     }
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
-    private void drawWinnerLine(double x1, double y1, double x2, double y2) {
-        System.out.printf("Drawing line from (%.2f, %.2f) to (%.2f, %.2f)%n", x1, y1, x2, y2);
-        winnerLine = new Line(x1, y1, x2, y2);
-
-        // Apply a solid color as stroke
-        winnerLine.setStroke(Color.rgb(28, 147, 159)); // Middle color
-        winnerLine.setStrokeWidth(4);
-
-        // Add a glowing shadow effect
-        DropShadow glow = new DropShadow();
-        glow.setColor(Color.rgb(28, 147, 159)); // Glow matches the line color
-        glow.setRadius(20);
-        glow.setSpread(0.7);
-
-        winnerLine.setEffect(glow);
-
-        // Add the line to the pane
-        gamePane.getChildren().add(winnerLine);
-    }
-
-    private void removeWinnerLine() {
-        gamePane.getChildren().removeIf(node -> node instanceof Line); // Remove all lines from the pane
-        winnerLine = null; // Clear the reference
-        System.out.println("All winner lines removed.");
-    }
-    public void disableBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setDisable(true);
-            }
-        }
-    }
-
-    public void enableBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setDisable(false);
-            }
-        }
-    }
     @FXML
-    private void goBack(javafx.event.ActionEvent event) throws IOException {
-        System.out.println("back button");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LevelsScreen.fxml"));
-        root = loader.load();
+    private void recordBtnHandler(ActionEvent event) {
 
-        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        recordButton.setDisable(true);
+        isRecording = !isRecording;
+        gameId = generateNewGameId();
+
+        System.out.println("New game started with game ID: " + gameId);
+        recordButton.setText(isRecording ? "Stop Recording" : "Start Recording");
+        if (isRecording) {
+            System.out.println("Recording started.");
+        } else {
+            System.out.println("Recording stopped.");
+        }
     }
 }

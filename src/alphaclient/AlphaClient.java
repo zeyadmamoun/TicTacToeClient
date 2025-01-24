@@ -36,7 +36,9 @@ public class AlphaClient extends Application {
             alert.setContentText("choose ok to exit and cancel if you want to continue");
             alert.showAndWait();
             if (alert.getResult() == ButtonType.OK) {
-                client.sendRequestClose();
+                if (client.getSocket() != null) {
+                    client.sendRequestClose();
+                } 
                 stage.close();
             } else {
                 event.consume();
