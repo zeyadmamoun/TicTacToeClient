@@ -51,6 +51,7 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
         client.setLoginHandler(this);
+        client.connectToServer();
     }    
     
     @FXML

@@ -9,15 +9,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import static javafx.scene.input.KeyCode.K;
-import static javafx.scene.input.KeyCode.V;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import screens.LoginScreenFXMLController;
 
@@ -43,17 +39,7 @@ public class Client extends Thread {
     private boolean isServerAccept = false;
 
     // private constructor so no one can make any new instance from this class.
-    private Client() {
-        try {
-            //soc = new Socket("192.168.1.4", 5005);
-            soc = new Socket("127.0.0.1", 5005);
-            ear = new DataInputStream(soc.getInputStream());
-            mouth = new DataOutputStream(soc.getOutputStream());
-            start();
-        } catch (IOException ex) {
-            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    private Client() {}
 
     // function to get the single instance of client.
     static public synchronized Client getInstance() {
@@ -230,6 +216,21 @@ System.out.println(obj);
         obj.put("password", password);
         mouth.writeUTF(obj.toString());
     }
+    
+    public void connectToServer(){
+        if (soc != null){
+            return;
+        }
+        try {
+            //soc = new Socket("192.168.1.4", 5005);
+            soc = new Socket("127.0.0.1", 5005);
+            ear = new DataInputStream(soc.getInputStream());
+            mouth = new DataOutputStream(soc.getOutputStream());
+            start();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void playersListHandler() {
 
@@ -344,6 +345,10 @@ System.out.println(obj);
 
     public int getScore() {
         return score;
+    }
+    
+    public Socket getSocket() {
+        return soc;
     }
 
     public void exitGame() {
