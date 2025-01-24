@@ -11,6 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import network.Client;
 
@@ -34,6 +37,14 @@ public class AlphaClient extends Application {
             alert.setTitle("Tic Tac Toe Game");
             alert.setHeaderText("Are you sure you want to exit?");
             alert.setContentText("choose ok to exit and cancel if you want to continue");
+             ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        alert.setGraphic(icon);
+        alert.setHeaderText("Game Invitation");
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
             alert.showAndWait();
             if (alert.getResult() == ButtonType.OK) {
                 client.sendRequestClose();

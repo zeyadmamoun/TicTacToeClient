@@ -17,8 +17,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import network.Client;
 import network.Client.RegisterUIHandler;
@@ -101,6 +104,14 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
         alert.setTitle("Signup Failed");
         alert.setHeaderText("check your credientials");
         alert.setContentText("something wrong happend");
+         ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        alert.setGraphic(icon);
+        alert.setHeaderText("Game Invitation");
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
         alert.showAndWait();
     }
