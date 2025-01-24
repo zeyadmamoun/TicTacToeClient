@@ -278,48 +278,46 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     }
 
     private void showVideoForResult(String result) {
-        String videoPath;
+    String videoPath;
 
-        if ("winner".equals(result)) {
-            videoPath = "file:/C:/Downloads/winner.mp4";
-        } else if ("looser".equals(result)) {
-            videoPath = "file:/C:/Downloads/looser.mp4";     
-        } else if ("draw".equals(result)) {
-            videoPath = "file:/D:/Downloads/draw.mp4";
-        } else {
-            videoPath = "file:/D:/Downloads/noonewin.mp4";
-        }
-
-        try {
-            Media media = new Media(videoPath);
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            MediaView mediaView = new MediaView(mediaPlayer);
-
-            StackPane root = new StackPane(mediaView);
-            Scene scene = new Scene(root, 500, 500);
-
-            Stage stage = new Stage();
-            stage.setTitle("Game Result");
-            stage.setScene(scene);
-            stage.initOwner(playerOneName.getScene().getWindow());
-            stage.show();
-
-            mediaPlayer.play();
-
-            mediaPlayer.setOnEndOfMedia(() -> {
-                System.out.println("Video ended.");
-                //   stage.close(); 
-            });
-
-            mediaPlayer.setOnError(() -> {
-                System.out.println("Error playing video: " + mediaPlayer.getError().getMessage());
-            });
-
-        } catch (Exception e) {
-            System.out.println("Error loading video: " + e.getMessage());
-        }
-
+    if ("winner".equals(result)) {
+        videoPath = "file:/C:/Downloads/winner.mp4";
+    } else if ("looser".equals(result)) {
+        videoPath = "file:/C:/Downloads/looser.mp4";     
+    } else if ("draw".equals(result)) {
+        videoPath = "file:/D:/Downloads/draw.mp4";
+    } else {
+        videoPath = "file:/D:/Downloads/noonewin.mp4";
     }
+
+    try {
+        Media media = new Media(videoPath);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+        StackPane videoRoot = new StackPane(mediaView);
+        videoRoot.setStyle("-fx-background-color: black;"); 
+
+        Scene videoScene = new Scene(videoRoot, 800, 600); // Adjust size as needed
+        Stage currentStage = (Stage) playerOneName.getScene().getWindow();
+        currentStage.setScene(videoScene);
+        currentStage.setTitle("Game Result");
+
+        mediaPlayer.play();
+
+        mediaPlayer.setOnEndOfMedia(() -> {
+            System.out.println("Video ended.");
+            currentStage.setScene(scene); 
+        });
+
+        mediaPlayer.setOnError(() -> {
+            System.out.println("Error playing video: " + mediaPlayer.getError().getMessage());
+        });
+    } catch (Exception e) {
+        System.out.println("Error loading video: " + e.getMessage());
+    }
+}
+
 
     @FXML
     private void restartButtonHandler(ActionEvent event) {

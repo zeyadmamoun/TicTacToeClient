@@ -6,6 +6,7 @@
 package screens;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -33,17 +35,26 @@ public class ModesFXMLController implements Initializable {
 
     @FXML
     private Button online_btn;
+    @FXML
+    private AnchorPane APane;
+    @FXML
+    private Button record_btn;
+    @FXML
+    private Button vscomputer_btn;
+    @FXML
+    private Button local_btn;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     public void setScene(Scene scene) {
         this.scene = scene;
+        APane.getStylesheets().add(getClass().getResource("/screens/modesfxml.css").toExternalForm());
+
     }
 
     @FXML
@@ -90,4 +101,20 @@ public class ModesFXMLController implements Initializable {
         stage.show();
     }
 
+    private void handleMouseExited(javafx.scene.input.MouseEvent event) {
+        Button btn = (Button) event.getSource();
+        btn.setStyle("-fx-border-color: #00ffff; "
+                + "-fx-background-color: #01002a; "
+                + "-fx-border-radius: 10px; "
+                + "-fx-text-fill: #00ffff; "
+                + "-fx-effect: dropshadow(gaussian, #00ffff, 10, 0, 0, 0);");
+    }
+
+    private void handleMouseEntered(javafx.scene.input.MouseEvent event) {
+         Button btn = (Button) event.getSource();
+        btn.setStyle("-fx-border-color: #ffffff; "
+                + "-fx-background-color: #01002a; "
+                + "-fx-border-radius: 10px; "
+                + "-fx-text-fill: white;");
+    }
 }

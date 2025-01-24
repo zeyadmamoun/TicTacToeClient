@@ -25,7 +25,8 @@ public class AlphaClient extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/screens/ModesFXML.fxml"));
         Scene scene = new Scene(root);
-        
+                stage.setTitle("Tic Tac Toe Game");
+
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> {
             client = Client.getInstance();
