@@ -46,5 +46,6 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Text>
+         <Button fx:id="logout_btn" layoutX="32.0" layoutY="343.0" mnemonicParsing="false" styleClass="cyber-button" onAction="#logoutButtonHandler" text="Exit" />
     </children>
 </AnchorPane>

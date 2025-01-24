@@ -37,9 +37,12 @@ public class Client extends Thread {
     private String userName;
     private int score;
     private boolean isServerAccept = false;
+    private boolean clientThread = true;
+    private boolean isInGameBoard = false;
 
     // private constructor so no one can make any new instance from this class.
-    private Client() {}
+    private Client() {
+    }
 
     // function to get the single instance of client.
     static public synchronized Client getInstance() {
@@ -69,7 +72,7 @@ public class Client extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (clientThread) {
                 if (isServerAccept) {
 
                     closingConnection();
@@ -79,7 +82,7 @@ public class Client extends Thread {
                 obj = new JSONObject(msg);
                 String command = obj.getString("command");
                 int result = 0;
-System.out.println(obj);
+                System.out.println(msg);
                 switch (command) {
                     case "login_response":
                         result = obj.getInt("status");
@@ -153,6 +156,7 @@ System.out.println(obj);
 
                         break;
                     case "start":
+                        isInGameBoard = true;
                         if (obj.getString("playerturn").equals(userName)) {
                             Platform.runLater(() -> {
                                 serverGameHandler.startGame();
@@ -186,6 +190,7 @@ System.out.println(obj);
                         });
                         break;
                     case "exit_game":
+                        isInGameBoard = false;
                         Platform.runLater(() -> {
                             serverGameHandler.exitSession();
                         });
@@ -194,10 +199,46 @@ System.out.println(obj);
                         isServerAccept = true;
                         closeConnectionWithServer();
                         break;
+                    case "logout_response":
+                        System.out.println("logout_response" + "hello ");
+                        int status = obj.getInt("status");
+                        if (status == 1) {
+                            Platform.runLater(() -> {
+                                dashboadrdUiHandler.logoutSuccess();
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                dashboadrdUiHandler.logoutFailed();
+                            });
+                        }
+                        break;
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                System.out.println("this because server disconnect");
+                clientThread = false;
+                // closeConnectionWithServer();
+                instance = null;
+                mouth.close();
+                ear.close();
+//                soc.shutdownInput();
+//                soc.shutdownOutput();
+                soc.close();
+                System.out.println("socket state + " + soc.isClosed());
+                Platform.runLater(() -> {
+                    if (isInGameBoard) {
+                        serverGameHandler.switchToMainScreen();
+                    } else {
+                        dashboadrdUiHandler.switchToMainScreen();
+                    }
+
+                });
+
+                //Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex1) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
@@ -216,9 +257,9 @@ System.out.println(obj);
         obj.put("password", password);
         mouth.writeUTF(obj.toString());
     }
-    
-    public void connectToServer(){
-        if (soc != null){
+
+    public void connectToServer() {
+        if (soc != null) {
             return;
         }
         try {
@@ -346,7 +387,7 @@ System.out.println(obj);
     public int getScore() {
         return score;
     }
-    
+
     public Socket getSocket() {
         return soc;
     }
@@ -381,6 +422,16 @@ System.out.println(obj);
             JSONObject objClose = new JSONObject();
             objClose.put("command", "closetoleave");
             mouth.writeUTF(objClose.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void sendLogoutRequest() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "logout_request");
+            mouth.writeUTF(obj.toString());
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -429,12 +480,17 @@ System.out.println(obj);
 
         void updatePlayerScore(int score);
 
-
         void generateResponsePopup(String fromPlayer);
 
         void generateAcceptancePopup(String fromPlayer);
 
         void switchToGameBoard();
+
+        void switchToMainScreen();
+
+        void logoutSuccess();
+
+        void logoutFailed();
     }
 
     public interface ServerGameHandler {
@@ -451,6 +507,7 @@ System.out.println(obj);
 
         void exitSession();
 
+        void switchToMainScreen();
     }
 
 }

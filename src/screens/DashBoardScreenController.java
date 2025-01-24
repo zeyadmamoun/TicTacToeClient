@@ -20,6 +20,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -75,23 +76,24 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private String highestScorePlayer;
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Button logout_btn;
 
     /**
      * Initializes the controller class.
      */
     @FXML
     private void navigateToRecording(javafx.event.ActionEvent event) throws IOException {
-        // Load the second FXML
+        // Load the new FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/Records.fxml"));
         Parent root = loader.load();
 
-        // Create a new stage
-        Stage newStage = new Stage();
-        newStage.setScene(new Scene(root));
-        newStage.setTitle("Recording"); // Set the title of the new stage
+        // Get the current stage
+        Stage currentStage = (Stage) mainHeader.getScene().getWindow();
 
-        // Show the new stage
-        newStage.show();
+        // Set the new scene to the current stage
+        currentStage.setScene(new Scene(root));
+        currentStage.setTitle("Recording"); // Optional: Change the stage title if needed
     }
 
     @Override
@@ -109,7 +111,6 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         client.requestPlayersList();
         client.requestPlayerScore();
 
-
         playersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -122,7 +123,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
                 }
             }
         });
-
+       
     }
     private Map<String, Integer> playerScores = new HashMap<>();
 
@@ -173,7 +174,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         kingName.setText(highestScorePlayer);
         playersList.getItems().clear();
         playersList.getItems().addAll(playersArrayList);
-        
+
     }
 
     @Override
@@ -192,11 +193,9 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + " wants to play with you");
-        
+
 //         DialogPane dialogPane = a.getDialogPane();
 //        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
-
-
         final boolean[] autoClosed = {false};
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             if (a.isShowing()) {
@@ -277,4 +276,51 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void switchToGameBoard() {
         switchToServerGameBoard();
     }
+
+    public void switchToModesScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) mainHeader.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void switchToMainScreen() {
+        switchToModesScreen();
+    }
+    
+    @Override
+    public void logoutSuccess() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) mainHeader.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void logoutFailed() {
+        Alert a = new Alert(AlertType.NONE);
+        a.initOwner(mainHeader.getScene().getWindow());
+        a.setAlertType(AlertType.ERROR);
+        a.setContentText("Logout failed");
+        a.show();
+    }
+
+    @FXML
+    void logoutButtonHandler() {
+        client.sendLogoutRequest();
+    }
+
 }
