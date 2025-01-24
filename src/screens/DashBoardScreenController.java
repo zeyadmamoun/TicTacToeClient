@@ -169,7 +169,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         kingName.setText(highestScorePlayer);
         playersList.getItems().clear();
         playersList.getItems().addAll(playersArrayList);
-        
+
     }
 
     @Override
@@ -188,11 +188,9 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + " wants to play with you");
-        
+
         // DialogPane dialogPane = a.getDialogPane();
         //dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
-
-
         final boolean[] autoClosed = {false};
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             if (a.isShowing()) {
@@ -272,5 +270,24 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     @Override
     public void switchToGameBoard() {
         switchToServerGameBoard();
+    }
+
+    public void switchToModesScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) mainHeader.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    @Override
+    public void switchToMainScreen() {
+        switchToModesScreen();
     }
 }

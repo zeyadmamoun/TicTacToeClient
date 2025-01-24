@@ -41,7 +41,8 @@ public class Client extends Thread {
     private String userName;
     private int score;
     private boolean isServerAccept = false;
-
+    private boolean clientThread = true;
+    private boolean isInGameBoard=false;
     // private constructor so no one can make any new instance from this class.
     private Client() {
         try {
@@ -83,7 +84,7 @@ public class Client extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (clientThread) {
                 if (isServerAccept) {
 
                     closingConnection();
@@ -93,7 +94,7 @@ public class Client extends Thread {
                 obj = new JSONObject(msg);
                 String command = obj.getString("command");
                 int result = 0;
-System.out.println(obj);
+System.out.println(msg);
                 switch (command) {
                     case "login_response":
                         result = obj.getInt("status");
@@ -167,6 +168,7 @@ System.out.println(obj);
 
                         break;
                     case "start":
+                        isInGameBoard=true;
                         if (obj.getString("playerturn").equals(userName)) {
                             Platform.runLater(() -> {
                                 serverGameHandler.startGame();
@@ -200,6 +202,7 @@ System.out.println(obj);
                         });
                         break;
                     case "exit_game":
+                        isInGameBoard =false;
                         Platform.runLater(() -> {
                             serverGameHandler.exitSession();
                         });
@@ -211,7 +214,30 @@ System.out.println(obj);
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                System.out.println("this because server disconnect");
+                clientThread = false;
+                // closeConnectionWithServer();
+                instance = null;
+                mouth.close();
+                ear.close();
+//                soc.shutdownInput();
+//                soc.shutdownOutput();
+                soc.close();
+                System.out.println("socket state + "+soc.isClosed());
+                Platform.runLater(() -> {
+                    if(isInGameBoard){
+                        serverGameHandler.switchToMainScreen();
+                    }else{
+                        dashboadrdUiHandler.switchToMainScreen();
+                    }
+                    
+                });
+                
+                //Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex1) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
@@ -430,6 +456,8 @@ System.out.println(obj);
         void generateAcceptancePopup(String fromPlayer);
 
         void switchToGameBoard();
+        
+        void switchToMainScreen();
     }
 
     public interface ServerGameHandler {
@@ -445,7 +473,8 @@ System.out.println(obj);
         void loseAction();
 
         void exitSession();
-
+        
+        void switchToMainScreen();
     }
 
 }

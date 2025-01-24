@@ -324,4 +324,22 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     @FXML
     private void restartButtonHandler(ActionEvent event) {
     }
+    public void switchToModesScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) playerOneScore.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    @Override
+    public void switchToMainScreen() {
+        switchToModesScreen();
+    }
 }
