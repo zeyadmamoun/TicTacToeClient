@@ -39,6 +39,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private int counter;
 
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
@@ -180,6 +181,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     }
 
     private void makeMove(int row, int col, char player) {
+        counter++;
         switchPlayer();
         recordBtn.setDisable(true);
         if (isRecording) {
@@ -188,6 +190,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         buttons[row][col].setDisable(true);
+        changeCurrentplayer();
     }
 
     private void switchPlayer() {
@@ -418,5 +421,13 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     @Override
     public void switchToMainScreen() {
         switchToModesScreen();
+    }
+
+    public void changeCurrentplayer() {
+        if (counter % 2 != 0) {
+            currentSymbol.setText("O");
+        } else if (counter % 2 == 0) {
+            currentSymbol.setText("X");
+        }
     }
 }

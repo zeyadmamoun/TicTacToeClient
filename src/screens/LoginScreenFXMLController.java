@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -30,13 +31,14 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     @FXML
     private TextField user_login;
     @FXML
-    private TextField password_login;
+    private PasswordField password_login;
     @FXML
     private Button login_btn1;
     @FXML
     private Button signup_btn;
     @FXML
     private AnchorPane anchorPane;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -54,6 +56,15 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
 
     @FXML
     public void login() {
+
+        if (user_login.getText().isEmpty() || password_login.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Login Failed");
+            alert.setHeaderText("check your credientials");
+            alert.setContentText("You Have To Enter Your Information !");
+            alert.showAndWait();
+            return;
+        }
         try {
             client.sendLoginCredientials(user_login.getText(), password_login.getText());
         } catch (IOException ex) {
@@ -89,9 +100,9 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     @Override
     public void LoginFailed() {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText("Look, an Information Dialog");
-        alert.setContentText("I have a great message for you!");
+        alert.setTitle("Login Failed");
+        alert.setHeaderText("check your credientials");
+        alert.setContentText("Something Happend Please check your credientials !");
 
         alert.showAndWait();
     }

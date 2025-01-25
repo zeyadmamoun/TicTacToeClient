@@ -1,7 +1,7 @@
-.main-anchor-pane {
+/*.main-anchor-pane {
     -fx-background-color: #000924;
-    -fx-background-image: url('grid.png'); /* You'll need to add a grid background image */
-}
+    -fx-background-image: url('grid.png');  You'll need to add a grid background image 
+}*/
 
 .header-text {
     -fx-font-family: "System Bold";
@@ -28,10 +28,10 @@
     -fx-cursor: hand;
 }
 
-.list-container {
+/*.list-container {
     -fx-background-color: transparent;
     -fx-padding: 15px;
-}
+}*/
 
 .cyber-list-view {
     -fx-background-color: transparent;
