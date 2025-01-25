@@ -100,7 +100,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void initialize(URL url, ResourceBundle rb) {
         anchorPane.getStylesheets().add(getClass().getResource("dashboardscreen.css").toExternalForm());
         ImageView imageView;
-        Image myImage = new Image(getClass().getResourceAsStream("crown.png"));
+        Image myImage = new Image(getClass().getResourceAsStream("/assets/crown.png"));
         crownImage.setImage(myImage);
         setupListView();
         client = Client.getInstance();
