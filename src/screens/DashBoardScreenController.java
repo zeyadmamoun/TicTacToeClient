@@ -15,12 +15,10 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,7 +28,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -84,7 +81,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
      */
     @FXML
     private void navigateToRecording(javafx.event.ActionEvent event) throws IOException {
-        // Load the new FXML
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/Records.fxml"));
         Parent root = loader.load();
 
@@ -123,7 +120,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
                 }
             }
         });
-       
+
     }
     private Map<String, Integer> playerScores = new HashMap<>();
 
@@ -294,7 +291,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     public void switchToMainScreen() {
         switchToModesScreen();
     }
-    
+
     @Override
     public void logoutSuccess() {
         try {

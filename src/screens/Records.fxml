@@ -19,7 +19,7 @@
             <Image url="@../assets/dashboardpic.png" />
          </image>
       </ImageView>
-      <FlowPane alignment="CENTER_LEFT" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+      <FlowPane alignment="CENTER_RIGHT" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
          <children>
               <GridPane alignment="CENTER" hgap="5" style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 10;" vgap="5">
                   <padding>
@@ -90,6 +90,11 @@
                   </children>
               </GridPane>
               <ListView fx:id="recordsList" prefHeight="511.0" prefWidth="374.0" styleClass="cyber-list-view" stylesheets="@records.css" />
+            <Button fx:id="back_btn" alignment="CENTER" mnemonicParsing="false" onAction="#backtoPrevouisScreen" text="Back">
+               <FlowPane.margin>
+                  <Insets left="160.0" top="30.0" />
+               </FlowPane.margin>
+            </Button>
          </children>
       </FlowPane>
    </children>
