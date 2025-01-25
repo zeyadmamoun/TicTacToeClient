@@ -44,7 +44,7 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
         client.setLoginHandler(this);
-        client.connectToServer();
+//        client.connectToServer();
 
         // Apply the stylesheet
         anchorPane.getStylesheets().add(getClass().getResource("loginscreenfxml.css").toExternalForm());

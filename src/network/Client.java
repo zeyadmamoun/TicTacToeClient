@@ -243,6 +243,7 @@ public class Client extends Thread {
     }
 
     public void sendLoginCredientials(String username, String password) throws IOException {
+        connectToServer();
         JSONObject obj = new JSONObject();
         obj.put("command", "login");
         obj.put("username", username);
@@ -251,6 +252,7 @@ public class Client extends Thread {
     }
 
     public void sendRegisterCredientials(String username, String password) throws IOException {
+        connectToServer();
         JSONObject obj = new JSONObject();
         obj.put("command", "register");
         obj.put("username", username);
