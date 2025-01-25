@@ -82,7 +82,7 @@ public class ModesFXMLController implements Initializable {
     @FXML
     private void navigateToRecording(javafx.event.ActionEvent event) throws IOException {
         // Load the second FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/Records.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/LocalRecordController.fxml"));
         root = loader.load();
         // Get the current stage and set the new scene
         stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

@@ -146,4 +146,7 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
         alert.showAndWait();
     }
 
+
 }
+
+
