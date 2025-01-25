@@ -36,8 +36,6 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     @FXML
     private Button signup_btn;
     @FXML
-    private Label result_L;
-    @FXML
     private AnchorPane anchorPane;
 
     @Override
@@ -47,7 +45,7 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
 //        client.connectToServer();
 
         // Apply the stylesheet
-        anchorPane.getStylesheets().add(getClass().getResource("loginscreenfxml.css").toExternalForm());
+        //anchorPane.getStylesheets().add(getClass().getResource("loginscreenfxml.css").toExternalForm());
 
         // Set cursors for buttons
         login_btn1.setCursor(Cursor.HAND);

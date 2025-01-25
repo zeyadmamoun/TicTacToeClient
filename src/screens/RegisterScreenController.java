@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -31,21 +32,21 @@ import network.Client.RegisterUIHandler;
  * @author zeyad_maamoun
  */
 public class RegisterScreenController implements Initializable, RegisterUIHandler {
-    
+
     private Stage stage;
     private Scene scene;
     private Parent root;
-    
+
     Client client;
-    
+
     @FXML
     private Label passssw;
     @FXML
     private TextField user_signup_f;
     @FXML
-    private TextField password_signup_f;
+    private PasswordField password_signup_f;
     @FXML
-    private TextField c_password_signup_f;
+    private PasswordField c_password_signup_f;
     @FXML
     private Label result_signup;
     @FXML
@@ -68,14 +69,32 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
         login_btn_s.setCursor(Cursor.HAND);
         signup_btn_s.setCursor(Cursor.HAND);
     }
-    
+
     @FXML
-    public void signUp(){
+    public void signUp() {
+
+        if (!password_signup_f.getText().equals(c_password_signup_f.getText())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Signup Failed");
+            alert.setHeaderText("check your credientials");
+            alert.setContentText("Your Password Or Confirm Password Wrong !");
+            alert.showAndWait();
+            return;
+
+        } else if (user_signup_f.getText().isEmpty() || c_password_signup_f.getText().isEmpty() || password_signup_f.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Signup Failed");
+            alert.setHeaderText("check your credientials");
+            alert.setContentText("You Have To Enter Your Information !");
+            alert.showAndWait();
+            return;
+        }
         try {
-            client.sendRegisterCredientials(user_signup_f.getText(),password_signup_f.getText());
+            client.sendRegisterCredientials(user_signup_f.getText(), password_signup_f.getText());
         } catch (IOException ex) {
             Logger.getLogger(RegisterScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     @FXML
@@ -107,9 +126,9 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Signup Failed");
         alert.setHeaderText("check your credientials");
-        alert.setContentText("something wrong happend");
+        alert.setContentText("something wrong happend !");
 
         alert.showAndWait();
     }
-    
+
 }
