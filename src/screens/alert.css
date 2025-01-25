@@ -1,14 +1,14 @@
 .button-bar .button {
-    -fx-background-color:#000924; /* Button background */
+    -fx-background-color: #fa62bf; /* Button background */
     -fx-text-fill: white;        /* Button text color */
     -fx-background-radius: 5px;
-    -fx-border-color: #000924;    /* Optional: Button border color */
+    -fx-border-color:  #fa62bf;    /* Optional: Button border color */
     -fx-border-width: 1px;
 }
 
 /* Hover effect for buttons */
 .button-bar .button:hover {
-    -fx-background-color: #000924; /* Semi-transparent cyan on hover */
+    -fx-background-color:  #fa62bf; /* Semi-transparent cyan on hover */
     -fx-cursor: hand;               /* Pointer cursor on hover */
 }
 

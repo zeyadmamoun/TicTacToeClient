@@ -14,9 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import network.Client;
@@ -103,8 +106,14 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     public void LoginFailed() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Login Failed");
-        alert.setHeaderText("check your credientials");
+        alert.setHeaderText("Check your Credientials");
         alert.setContentText("Something Happend Please check your credientials !");
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        alert.setGraphic(icon);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
         alert.showAndWait();
     }
@@ -113,6 +122,12 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        alert.setGraphic(icon);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
         alert.showAndWait();
     }
 }
