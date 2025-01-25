@@ -1,51 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="main-anchor-pane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.DashBoardScreenController">
-    <stylesheets>
-        <URL value="@dashboardscreen.css" />
-    </stylesheets>
+<Pane fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.DashBoardScreenController">
     <children>
-        <Text fx:id="mainHeader" layoutX="168.0" layoutY="57.0" styleClass="header-text" text="LEADERBOARD" />
-        
-        <HBox layoutX="20.0" layoutY="100.0" prefHeight="250.0" prefWidth="560.0" spacing="20" styleClass="main-container">
-            <VBox alignment="TOP_LEFT" prefHeight="250.0" prefWidth="345.0" spacing="20">
-                 <Button fx:id="recordBtn" onAction="#navigateToRecording" style="-fx-background-color: #000924; -fx-border-color: #E1F5FE; -fx-background-radius: 10px; -fx-border-radius: 10px;" styleClass="cyber-button" text="Records" textFill="#E1F5FE" />
+        <ImageView fitHeight="711.0" fitWidth="1000.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../assets/dashboardpic.png" />
+            </image>
+         <effect>
+            <DropShadow />
+         </effect>
+        </ImageView>
+        <VBox fx:id="VBoxpane" alignment="CENTER" prefHeight="211.0" prefWidth="168.0" spacing="10" styleClass="list-container" />
+        <ImageView fx:id="crownImage" fitHeight="79.0" fitWidth="100.0" layoutX="848.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../assets/crown.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="logout_btn" layoutX="43.0" layoutY="576.0" mnemonicParsing="false" onAction="#logoutButtonHandler" prefHeight="72.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Exit" textFill="WHITE">
+            <effect>
+                <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
+            </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+        </Button>
+        <Text fx:id="kingName" fill="#e1f5fe" layoutX="727.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Text>
+        <Text fx:id="kingScore" fill="#e1f5fe" layoutX="873.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Text>
+        <Text fx:id="footer" fill="#e1f5fe" layoutX="347.0" layoutY="638.0" text="Dashboard - Manage Players">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Text>
+        <Text fx:id="mainHeader" fill="#e1f5fe" layoutX="410.0" layoutY="80.0" text="LEADERBOARD">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Text>
+          <ListView fx:id="playersList" layoutX="531.0" layoutY="259.0" prefHeight="230.0" prefWidth="441.0" styleClass="cyber-list-view">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ListView>
+        <HBox layoutX="571.0" layoutY="211.0" prefHeight="230.0" prefWidth="392.0" spacing="20" styleClass="main-container" visible="false" />
+        <VBox alignment="TOP_LEFT" layoutX="43.0" layoutY="249.0" prefHeight="250.0" prefWidth="294.0" spacing="20">
+         <children>
+                <!--<Button fx:id="recordBtn" onAction="#navigateToRecording" prefHeight="33.0" prefWidth="130.0" style="-fx-background-color: #000924; -fx-border-color: #E1F5FE; -fx-background-radius: 10px; -fx-border-radius: 10px;" styleClass="cyber-button" text="Records" textFill="#E1F5FE" />-->
+                <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#navigateToRecording" prefHeight="72.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Records" textFill="WHITE">
+                    <effect>
+                        <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
+                    </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+                </Button>
+                <Text fill="#e1f5fe" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="118.13671875">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Text>
             <Text fx:id="playerScore" fill="#e1f5fe" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="118.13671875">
                <font>
-                  <Font name="System Bold" size="15.0" />
-               </font></Text>
-            </VBox>
-            
-            <VBox alignment="CENTER" prefHeight="250.0" prefWidth="360.0" spacing="10" styleClass="list-container">
-                <ListView fx:id="playersList" prefHeight="220.0" prefWidth="10.0" styleClass="cyber-list-view" />
-            </VBox>
-        </HBox>
-        
-        <Text fx:id="footer" layoutX="200.0" layoutY="380.0" styleClass="footer-text" text="Dashboard - Manage Players" />
-      <ImageView fx:id="crownImage" fitHeight="150.0" fitWidth="50.0" layoutX="550.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@crown.png" />
-         </image>
-      </ImageView>
-      <Text fx:id="kingScore" fill="#e1f5fe" layoutX="516.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font></Text>
-      <Text fx:id="kingName" fill="#e1f5fe" layoutX="457.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font></Text>
-         <Button fx:id="logout_btn" layoutX="32.0" layoutY="343.0" mnemonicParsing="false" styleClass="cyber-button" onAction="#logoutButtonHandler" text="Exit" />
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
     </children>
-</AnchorPane>
+</Pane>

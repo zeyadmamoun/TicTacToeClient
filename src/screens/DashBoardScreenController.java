@@ -28,11 +28,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -75,6 +77,9 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private AnchorPane anchorPane;
     @FXML
     private Button logout_btn;
+    @FXML
+    private Pane Pane;
+
 
     /**
      * Initializes the controller class.
@@ -95,7 +100,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        anchorPane.getStylesheets().add(getClass().getResource("dashboardscreen.css").toExternalForm());
+        Pane.getStylesheets().add(getClass().getResource("dashboardscreen.css").toExternalForm());
         ImageView imageView;
         Image myImage = new Image(getClass().getResourceAsStream("/assets/crown.png"));
         crownImage.setImage(myImage);
@@ -189,7 +194,13 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Alert a = new Alert(AlertType.NONE);
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.CONFIRMATION);
-        a.setContentText(fromPlayer + " wants to play with you");
+        a.setContentText(fromPlayer + " Wants To Play With You");
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
 //         DialogPane dialogPane = a.getDialogPane();
 //        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
@@ -229,7 +240,13 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Alert a = new Alert(AlertType.NONE);
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
-        a.setContentText("Sadly " + toPlayer + " refused. Please don't cry.");
+        a.setContentText("Sadly " + toPlayer + " Refused. Please don't cry.");
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
         a.show();
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             if (a.isShowing()) {
@@ -245,7 +262,13 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Alert a = new Alert(AlertType.NONE);
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.INFORMATION);
-        a.setContentText(toPlayer + " accepted your request.");
+        a.setContentText(toPlayer + " Accepted your request.");
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
         a.show();
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (a.isShowing()) {
@@ -311,7 +334,13 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         Alert a = new Alert(AlertType.NONE);
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.ERROR);
-        a.setContentText("Logout failed");
+        a.setContentText("LogOut Failed");
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
         a.show();
     }
 

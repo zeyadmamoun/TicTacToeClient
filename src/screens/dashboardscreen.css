@@ -4,7 +4,6 @@
 }
 
 .header-text {
-    -fx-font-family: "System Bold";
     -fx-font-size: 36px;
     -fx-fill: #E1F5FE;
     -fx-effect: dropshadow(gaussian, #00ffff77, 10, 0, 0, 0);
@@ -69,8 +68,8 @@
 }
 
 .footer-text {
-    -fx-font-size: 14px;
-    -fx-fill: #00ffff88;
+    -fx-font-size: 36px;
+    -fx-fill: #E1F5FE;
 }
 
 /* Scrollbar styling */
@@ -93,4 +92,12 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-effect: glow(0.8, #E1F5FE);
+}
+
+.exit-button{
+    
+     -fx-font-size: 36px;
+    -fx-fill: #00ffff33;
+    -fx-effect: dropshadow(gaussian, #00ffff77, 10, 0, 0, 0);
+    
 }

@@ -18,9 +18,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import network.Client;
@@ -76,7 +79,7 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
         if (!password_signup_f.getText().equals(c_password_signup_f.getText())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Signup Failed");
-            alert.setHeaderText("check your credientials");
+            alert.setHeaderText("Check Your credientials");
             alert.setContentText("Your Password Or Confirm Password Wrong !");
             alert.showAndWait();
             return;
@@ -86,6 +89,12 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
             alert.setTitle("Signup Failed");
             alert.setHeaderText("check your credientials");
             alert.setContentText("You Have To Enter Your Information !");
+            ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+            icon.setFitWidth(50);
+            icon.setFitHeight(50);
+            alert.setGraphic(icon);
+          DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
             alert.showAndWait();
             return;
         }
@@ -125,8 +134,14 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
     public void failed() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Signup Failed");
-        alert.setHeaderText("check your credientials");
-        alert.setContentText("something wrong happend !");
+        alert.setHeaderText("Check your credientials");
+        alert.setContentText("Something wrong happend !");
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        alert.setGraphic(icon);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
         alert.showAndWait();
     }
