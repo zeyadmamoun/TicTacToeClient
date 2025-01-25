@@ -33,6 +33,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -75,6 +76,9 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private AnchorPane anchorPane;
     @FXML
     private Button logout_btn;
+    @FXML
+    private Pane Pane;
+
 
     /**
      * Initializes the controller class.
@@ -95,7 +99,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        anchorPane.getStylesheets().add(getClass().getResource("dashboardscreen.css").toExternalForm());
+        Pane.getStylesheets().add(getClass().getResource("dashboardscreen.css").toExternalForm());
         ImageView imageView;
         Image myImage = new Image(getClass().getResourceAsStream("/assets/crown.png"));
         crownImage.setImage(myImage);
