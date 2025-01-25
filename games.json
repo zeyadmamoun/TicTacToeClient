@@ -537,5 +537,149 @@
                 "userName": "Player 1"
             }
         ]
+    },
+    {
+        "gameId": "game1737834315313",
+        "date": "Sat Jan 25 21:45:16 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 2,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737835005041",
+        "date": "Sat Jan 25 21:56:46 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737835026092",
+        "date": "Sat Jan 25 21:57:07 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737835298862",
+        "date": "Sat Jan 25 22:01:39 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 2
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 2
+            }
+        ]
     }
 ]
