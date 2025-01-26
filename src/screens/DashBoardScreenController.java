@@ -37,6 +37,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -77,11 +78,11 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private int highestScore = 0;
     private String highestScorePlayer;
     @FXML
-    private AnchorPane anchorPane;
-    @FXML
     private Button logout_btn;
     @FXML
     private Pane Pane;
+    @FXML
+    private VBox VBoxpane;
 
     /**
      * Initializes the controller class.
