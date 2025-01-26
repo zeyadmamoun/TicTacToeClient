@@ -62,7 +62,7 @@ public class LocalModeController implements Initializable {
 
     char currentPlayer = 'X';
     int row, col;
-
+    private String currentPlayerName="player1";
     @FXML
     private Button recordButton;
 
@@ -79,6 +79,7 @@ public class LocalModeController implements Initializable {
     private Button backButton;
     @FXML
     private Text playerTwoName;
+    private int counterCurrentTurn;//by mohamed
 
     @FXML
     private void recordButtonHandler(ActionEvent event) {
@@ -221,9 +222,15 @@ public class LocalModeController implements Initializable {
     }
 
     public void makeMove(int row, int col) {
+        counterCurrentTurn++;//by mohamed
         recordButton.setDisable(true);
         if (isRecording) {
-                    recording.recordMove(row, col, currentPlayer, playerOneName.getText(), gameId);
+                    if(currentPlayerName=="player1"){
+                        currentPlayerName="player2";
+                    }else{
+                        currentPlayerName="player1";
+                    }
+                    recording.recordMove(row, col, currentPlayer, currentPlayerName, gameId);
         }
         if (board[row][col] == ' ') {
             board[row][col] = currentPlayer;
@@ -247,6 +254,7 @@ public class LocalModeController implements Initializable {
             }
             ChangePlayer();
         }
+        changeCurrentplayer();
     }
 
     public final boolean isBoardFull() {
@@ -344,6 +352,14 @@ public class LocalModeController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void changeCurrentplayer() { //by mohamed
+        if (counterCurrentTurn % 2 != 0) {
+            currentSymbol.setText("O");
+        } else if (counterCurrentTurn % 2 == 0) {
+            currentSymbol.setText("X");
+        }
     }
 
 }

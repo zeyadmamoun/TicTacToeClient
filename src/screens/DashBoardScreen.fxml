@@ -22,13 +22,20 @@
             <DropShadow />
          </effect>
         </ImageView>
-        <VBox fx:id="VBoxpane" alignment="CENTER" prefHeight="211.0" prefWidth="168.0" spacing="10" styleClass="list-container" />
+        <VBox fx:id="VBoxpane" alignment="CENTER" prefHeight="211.0" prefWidth="168.0" spacing="10" styleClass="list-container">
+         <children>
+            <ImageView fitHeight="132.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/x.png" />
+               </image>
+            </ImageView>
+         </children></VBox>
         <ImageView fx:id="crownImage" fitHeight="79.0" fitWidth="100.0" layoutX="848.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/crown.png" />
             </image>
         </ImageView>
-        <Button fx:id="logout_btn" layoutX="43.0" layoutY="576.0" mnemonicParsing="false" onAction="#logoutButtonHandler" prefHeight="72.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Exit" textFill="WHITE">
+        <Button fx:id="logout_btn" layoutX="43.0" layoutY="613.0" mnemonicParsing="false" onAction="#logoutButtonHandler" prefHeight="32.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Exit" textFill="WHITE">
             <effect>
                 <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
             </effect>
@@ -46,47 +53,48 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Text>
-        <Text fx:id="footer" fill="#e1f5fe" layoutX="347.0" layoutY="638.0" text="Dashboard - Manage Players">
+        <Text fx:id="footer" fill="#e1f5fe" layoutX="409.0" layoutY="645.0" text="Dashboard">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
          <effect>
             <DropShadow />
          </effect></Text>
-        <Text fx:id="mainHeader" fill="#e1f5fe" layoutX="410.0" layoutY="80.0" text="LEADERBOARD">
+        <Text fx:id="mainHeader" fill="#e1f5fe" layoutX="400.0" layoutY="85.0" text="LEADERBOARD">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold" size="48.0" />
          </font>
          <effect>
             <DropShadow />
          </effect></Text>
-          <ListView fx:id="playersList" layoutX="531.0" layoutY="259.0" prefHeight="230.0" prefWidth="441.0" styleClass="cyber-list-view">
+          <ListView fx:id="playersList" layoutX="292.0" layoutY="259.0" prefHeight="230.0" prefWidth="441.0" styleClass="cyber-list-view">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>
         <HBox layoutX="571.0" layoutY="211.0" prefHeight="230.0" prefWidth="392.0" spacing="20" styleClass="main-container" visible="false" />
-        <VBox alignment="TOP_LEFT" layoutX="43.0" layoutY="249.0" prefHeight="250.0" prefWidth="294.0" spacing="20">
-         <children>
-                <!--<Button fx:id="recordBtn" onAction="#navigateToRecording" prefHeight="33.0" prefWidth="130.0" style="-fx-background-color: #000924; -fx-border-color: #E1F5FE; -fx-background-radius: 10px; -fx-border-radius: 10px;" styleClass="cyber-button" text="Records" textFill="#E1F5FE" />-->
-                <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#navigateToRecording" prefHeight="72.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Records" textFill="WHITE">
-                    <effect>
-                        <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
-                    </effect>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-                </Button>
-                <Text fill="#e1f5fe" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="118.13671875">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                </Text>
-            <Text fx:id="playerScore" fill="#e1f5fe" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="118.13671875">
-               <font>
+          <Text fill="#e1f5fe" layoutX="25.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="118.13671875">
+              <font>
                   <Font name="System Bold" size="24.0" />
-               </font>
-            </Text>
-         </children>
-      </VBox>
+              </font>
+          </Text>
+      <Text fx:id="playerScore" fill="#e1f5fe" layoutX="109.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" wrappingWidth="118.13671875">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+          <!--<Button fx:id="recordBtn" onAction="#navigateToRecording" prefHeight="33.0" prefWidth="130.0" style="-fx-background-color: #000924; -fx-border-color: #E1F5FE; -fx-background-radius: 10px; -fx-border-radius: 10px;" styleClass="cyber-button" text="Records" textFill="#E1F5FE" />-->
+          <Button fx:id="recordBtn" layoutX="767.0" layoutY="613.0" mnemonicParsing="false" onAction="#navigateToRecording" prefHeight="35.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Records" textFill="WHITE">
+              <effect>
+                  <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
+              </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+          </Button>
+      <ImageView fitHeight="108.0" fitWidth="149.0" layoutX="137.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/o.png" />
+         </image>
+      </ImageView>
     </children>
 </Pane>

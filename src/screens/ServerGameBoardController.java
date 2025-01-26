@@ -269,6 +269,13 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         showVideoForResult("looser");
     }
 
+    @Override
+    public void drawAction() {
+        System.out.println("You are both equal");
+        playerOneName.setText("You are both equal");
+        showVideoForResult("noonewin");
+    }
+
 //    @Override
 //    public void exitSession() {
 //        try {
@@ -354,13 +361,11 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         String videoPath;
 
         if ("winner".equals(result)) {
-            videoPath = "file:/D:/Downloads/winner.mp4";
+            videoPath = "file:/C:/Users/POP/Downloads/winner.mp4";
         } else if ("looser".equals(result)) {
-            videoPath = "file:/D:/Downloads/looser.mp4";
-        } else if ("draw".equals(result)) {
-            videoPath = "file:/D:/Downloads/draw.mp4";
-        } else {
-            videoPath = "file:/D:/Downloads/noonewin.mp4";
+            videoPath = "file:/C:/Users/POP/Downloads/looser.mp4";
+        } else { //edit by mohamed
+            videoPath = "file:/C:/Users/POP/Downloads/noonewin.mp4";
         }
 
         try {
