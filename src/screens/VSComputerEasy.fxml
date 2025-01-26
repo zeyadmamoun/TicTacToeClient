@@ -94,7 +94,7 @@
                 <padding>
                     <Insets bottom="5" left="10" right="10" top="5" />
                 </padding>
-                <Text fx:id="player1Name" fill="AQUA" text="Player 1">
+                <Text fx:id="player1Name" fill="AQUA" text="(You)">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
@@ -125,7 +125,7 @@
                 <padding>
                     <Insets bottom="5" left="10" right="10" top="5" />
                 </padding>
-                <Text fx:id="player2Name" fill="AQUA" text="Player 2">
+                <Text fx:id="player2Name" fill="AQUA" text="Computer">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>

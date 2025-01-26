@@ -182,6 +182,10 @@ public class Client extends Thread {
                                 serverGameHandler.loseAction();
                             });
                         }
+                    case "draw":  //by Mohammed
+                        Platform.runLater(() -> {
+                            serverGameHandler.drawAction();
+                        });
                         break;
                     case "move":
                         Platform.runLater(() -> {
@@ -212,6 +216,7 @@ public class Client extends Thread {
                             });
                         }
                         break;
+
                 }
             }
         } catch (IOException ex) {
@@ -265,7 +270,6 @@ public class Client extends Thread {
             return;
         }
         try {
-
 
            // soc = new Socket("10.178.240.129", 5005);
             soc = new Socket("127.0.0.1", 5005);
@@ -430,7 +434,7 @@ public class Client extends Thread {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void sendLogoutRequest() {
         try {
             JSONObject obj = new JSONObject();
@@ -508,6 +512,8 @@ public class Client extends Thread {
         void winnerAction();
 
         void loseAction();
+
+        void drawAction();
 
         void exitSession();
 

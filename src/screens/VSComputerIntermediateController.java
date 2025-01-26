@@ -12,8 +12,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -113,8 +117,14 @@ public class VSComputerIntermediateController implements Initializable {
 
         if (checkWinner()) {
             gameOver = true;
+            if(currentPlayer=='x'){
+                displayAlert("player 1");
+            }else{
+                displayAlert("Pc");
+            }
             disableAllButtons();
         } else if (isBoardFull()) {
+            displayAlert("draw");
             gameOver = true;
         }
     }
@@ -307,6 +317,24 @@ public class VSComputerIntermediateController implements Initializable {
 
     private String generateNewGameId() {
         return "game" + System.currentTimeMillis();
+    }
+    public void displayAlert(String winner) {
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.initOwner(recordButton.getScene().getWindow());
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
+        if ("draw".equals(winner)) {
+            a.setHeaderText("Draw");
+        } else {
+            a.setHeaderText(winner + " won");
+        }
+        a.show();
+
     }
 
 }
