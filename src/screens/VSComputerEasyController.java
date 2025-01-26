@@ -173,9 +173,9 @@ public class VSComputerEasyController implements Initializable {
         buttons[row][col].setText(String.valueOf(player));
         if (checkWinner()) {
             gameOver = true;
-            if(player=='x'){
+            if (player == 'x') {
                 displayAlert("player 1");
-            }else{
+            } else {
                 displayAlert("player 2");
             }
         } else if (isBoardFull()) {
@@ -194,39 +194,50 @@ public class VSComputerEasyController implements Initializable {
         a.setGraphic(icon);
         DialogPane dialogPane = a.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
-        if("draw".equals(winner)){
+        if ("draw".equals(winner)) {
             a.setHeaderText("Draw");
-        }else{
-            a.setHeaderText(winner +" won");
+        } else {
+            a.setHeaderText(winner + " won");
         }
         a.show();
 
     }
-     public boolean checkWinner() {
-        double cellWidth = gamePane.getWidth() / 3.0;
-        double cellHeight = gamePane.getHeight() / 3.0;
-        double padding = 20;
+
+    public boolean checkWinner() {
+        // Grid pane is at layout X: 258, Y: 174 with width 483 and height 386
+        double cellWidth = 483.0 / 3.0;
+        double cellHeight = 386.0 / 3.0;
+        double gridX = 258;
+        double gridY = 174;
+
         for (int i = 0; i < 3; i++) {
+            // Horizontal lines
             if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
-                double y = (i + 0.5) * cellHeight; // Center of the row
-                drawWinnerLine(padding, y, gamePane.getWidth() - padding, y);
+                double y = gridY + (i + 0.5) * cellHeight;
+                drawWinnerLine(gridX + 50, y, gridX + 483 - 50, y);
                 return true;
             }
+
+            // Vertical lines
             if (board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer) {
-                double x = (i + 0.5) * cellWidth; // Center of the column
-                drawWinnerLine(x, padding, x, gamePane.getHeight() - padding);
+                double x = gridX + (i + 0.5) * cellWidth;
+                drawWinnerLine(x, gridY + 50, x, gridY + 386 - 50);
                 return true;
             }
         }
-        // Check diagonals
+
+        // Diagonal from top-left to bottom-right
         if (board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer) {
-            drawWinnerLine(padding, padding, gamePane.getWidth() - padding, gamePane.getHeight() - padding);
+            drawWinnerLine(gridX + 50, gridY + 50, gridX + 483 - 50, gridY + 386 - 50);
             return true;
         }
+
+        // Diagonal from top-right to bottom-left
         if (board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer) {
-            drawWinnerLine(gamePane.getWidth() - padding, padding, padding, gamePane.getHeight() - padding);
+            drawWinnerLine(gridX + 483 - 50, gridY + 50, gridX - 150 + 50, gridY + 386 - 50);
             return true;
         }
+
         return false;
     }
 
@@ -359,6 +370,7 @@ public class VSComputerEasyController implements Initializable {
         winnerLine = null; // Clear the reference
         System.out.println("All winner lines removed.");
     }
+
     public void disableBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -374,6 +386,7 @@ public class VSComputerEasyController implements Initializable {
             }
         }
     }
+
     @FXML
     private void goBack(javafx.event.ActionEvent event) throws IOException {
         System.out.println("back button");
