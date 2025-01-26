@@ -180,6 +180,10 @@ public class Client extends Thread {
                                 serverGameHandler.loseAction();
                             });
                         }
+                    case "draw":  //by Mohammed
+                        Platform.runLater(() -> {
+                            serverGameHandler.drawAction();
+                        });
                         break;
                     case "move":
                         Platform.runLater(() -> {
@@ -210,6 +214,7 @@ public class Client extends Thread {
                             });
                         }
                         break;
+
                 }
             }
         } catch (IOException ex) {
@@ -518,6 +523,8 @@ public class Client extends Thread {
         void winnerAction();
 
         void loseAction();
+
+        void drawAction();
 
         void exitSession();
 

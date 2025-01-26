@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +59,9 @@ public class VSComputerEasyController implements Initializable {
     private Line winnerLine;
     @FXML
     private Button restartButton;
+    @FXML
+    private Button backButton;
+    private int counterCurrentTurn;//by mohamed
 
     @FXML
     private void recordButtonHandler(ActionEvent event) {
@@ -163,6 +169,7 @@ public class VSComputerEasyController implements Initializable {
     }
 
     private void makeMove(int row, int col, char player) {
+        counterCurrentTurn++;//by mohamed
         recordButton.setDisable(true);
 
         if (isRecording) {
@@ -174,14 +181,15 @@ public class VSComputerEasyController implements Initializable {
         if (checkWinner()) {
             gameOver = true;
             if (player == 'x') {
-                displayAlert("player 1");
+                displayAlert("Computer");
             } else {
-                displayAlert("player 2");
+                displayAlert("You");
             }
         } else if (isBoardFull()) {
             gameOver = true;
             displayAlert("draw");
         }
+        changeCurrentplayer();
     }
 
     public void displayAlert(String winner) {
@@ -398,4 +406,12 @@ public class VSComputerEasyController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    public void changeCurrentplayer() { //by mohamed
+        if (counterCurrentTurn % 2 != 0) {
+            currentSymbol.setText("O");
+        } else if (counterCurrentTurn % 2 == 0) {
+            currentSymbol.setText("X");
+        }
+    }
+
 }
