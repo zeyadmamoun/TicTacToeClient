@@ -8,27 +8,27 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.LevelsScreenController">
    <children>
-      <ImageView fitHeight="719.0" fitWidth="1042.0" pickOnBounds="true">
+      <ImageView fitHeight="720.0" fitWidth="1024.0" layoutX="-22.0" layoutY="-4.0" pickOnBounds="true">
          <image>
-            <Image url="@../assets/dashboardpic.png" />
+            <Image url="@../assets/levels.jpeg" />
          </image>
       </ImageView>
-      <Button alignment="CENTER" layoutX="431.0" layoutY="248.0" mnemonicParsing="false" onAction="#navigateToVScomputerEasy" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #fa62bf; -fx-border-radius: 10px; -fx-border-width: 5px;" text="Easy" textFill="WHITE">
+      <Button alignment="CENTER" layoutX="223.0" layoutY="272.0" mnemonicParsing="false" onAction="#navigateToVScomputerEasy" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #feca38; -fx-border-radius: 10px; -fx-border-width: 5px;" text="Easy" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" layoutX="429.0" layoutY="360.0" mnemonicParsing="false" onAction="#navigateToVScomputerIntermediate" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #fa62bf; -fx-border-radius: 10px; -fx-border-width: 5px;" text="Intermediate" textFill="WHITE">
+      <Button alignment="CENTER" layoutX="432.0" layoutY="272.0" mnemonicParsing="false" onAction="#navigateToVScomputerIntermediate" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #01d6fe; -fx-border-radius: 10px; -fx-border-width: 5px;" text="Intermediate" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="429.0" layoutY="470.0" mnemonicParsing="false" onAction="#navigateToVScomputerHard" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #fa62bf; -fx-border-radius: 10px; -fx-border-width: 5px;" text="Hard" textFill="WHITE">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="639.0" layoutY="272.0" mnemonicParsing="false" onAction="#navigateToVScomputerHard" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #fa62bf; -fx-border-radius: 10px; -fx-border-width: 5px;" text="Hard" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="43.0" layoutY="41.0" mnemonicParsing="false" onAction="#goBack" prefHeight="63.0" prefWidth="115.0" style="-fx-background-color: transparent; -fx-border-color: #00ffff; -fx-border-radius: 10px; -fx-border-width: 5px;" text="🢀 Back" textFill="WHITE">
+      <Button layoutX="32.0" layoutY="592.0" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="104.0" style="-fx-background-color: transparent; -fx-border-color: #00ffff; -fx-border-radius: 10px; -fx-border-width: 5px;" text="🢀 Back" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>

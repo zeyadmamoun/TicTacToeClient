@@ -92,7 +92,7 @@
                 </GridPane>
             </children>
         </Pane>
-        <HBox alignment="CENTER" prefHeight="107.0" prefWidth="996.0" spacing="50.0">
+        <HBox alignment="CENTER" layoutY="10.0" prefHeight="97.0" prefWidth="996.0" spacing="50.0">
             <!-- Player 1 Info -->
             <VBox alignment="CENTER" minWidth="80" prefWidth="100" spacing="2" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 10;">
                 <padding>
@@ -139,7 +139,7 @@
                 </Text>
             </VBox>
         </HBox>
-        <VBox alignment="CENTER" layoutY="612.0" prefHeight="77.0" prefWidth="996.0" spacing="10">
+        <VBox alignment="CENTER" layoutY="578.0" prefHeight="111.0" prefWidth="996.0" spacing="10">
 
             <HBox alignment="CENTER" prefHeight="47.0" prefWidth="996.0" spacing="20">
                 <Button fx:id="backButton" layoutX="465.0" layoutY="479.0" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #00d4ff; -fx-border-color: #ff00ff; -fx-border-radius: 15; -fx-text-fill: #00ffff; -fx-background-color: transparent;">
