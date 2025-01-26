@@ -9,6 +9,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <Pane prefHeight="688.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.LoginScreenFXMLController">
@@ -16,31 +18,45 @@
 
         <ImageView fitHeight="711.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="/assets/background.png" />
+                <Image url="@../assets/background.png" />
             </image>
         </ImageView>
         <AnchorPane id="AnchorPane" fx:id="anchorPane" layoutY="1.0" prefHeight="654.0" prefWidth="570.0" styleClass="mainFxmlClass">
             <children>
       
                 <!-- Username Label -->
-                <Label layoutX="276.0" layoutY="334.0" text="Username" textFill="#fe78cd">
+                <Label layoutX="266.0" layoutY="334.0" text="Username">
                     <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold" size="24.0" />
                     </font>
                     <effect>
                         <DropShadow color="#E1F5FE" offsetX="6" offsetY="6" radius="30" />
                     </effect>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#2fd9ff" />
+                        <Stop color="#7aff30" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
                 </Label>
-      
-                <!-- Password Label -->
-                <Label layoutX="279.0" layoutY="406.0" text="Password" textFill="#fe78cd">
-                    <font>
-                        <Font size="24.0" />
-                    </font>
-                    <effect>
-                        <DropShadow color="#E1F5FE" offsetX="6" offsetY="6" radius="30" />
-                    </effect>
-                </Label>
+            <Label layoutX="269.0" layoutY="402.0" text="Password">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#E1F5FE" offsetX="6" offsetY="6" radius="30" />
+               </effect>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#2fd9ff" />
+                        <Stop color="#7aff30" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
       
                 <!-- Username TextField -->
                 <TextField fx:id="user_login" layoutX="401.0" layoutY="334.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: transparent; -fx-background-radius: 10px; -fx-border-color: #fe78cd; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-text-fill: #ffffff; -fx-border-style: dashed;">
@@ -49,7 +65,7 @@
                     </font>
                 </TextField>                <!-- Password TextField -->
                 
-                <PasswordField fx:id="password_login" layoutX="401.0" layoutY="411.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: transparent; -fx-border-color: #fe78cd; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-border-style: dashed; -fx-text-fill: #ffffff;" />
+                <PasswordField fx:id="password_login" layoutX="401.0" layoutY="402.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: transparent; -fx-border-color: #fe78cd; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-border-style: dashed; -fx-text-fill: #ffffff;" />
                 <!-- Login Button -->
                 <Button fx:id="login_btn1" layoutX="465.0" layoutY="479.0" mnemonicParsing="false" onAction="#login" prefHeight="42.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Login" textFill="WHITE">
                     <effect>
@@ -57,15 +73,18 @@
                     </effect>
                 </Button>
       
-                <!-- Sign Up Text -->
-                <Label layoutX="351.0" layoutY="602.0" text="You don't have an account?" textFill="#E1F5FE">
+                      <!-- Sign Up Text -->
+                <Label layoutX="420.0" layoutY="578.0" text="You don't have an account ?" textFill="#E1F5FE">
                     <effect>
                         <DropShadow color="#E1F5FE" offsetX="6" offsetY="6" radius="30" />
                     </effect>
+               <font>
+                  <Font size="18.0" />
+               </font>
                 </Label>
       
-                
-                <Button fx:id="signup_btn" layoutX="499.0" layoutY="597.0" mnemonicParsing="false" onAction="#switchToSignup" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 10px; -fx-border-radius: 10px;" text="Sign Up" textFill="#E1F5FE">
+                      
+                <Button fx:id="signup_btn" layoutX="484.0" layoutY="621.0" mnemonicParsing="false" onAction="#switchToSignup" prefHeight="33.0" prefWidth="91.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 10px; -fx-border-radius: 10px;" text="Sign Up" textFill="#E1F5FE">
                     <effect>
                         <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
                     </effect>
