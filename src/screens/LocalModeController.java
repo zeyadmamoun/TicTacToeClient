@@ -62,7 +62,7 @@ public class LocalModeController implements Initializable {
 
     char currentPlayer = 'X';
     int row, col;
-
+    private String currentPlayerName="player1";
     @FXML
     private Button recordButton;
 
@@ -223,7 +223,12 @@ public class LocalModeController implements Initializable {
     public void makeMove(int row, int col) {
         recordButton.setDisable(true);
         if (isRecording) {
-                    recording.recordMove(row, col, currentPlayer, playerOneName.getText(), gameId);
+                    if(currentPlayerName=="player1"){
+                        currentPlayerName="player2";
+                    }else{
+                        currentPlayerName="player1";
+                    }
+                    recording.recordMove(row, col, currentPlayer, currentPlayerName, gameId);
         }
         if (board[row][col] == ' ') {
             board[row][col] = currentPlayer;
