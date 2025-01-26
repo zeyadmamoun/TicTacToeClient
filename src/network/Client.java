@@ -265,8 +265,8 @@ public class Client extends Thread {
             return;
         }
         try {
-            //soc = new Socket("192.168.1.4", 5005);
-            soc = new Socket("127.0.0.1", 5005);
+            soc = new Socket("10.178.240.129", 5005);
+           // soc = new Socket("127.0.0.1", 5005);
             ear = new DataInputStream(soc.getInputStream());
             mouth = new DataOutputStream(soc.getOutputStream());
             start();
