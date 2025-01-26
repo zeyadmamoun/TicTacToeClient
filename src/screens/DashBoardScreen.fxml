@@ -83,14 +83,14 @@
          </font>
       </Text>
           <!--<Button fx:id="recordBtn" onAction="#navigateToRecording" prefHeight="33.0" prefWidth="130.0" style="-fx-background-color: #000924; -fx-border-color: #E1F5FE; -fx-background-radius: 10px; -fx-border-radius: 10px;" styleClass="cyber-button" text="Records" textFill="#E1F5FE" />-->
-          <Button fx:id="recordBtn" layoutX="767.0" layoutY="613.0" mnemonicParsing="false" onAction="#navigateToRecording" prefHeight="35.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Records" textFill="WHITE">
-              <effect>
-                  <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
-              </effect>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-          </Button>
+      <Button fx:id="recordBtn" layoutX="767.0" layoutY="613.0" mnemonicParsing="false" onAction="#navigateToRecording" prefHeight="35.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Records" textFill="WHITE">
+          <effect>
+              <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
+          </effect>
+          <cursor>
+              <Cursor fx:constant="HAND" />
+          </cursor>
+      </Button>
       <ImageView fitHeight="108.0" fitWidth="149.0" layoutX="137.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/o.png" />

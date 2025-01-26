@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -10,23 +11,23 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.text.Text?>
 
 <Pane prefHeight="688.0" prefWidth="997.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.LocalRecordController">
     <children>
-        <ImageView fitHeight="711.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="711.0" fitWidth="1000.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/dashboardpic.png" />
             </image>
         </ImageView>
-        <FlowPane alignment="CENTER_RIGHT" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+        <FlowPane alignment="CENTER_RIGHT" layoutX="37.0" layoutY="78.0" orientation="VERTICAL" prefHeight="486.0" prefWidth="775.0">
             <children>
-                <GridPane alignment="CENTER" hgap="5" style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 10;" vgap="5">
+                <GridPane alignment="CENTER" hgap="5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="550.0" style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 10;" vgap="5">
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10" />
                     </padding>
-               
                     <columnConstraints>
                         <ColumnConstraints percentWidth="33.33" />
                         <ColumnConstraints percentWidth="33.33" />
@@ -71,7 +72,6 @@
                                 <Font name="System Bold" size="48.0" />
                             </font>
                         </Button>
-                      
                         <!-- Row 3 (2) -->
                         <Button fx:id="buttonSeven" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonSevenHandler" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, #ff00ff, 20, 0.5, 0, 0); -fx-border-color: white; -fx-border-width: 2; -fx-border-radius: 0; -fx-opacity: 1;" GridPane.columnIndex="0" GridPane.rowIndex="2">
                             <font>
@@ -90,7 +90,7 @@
                         </Button>
                     </children>
                 </GridPane>
-                <ListView fx:id="recordsList" prefHeight="511.0" prefWidth="374.0" styleClass="cyber-list-view" stylesheets="@records.css" />
+                <ListView fx:id="recordsList" prefHeight="382.0" prefWidth="370.0" styleClass="cyber-list-view" stylesheets="@records.css" />
                 <Button fx:id="back_btn" layoutX="465.0" layoutY="479.0" mnemonicParsing="false" onAction="#backtoPrevouisScreen" prefHeight="42.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Back" textFill="WHITE">
                     <effect>
                         <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
@@ -101,5 +101,22 @@
                 </Button>
             </children>
         </FlowPane>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="53.0" layoutY="11.0" opacity="0.22" stroke="#b54545" strokeType="INSIDE" width="174.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="422.0" layoutY="11.0" opacity="0.22" stroke="#b54545" strokeType="INSIDE" width="174.0" />
+        <Text fx:id="playerTwoText" fill="WHITE" layoutX="441.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="135.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Text>
+        <Text fx:id="playerOneText" fill="WHITE" layoutX="64.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="153.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Text>
+        <Text fill="WHITE" layoutX="312.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VS">
+            <font>
+                <Font name="System Bold" size="36.0" />
+            </font>
+        </Text>
     </children>
 </Pane>

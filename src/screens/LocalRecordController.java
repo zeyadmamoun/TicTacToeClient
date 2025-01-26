@@ -21,11 +21,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static screens.Recording.findGameById;
 import static screens.Recording.readFromFile;
+import static screens.RecordsController.th;
 
 /**
  * FXML Controller class
@@ -37,6 +39,8 @@ public class LocalRecordController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private String playerOne;
+    private String playerTwo;
 
     @FXML
     public Button buttonOne;
@@ -63,6 +67,10 @@ public class LocalRecordController implements Initializable {
     private final Map<String, String> gameMap = new HashMap<>(); // Maps display names to game IDs
     @FXML
     private Button back_btn;
+    @FXML
+    private Text playerTwoText;
+    @FXML
+    private Text playerOneText;
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -108,17 +116,40 @@ public class LocalRecordController implements Initializable {
             if (recordsList != null) {
                 recordsList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
                     if (newVal != null) {
-                        String gameId = gameMap.get(newVal); // Retrieve the game ID using the display name
+                        // Retrieve the game ID using the display name
+                        String gameId = gameMap.get(newVal);
+
                         if (gameId != null && th != null && th.isAlive()) {
                             th.stop();
                         }
-                        if (gameId != null) {
-                            replayMoves(gameId, this);
-                        }
 
-                        Platform.runLater(() -> {
-                            recordsList.getSelectionModel().clearSelection();
-                        });
+                        if (gameId != null) {
+                            // Find the game record by ID
+                            try {
+                                JSONArray games = Recording.readFromFile();
+                                JSONObject selectedGame = findGameById(games, gameId);
+
+                                if (selectedGame != null) {
+                                    // Extract players' names
+                                    JSONArray moves = selectedGame.getJSONArray("moves");
+                                    playerOne = moves.length() > 0 ? moves.getJSONObject(0).getString("userName") : "Unknown Player";
+                                    playerTwo = moves.length() > 1 ? moves.getJSONObject(1).getString("userName") : "Unknown Player";
+
+                                    // Update UI elements
+                                    playerOneText.setText(playerOne);
+                                    playerTwoText.setText(playerTwo);
+
+                                    // Start replaying moves
+                                    replayMoves(gameId, this);
+                                    Platform.runLater(() -> {
+                                        recordsList.setDisable(false);
+                                        recordsList.getSelectionModel().clearSelection();
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Error updating players' names: " + e.getMessage());
+                            }
+                        }
 
                     }
                 });
@@ -208,9 +239,33 @@ public class LocalRecordController implements Initializable {
                 for (int i = 0; i < games.length(); i++) {
                     JSONObject game = games.getJSONObject(i);
                     String gameId = game.getString("gameId");
-                    String displayName = "Game " + (i + 1);
-                    gameMap.put(displayName, gameId); // Map the display name to the game ID
-                    recordsList.getItems().add(displayName); // Add only the display name to the ListView
+
+                    // Try to get the game date
+                    String date = game.has("date") ? game.getString("date") : "Unknown Date";
+
+                    // Extract player names from the first move(s)
+                    String player1 = "Unknown Player";
+                    String player2 = "Unknown Player";
+                    JSONArray moves = game.getJSONArray("moves");
+
+                    if (moves.length() > 0) {
+                        player1 = moves.getJSONObject(0).getString("userName");
+                    }
+                    if (moves.length() > 1) {
+                        player2 = moves.getJSONObject(1).getString("userName");
+                    }
+
+                    // Construct the display name
+                    String players = player1 + (moves.length() > 1 ? " vs " + player2 : "");
+                    String displayName = players + " (" + date + ")";
+
+                    // Add to map and list
+                    gameMap.put(displayName, gameId);
+                    recordsList.getItems().add(displayName);
+                    System.out.println("Player1: " + player1 + ", Player2: " + player2 + ", DisplayName: " + displayName);
+                    playerOne = player1;
+                    playerTwo = player2;
+                    System.out.println();
                 }
             }
         } catch (Exception e) {

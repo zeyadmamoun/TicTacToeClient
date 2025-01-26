@@ -97,52 +97,55 @@ public class RecordsController implements Initializable {
     }
 
     @Override
-public void initialize(URL url, ResourceBundle rb) {
-    try {
-        loadGameRecords();
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
+            loadGameRecords();
 
-        if (recordsList != null) {
-            recordsList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-                if (newVal != null) {
-                    // Retrieve the game ID using the display name
-                    String gameId = gameMap.get(newVal);
-                    
-                    if (gameId != null && th != null && th.isAlive()) {
-                        th.stop();
-                    }
+            if (recordsList != null) {
+                recordsList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                    if (newVal != null) {
+                        // Retrieve the game ID using the display name
+                        String gameId = gameMap.get(newVal);
 
-                    if (gameId != null) {
-                        // Find the game record by ID
-                        try {
-                            JSONArray games = Recording.readFromFile();
-                            JSONObject selectedGame = findGameById(games, gameId);
-
-                            if (selectedGame != null) {
-                                // Extract players' names
-                                JSONArray moves = selectedGame.getJSONArray("moves");
-                                playerOne = moves.length() > 0 ? moves.getJSONObject(0).getString("userName") : "Unknown Player";
-                                playerTwo = moves.length() > 1 ? moves.getJSONObject(1).getString("userName") : "Unknown Player";
-
-                                // Update UI elements
-                                playerOneText.setText(playerOne);
-                                playerTwoText.setText(playerTwo);
-
-                                // Start replaying moves
-                                replayMoves(gameId, this);
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Error updating players' names: " + e.getMessage());
+                        if (gameId != null && th != null && th.isAlive()) {
+                            th.stop();
                         }
+
+                        if (gameId != null) {
+                            // Find the game record by ID
+                            try {
+                                JSONArray games = Recording.readFromFile();
+                                JSONObject selectedGame = findGameById(games, gameId);
+
+                                if (selectedGame != null) {
+                                    // Extract players' names
+                                    JSONArray moves = selectedGame.getJSONArray("moves");
+                                    playerOne = moves.length() > 0 ? moves.getJSONObject(0).getString("userName") : "Unknown Player";
+                                    playerTwo = moves.length() > 1 ? moves.getJSONObject(1).getString("userName") : "Unknown Player";
+
+                                    // Update UI elements
+                                    playerOneText.setText(playerOne);
+                                    playerTwoText.setText(playerTwo);
+
+                                    // Start replaying moves
+                                    replayMoves(gameId, this);
+                                    Platform.runLater(() -> {
+                                        recordsList.setDisable(false);
+                                        recordsList.getSelectionModel().clearSelection();
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Error updating players' names: " + e.getMessage());
+                            }
+                        }
+
                     }
-
-                }
-            });
+                });
+            }
+        } catch (Exception e) {
+            System.out.println("Error initializing records: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("Error initializing records: " + e.getMessage());
     }
-}
-
 
     public static void replayMoves(String gameId, RecordsController controller) {
         th = new Thread(() -> {

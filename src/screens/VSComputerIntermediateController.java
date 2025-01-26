@@ -118,7 +118,7 @@ public class VSComputerIntermediateController implements Initializable {
 
         if (checkWinner()) {
             gameOver = true;
-            if(currentPlayer=='x'){
+            if(currentPlayer=='X'){
                 displayAlert("You");
             }else{
                 displayAlert("PC");
