@@ -9,17 +9,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import static javafx.scene.input.KeyCode.K;
-import static javafx.scene.input.KeyCode.V;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import screens.LoginScreenFXMLController;
 
 /**
  *
@@ -27,32 +22,24 @@ import screens.LoginScreenFXMLController;
  */
 public class Client extends Thread {
 
+    //private instance so no one can accesss it directly
+    private static Client instance;
     private Socket soc;
     private DataInputStream ear;
     private DataOutputStream mouth;
     private JSONObject obj;
-    private boolean haveAccess = false;
     private LoginUiHandler loginHandler;
     private RegisterUIHandler registerHandler;
     private DashboadrdUiHandler dashboadrdUiHandler;
     private ServerGameHandler serverGameHandler;
-    //private instance so no one can accesss it directly
-    private static Client instance;
     private String userName;
     private int score;
     private boolean isServerAccept = false;
+    private boolean clientThread = true;
+    private boolean isInGameBoard = false;
 
     // private constructor so no one can make any new instance from this class.
     private Client() {
-        try {
-            //soc = new Socket("192.168.1.4", 5005);
-            soc = new Socket("10.178.240.133", 5005);
-            ear = new DataInputStream(soc.getInputStream());
-            mouth = new DataOutputStream(soc.getOutputStream());
-            start();
-        } catch (IOException ex) {
-            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     // function to get the single instance of client.
@@ -83,7 +70,7 @@ public class Client extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (clientThread) {
                 if (isServerAccept) {
 
                     closingConnection();
@@ -93,7 +80,7 @@ public class Client extends Thread {
                 obj = new JSONObject(msg);
                 String command = obj.getString("command");
                 int result = 0;
-System.out.println(obj);
+                System.out.println(msg);
                 switch (command) {
                     case "login_response":
                         result = obj.getInt("status");
@@ -167,6 +154,7 @@ System.out.println(obj);
 
                         break;
                     case "start":
+                        isInGameBoard = true;
                         if (obj.getString("playerturn").equals(userName)) {
                             Platform.runLater(() -> {
                                 serverGameHandler.startGame();
@@ -192,6 +180,10 @@ System.out.println(obj);
                                 serverGameHandler.loseAction();
                             });
                         }
+                    case "draw":  //by Mohammed
+                        Platform.runLater(() -> {
+                            serverGameHandler.drawAction();
+                        });
                         break;
                     case "move":
                         Platform.runLater(() -> {
@@ -200,6 +192,7 @@ System.out.println(obj);
                         });
                         break;
                     case "exit_game":
+                        isInGameBoard = false;
                         Platform.runLater(() -> {
                             serverGameHandler.exitSession();
                         });
@@ -208,27 +201,91 @@ System.out.println(obj);
                         isServerAccept = true;
                         closeConnectionWithServer();
                         break;
+                    case "logout_response":
+                        System.out.println("logout_response" + "hello ");
+                        int status = obj.getInt("status");
+                        if (status == 1) {
+                            Platform.runLater(() -> {
+                                dashboadrdUiHandler.logoutSuccess();
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                dashboadrdUiHandler.logoutFailed();
+                            });
+                        }
+                        break;
+
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                System.out.println("this because server disconnect");
+                clientThread = false;
+                // closeConnectionWithServer();
+                instance = null;
+                mouth.close();
+                ear.close();
+//                soc.shutdownInput();
+//                soc.shutdownOutput();
+                soc.close();
+                System.out.println("socket state + " + soc.isClosed());
+                Platform.runLater(() -> {
+                    if (isInGameBoard) {
+                        serverGameHandler.switchToMainScreen();
+                    } else {
+                        dashboadrdUiHandler.switchToMainScreen();
+                    }
+
+                });
+
+                //Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex1) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
-    public void sendLoginCredientials(String username, String password) throws IOException {
-        JSONObject obj = new JSONObject();
-        obj.put("command", "login");
-        obj.put("username", username);
-        obj.put("password", password);
-        mouth.writeUTF(obj.toString());
+    public void connectToServer() throws IOException {
+        
+        if (soc != null) {
+            return;
+        }
+        //soc = new Socket("192.168.1.4", 5005);
+        soc = new Socket("127.0.0.1", 5005);
+        ear = new DataInputStream(soc.getInputStream());
+        mouth = new DataOutputStream(soc.getOutputStream());
+        start();
+
     }
 
-    public void sendRegisterCredientials(String username, String password) throws IOException {
-        JSONObject obj = new JSONObject();
-        obj.put("command", "register");
-        obj.put("username", username);
-        obj.put("password", password);
-        mouth.writeUTF(obj.toString());
+    public void sendLoginCredientials(String username, String password) {
+        try {
+            connectToServer();
+            JSONObject obj = new JSONObject();
+            obj.put("command", "login");
+            obj.put("username", username);
+            obj.put("password", password);
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Platform.runLater(() -> {
+                loginHandler.notifyUserServerIsNotAvailable();
+            });
+        }
+    }
+
+    public void sendRegisterCredientials(String username, String password) {
+        try {
+            connectToServer();
+            JSONObject obj = new JSONObject();
+            obj.put("command", "register");
+            obj.put("username", username);
+            obj.put("password", password);
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Platform.runLater(() -> {
+                registerHandler.notifyUserServerIsNotAvailable();
+            });
+        }
     }
 
     private void playersListHandler() {
@@ -346,6 +403,10 @@ System.out.println(obj);
         return score;
     }
 
+    public Socket getSocket() {
+        return soc;
+    }
+
     public void exitGame() {
         try {
             JSONObject obj = new JSONObject();
@@ -381,6 +442,16 @@ System.out.println(obj);
         }
     }
 
+    public void sendLogoutRequest() {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("command", "logout_request");
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void closeConnectionWithServer() {      //by mohamed
         try {
             JSONObject objCloseConnection = new JSONObject();
@@ -407,6 +478,8 @@ System.out.println(obj);
         void loginSuccess();
 
         void LoginFailed();
+
+        void notifyUserServerIsNotAvailable();
     }
 
     public interface RegisterUIHandler {
@@ -414,6 +487,8 @@ System.out.println(obj);
         void success();
 
         void failed();
+        
+        void notifyUserServerIsNotAvailable();
     }
 
     public interface DashboadrdUiHandler {
@@ -424,12 +499,17 @@ System.out.println(obj);
 
         void updatePlayerScore(int score);
 
-
         void generateResponsePopup(String fromPlayer);
 
         void generateAcceptancePopup(String fromPlayer);
 
         void switchToGameBoard();
+
+        void switchToMainScreen();
+
+        void logoutSuccess();
+
+        void logoutFailed();
     }
 
     public interface ServerGameHandler {
@@ -444,8 +524,11 @@ System.out.println(obj);
 
         void loseAction();
 
+        void drawAction();
+
         void exitSession();
 
+        void switchToMainScreen();
     }
 
 }

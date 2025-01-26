@@ -5,11 +5,14 @@
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
+**/nbproject/private/configs/Run_in_Browser.properties
+**/nbproject/project.properties
 build/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+games.json
 
 ### Windows ###
 # Windows thumbnail cache files

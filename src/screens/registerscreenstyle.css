@@ -5,7 +5,7 @@
     -fx-border-radius: 10px;        /* Rounded corners */
     -fx-border-width: 2px;          /* Border thickness */
     -fx-text-fill: #E1F5FE;         /* Text color */
-    -fx-font-size: 18px;            /* Font size (slightly larger for emphasis) */
+    -fx-font-size: 16px;            /* Font size */
     -fx-padding: 10px 20px;         /* Padding */
     -fx-background-radius: 10px;
 }
@@ -14,19 +14,18 @@
 .button:hover {
     -fx-background-color: #E1F5FE;  /* Background color on hover */
     -fx-text-fill: #E1F5FE;         /* Text color on hover */
-    -fx-effect: dropshadow(gaussian, #E1F5FE, 20, 0.2, 0, 0);  /* Subtle glowing effect */
+    -fx-effect: dropshadow(gaussian, #E1F5FE, 20, 0, 0, 0);  /* Glowing effect on hover */
+    
 }
 
 /* Clicked effect */
 .button:pressed {
     -fx-background-color: #E1F5FE;  /* Background color when clicked */
     -fx-text-fill: #E1F5FE;         /* Text color when clicked */
-    -fx-effect: dropshadow(gaussian, #E1F5FE, 20, 0, 0, 0);  /* Enhanced glowing effect */
+    -fx-effect: dropshadow(gaussian, #E1F5FE, 25, 0, 0, 0);  /* Glowing effect when clicked */
 }
 
 /* Button when focused */
 .button:focused {
-    -fx-border-color: #E1F5FE;          /* Slightly thicker border */
+    -fx-border-color: #E1F5FE;  /* Green border when focused */
 }
-
-/* Label styles */

@@ -1,7 +1,84 @@
-/*
- * Empty Stylesheet file.
- */
+/*.main-anchor-pane {
+    -fx-background-color: #000924;
+    -fx-background-image: url('grid.png');  You'll need to add a grid background image 
+}*/
 
-.mainFxmlClass {
+.header-text {
+    -fx-font-family: "System Bold";
+    -fx-font-size: 36px;
+    -fx-fill: #00ffff;
+    -fx-effect: dropshadow(gaussian, #00ffff77, 10, 0, 0, 0);
+}
 
+.cyber-button {
+    -fx-background-color: #000924;
+    -fx-border-color: #00ffff;
+    -fx-border-width: 2px;
+    -fx-text-fill: #00ffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(gaussian, #00ffff55, 10, 0, 0, 0);
+}
+
+.cyber-button:hover {
+    -fx-background-color: #00ffff22;
+    -fx-cursor: hand;
+}
+
+/*.list-container {
+    -fx-background-color: transparent;
+    -fx-padding: 15px;
+}*/
+
+.cyber-list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 5px;
+}
+
+.cyber-list-view .list-cell {
+    -fx-background-color: #000924;
+    -fx-padding: 10px 15px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #00ffff;
+    -fx-border-color: #00ffff44;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, #00ffff33, 10, 0, 0, 0);
+}
+
+.cyber-list-view .list-cell:filled:hover {
+    -fx-background-color: #00ffff22;
+}
+
+.cyber-list-view .list-cell:filled:selected {
+    -fx-background-color: #00ffff33;
+    -fx-border-color: #00ffff;
+    -fx-border-width: 2;
+}
+
+.cyber-list-view .list-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.footer-text {
+    -fx-font-size: 14px;
+    -fx-fill: #00ffff88;
+}
+
+/* Scrollbar styling */
+.cyber-list-view .scroll-bar:vertical {
+    -fx-background-color: #000924;
+    -fx-border-color: #00ffff44;
+}
+
+.cyber-list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #00ffff44;
+}
+
+.cyber-list-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #00ffff88;
 }

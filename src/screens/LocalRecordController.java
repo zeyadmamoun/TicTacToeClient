@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package screens;
 
 import java.io.IOException;
@@ -22,14 +27,21 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import static screens.Recording.findGameById;
 import static screens.Recording.readFromFile;
+import static screens.RecordsController.th;
 
-public class RecordsController implements Initializable {
+/**
+ * FXML Controller class
+ *
+ * @author zeyad_maamoun
+ */
+public class LocalRecordController implements Initializable {
 
     private Stage stage;
     private Scene scene;
     private Parent root;
     private String playerOne;
     private String playerTwo;
+
     @FXML
     public Button buttonOne;
     @FXML
@@ -56,9 +68,9 @@ public class RecordsController implements Initializable {
     @FXML
     private Button back_btn;
     @FXML
-    private Text playerOneText;
-    @FXML
     private Text playerTwoText;
+    @FXML
+    private Text playerOneText;
 
     @FXML
     private void buttonOneHandler(ActionEvent event) {
@@ -147,7 +159,7 @@ public class RecordsController implements Initializable {
         }
     }
 
-    public static void replayMoves(String gameId, RecordsController controller) {
+    public static void replayMoves(String gameId, LocalRecordController controller) {
         th = new Thread(() -> {
             try {
                 JSONArray gameList = readFromFile();
@@ -265,7 +277,7 @@ public class RecordsController implements Initializable {
     private void backtoPrevouisScreen() {
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
             Parent root = loader.load();
 
             // Get the current stage
@@ -273,11 +285,12 @@ public class RecordsController implements Initializable {
 
             // Set the new scene to the current stage
             currentStage.setScene(new Scene(root));
-            currentStage.setTitle("DashBoard"); // Optional: Change the stage title if needed
+            currentStage.setTitle("MainModes"); // Optional: Change the stage title if needed
 
         } catch (IOException ex) {
             Logger.getLogger(RecordsController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
 }

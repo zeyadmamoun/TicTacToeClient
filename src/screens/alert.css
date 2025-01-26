@@ -1,0 +1,50 @@
+.button-bar .button {
+    -fx-background-color: #fa62bf; /* Button background */
+    -fx-text-fill: white;        /* Button text color */
+    -fx-background-radius: 5px;
+    -fx-border-color:  #fa62bf;    /* Optional: Button border color */
+    -fx-border-width: 1px;
+}
+
+/* Hover effect for buttons */
+.button-bar .button:hover {
+    -fx-background-color:  #fa62bf; /* Semi-transparent cyan on hover */
+    -fx-cursor: hand;               /* Pointer cursor on hover */
+}
+
+/* Style the entire button bar */
+.button-bar {
+    -fx-background-color: white; /* Match the dialog background */
+    -fx-border-color:white;     /* Cyan border for the button bar */
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+
+/* Optional: Style scroll bars if the alert has scrollable content */
+
+.dialog-pane {
+    -fx-background-color: white; /* Dark background for the entire alert */
+    -fx-border-color: white;    /* Cyan border for the dialog pane */
+    -fx-border-width: 2px;
+
+}
+
+/* Style for the header area */
+.header-panel {
+    -fx-background-color:white; /* Darker blue for the header */
+    -fx-border-color: white;     /* Optional: Border around the header */
+    -fx-border-width: 0 0 2px 0;   /* Add a border at the bottom only */
+    -fx-text-fill: #000924;        /* Text color for the header text */
+    -fx-font-weight: bold;         /* Bold header text */
+    -fx-background-radius: 10px;   /* Rounded corners */
+}
+
+/* Style for the content area */
+.content {
+    -fx-background-color: white; /* Dark blue background for the content */
+    -fx-border-color: white;     /* Cyan border for the content */
+    -fx-border-width: 2px;
+    -fx-text-fill: #000924;        /* Text color for the content text */
+    -fx-font-weight: bold;         /* Bold text */
+    -fx-background-radius: 10px;   /* Rounded corners */
+}

@@ -1,7 +1,18 @@
-/*
- * Empty Stylesheet file.
- */
+.button {
+    -fx-background-color: #01002a; /* Same background color as the AnchorPane */
+    -fx-border-color: #ffffff;    /* White border */
+    -fx-border-width: 2px;       /* Border thickness */
+    -fx-border-radius: 10px;     /* Rounded border */
+    -fx-text-fill: #ffffff;      /* White text */
+    -fx-font-size: 14px;         /* Font size */
+    -fx-font-weight: bold;       /* Bold font */
+}
 
-.mainFxmlClass {
-
+.button:hover {
+    -fx-background-color: #00ffff22; /* Slightly lighter background on hover */
+    -fx-border-width: 2px;       /* Border thickness */
+    -fx-border-radius: 10px;     /* Rounded border */
+    -fx-text-fill: #ffffff;      /* White text */
+    -fx-font-size: 14px;         /* Font size */
+    -fx-font-weight: bold;
 }

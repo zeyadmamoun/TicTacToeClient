@@ -39,6 +39,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private int counter;
 
     @FXML
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
@@ -70,6 +71,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private String gameId;
     private String currentPlayerName;
     private String playerTwoText;
+
     @FXML
     private void recordBtnHandler(ActionEvent event) {
         recordBtn.setDisable(true);
@@ -87,7 +89,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     private String generateNewGameId() {
         return "game" + System.currentTimeMillis();
     }
-    
+
     @FXML
     private void buttonOneHandler(ActionEvent event) {
         if (playerTurn == false) {
@@ -179,6 +181,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     }
 
     private void makeMove(int row, int col, char player) {
+        counter++;
         switchPlayer();
         recordBtn.setDisable(true);
         if (isRecording) {
@@ -187,14 +190,17 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         buttons[row][col].setDisable(true);
+        changeCurrentplayer();
     }
-    private void switchPlayer(){
-        if(currentPlayerName == client.getUserName()){
+
+    private void switchPlayer() {
+        if (currentPlayerName == client.getUserName()) {
             currentPlayerName = playerTwoText;
-        }else{
+        } else {
             currentPlayerName = client.getUserName();
         }
     }
+
     private void initializeGame() {
         board = new char[3][3];
         for (int i = 0; i < 3; i++) {
@@ -213,7 +219,7 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+
         client = Client.getInstance();
         currentPlayerName = client.getUserName();
         client.setServerGameHandler(this);
@@ -264,30 +270,102 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
     }
 
     @Override
+    public void drawAction() {
+        System.out.println("You are both equal");
+        playerOneName.setText("You are both equal");
+        showVideoForResult("noonewin");
+    }
+
+//    @Override
+//    public void exitSession() {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
+//            root = loader.load();
+//            // Get the current stage and set the new scene
+//            stage = (Stage) playerOneName.getScene().getWindow();
+//            stage.setScene(new Scene(root));
+//            stage.show();
+//        } catch (IOException ex) {
+//            Logger.getLogger(ServerGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    @Override
     public void exitSession() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
             root = loader.load();
-            // Get the current stage and set the new scene
-            stage = (Stage) playerOneName.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+
+            // Safely retrieve the stage
+            Stage currentStage = (Stage) playerOneName.getScene().getWindow();
+            if (currentStage == null) {
+                System.out.println("Error: Current stage is null.");
+                return;
+            }
+
+            Scene newScene = new Scene(root);
+            currentStage.setScene(newScene);
+            currentStage.setTitle("Dashboard");
+            currentStage.show();
         } catch (IOException ex) {
             Logger.getLogger(ServerGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ex) {
+            System.out.println("NullPointerException occurred: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
+//    private void showVideoForResult(String result) {
+//        String videoPath;
+//
+//        if ("winner".equals(result)) {
+//            videoPath = "file:/D:/Downloads/winner.mp4";
+//        } else if ("looser".equals(result)) {
+//            videoPath = "file:/D:/Downloads/looser.mp4";
+//        } else if ("draw".equals(result)) {
+//            videoPath = "file:/D:/Downloads/draw.mp4";
+//        } else {
+//            videoPath = "file:/D:/Downloads/noonewin.mp4";
+//        }
+//
+//        try {
+//            Media media = new Media(videoPath);
+//            MediaPlayer mediaPlayer = new MediaPlayer(media);
+//            MediaView mediaView = new MediaView(mediaPlayer);
+//
+//            StackPane root = new StackPane(mediaView);
+//            Scene scene = new Scene(root, 500, 500);
+//
+//            Stage stage = new Stage();
+//            stage.setTitle("Game Result");
+//            stage.setScene(scene);
+//            stage.initOwner(playerOneName.getScene().getWindow());
+//            stage.show();
+//
+//            mediaPlayer.play();
+//
+//            mediaPlayer.setOnEndOfMedia(() -> {
+//                System.out.println("Video ended.");
+//                //   stage.close(); 
+//            });
+//
+//            mediaPlayer.setOnError(() -> {
+//                System.out.println("Error playing video: " + mediaPlayer.getError().getMessage());
+//            });
+//
+//        } catch (Exception e) {
+//            System.out.println("Error loading video: " + e.getMessage());
+//        }
+//
+//    }
     private void showVideoForResult(String result) {
         String videoPath;
 
         if ("winner".equals(result)) {
-            videoPath = "file:/C:/Downloads/winner.mp4";
+            videoPath = "file:/C:/Users/zeyad_maamoun/Downloads/winner.mp4";
         } else if ("looser".equals(result)) {
-            videoPath = "file:/C:/Downloads/looser.mp4";     
-        } else if ("draw".equals(result)) {
-            videoPath = "file:/D:/Downloads/draw.mp4";
-        } else {
-            videoPath = "file:/D:/Downloads/noonewin.mp4";
+            videoPath = "file:/C:/Users/zeyad_maamoun/Downloads/loser.mp4";
+        } else { //edit by mohamed
+            videoPath = "file:/C:/Users/zeyad_maamoun/Downloads/noonewin.mp4";
         }
 
         try {
@@ -295,33 +373,66 @@ public class ServerGameBoardController implements Initializable, Client.ServerGa
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             MediaView mediaView = new MediaView(mediaPlayer);
 
-            StackPane root = new StackPane(mediaView);
-            Scene scene = new Scene(root, 500, 500);
+            StackPane videoRoot = new StackPane(mediaView);
+            videoRoot.setStyle("-fx-background-color: black;");
 
-            Stage stage = new Stage();
-            stage.setTitle("Game Result");
-            stage.setScene(scene);
-            stage.initOwner(playerOneName.getScene().getWindow());
-            stage.show();
+            Scene videoScene = new Scene(videoRoot, 800, 600); // Adjust size as needed
+            Stage currentStage = (Stage) playerOneName.getScene().getWindow();
+            currentStage.setScene(videoScene);
+            currentStage.setTitle("Game Result");
 
             mediaPlayer.play();
 
             mediaPlayer.setOnEndOfMedia(() -> {
                 System.out.println("Video ended.");
-                //   stage.close(); 
+
+                // Navigate to the specific FXML file
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/DashBoardScreen.fxml"));
+                    Parent root = loader.load();
+                    Scene newScene = new Scene(root);
+                    currentStage.setScene(newScene);
+                    currentStage.show();
+                } catch (IOException e) {
+                    System.out.println("Error loading FXML file: " + e.getMessage());
+                }
             });
 
             mediaPlayer.setOnError(() -> {
                 System.out.println("Error playing video: " + mediaPlayer.getError().getMessage());
             });
-
         } catch (Exception e) {
             System.out.println("Error loading video: " + e.getMessage());
         }
-
     }
 
     @FXML
     private void restartButtonHandler(ActionEvent event) {
+    }
+
+    public void switchToModesScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
+            root = loader.load();
+            // Get the current stage and set the new scene
+            stage = (Stage) playerOneScore.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void switchToMainScreen() {
+        switchToModesScreen();
+    }
+
+    public void changeCurrentplayer() {
+        if (counter % 2 != 0) {
+            currentSymbol.setText("O");
+        } else if (counter % 2 == 0) {
+            currentSymbol.setText("X");
+        }
     }
 }
