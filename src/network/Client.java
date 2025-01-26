@@ -8,22 +8,13 @@ package network;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ConnectException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.json.JSONObject;
-import screens.LoginScreenFXMLController;
 
 /**
  *
@@ -271,7 +262,6 @@ public class Client extends Thread {
             obj.put("password", password);
             mouth.writeUTF(obj.toString());
         } catch (IOException ex) {
-            System.out.println("hello error is here");
             Platform.runLater(() -> {
                 loginHandler.notifyUserServerIsNotAvailable();
             });

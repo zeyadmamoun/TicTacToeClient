@@ -12,6 +12,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+games.json
 
 ### Windows ###
 # Windows thumbnail cache files

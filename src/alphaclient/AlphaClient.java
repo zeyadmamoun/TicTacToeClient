@@ -47,6 +47,7 @@ public class AlphaClient extends Application {
             icon.setFitHeight(50);
             alert.setGraphic(icon);
             alert.initOwner(stage.getScene().getWindow());
+
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.getStylesheets().add(getClass().getResource("/screens/alert.css").toExternalForm());
             alert.showAndWait();
