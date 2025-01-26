@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.DropShadow?>
 
 <Pane prefHeight="688.0" prefWidth="997.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.LocalRecordController">
     <children>
@@ -90,9 +91,12 @@
                     </children>
                 </GridPane>
                 <ListView fx:id="recordsList" prefHeight="511.0" prefWidth="374.0" styleClass="cyber-list-view" stylesheets="@records.css" />
-                <Button fx:id="back_btn" alignment="CENTER" mnemonicParsing="false" onAction="#backtoPrevouisScreen" text="Back">
+                <Button fx:id="back_btn" layoutX="465.0" layoutY="479.0" mnemonicParsing="false" onAction="#backtoPrevouisScreen" prefHeight="42.0" prefWidth="129.0" style="-fx-background-color: #00d4ff; -fx-border-color: #00d4ff; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-font-weight: bold; -fx-font-size: 20px;" text="Back" textFill="WHITE">
+                    <effect>
+                        <DropShadow color="#E1F5FE" offsetX="4" offsetY="4" radius="20" />
+                    </effect>
                     <FlowPane.margin>
-                        <Insets left="160.0" top="30.0" />
+                        <Insets left="120.0" top="50.0" />
                     </FlowPane.margin>
                 </Button>
             </children>

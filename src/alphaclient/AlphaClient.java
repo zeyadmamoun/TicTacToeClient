@@ -31,6 +31,9 @@ public class AlphaClient extends Application {
         
         stage.setScene(scene);
         stage.setTitle("Tic Tac Toe");
+        stage.setHeight(711);
+        stage.setWidth(1000);
+        stage.setResizable(false);
         stage.setOnCloseRequest(event -> {
             client = Client.getInstance();
 
