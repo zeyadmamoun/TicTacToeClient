@@ -42,7 +42,6 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
     @FXML
     private AnchorPane anchorPane;
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         client = Client.getInstance();
@@ -51,7 +50,6 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
 
         // Apply the stylesheet
         //anchorPane.getStylesheets().add(getClass().getResource("loginscreenfxml.css").toExternalForm());
-
         // Set cursors for buttons
         login_btn1.setCursor(Cursor.HAND);
         signup_btn.setCursor(Cursor.HAND);
@@ -65,14 +63,11 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
             alert.setTitle("Login Failed");
             alert.setHeaderText("check your credientials");
             alert.setContentText("You Have To Enter Your Information !");
+            alert.initOwner(login_btn1.getScene().getWindow());
             alert.showAndWait();
             return;
         }
-        try {
-            client.sendLoginCredientials(user_login.getText(), password_login.getText());
-        } catch (IOException ex) {
-            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        client.sendLoginCredientials(user_login.getText(), password_login.getText());
     }
 
     @FXML
@@ -115,6 +110,7 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
 
         alert.showAndWait();
     }
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -127,5 +123,18 @@ public class LoginScreenFXMLController implements Initializable, LoginUiHandler 
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
         alert.showAndWait();
+    }
+
+    @Override
+    public void notifyUserServerIsNotAvailable() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.initOwner(login_btn1.getScene().getWindow());
+        a.setContentText("Server is not available at the moment");
+        ImageView icon = new ImageView(new Image("/assets/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
+        a.showAndWait();
     }
 }

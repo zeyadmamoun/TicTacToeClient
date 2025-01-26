@@ -115,6 +115,11 @@ public class LocalRecordController implements Initializable {
                         if (gameId != null) {
                             replayMoves(gameId, this);
                         }
+
+                        Platform.runLater(() -> {
+                            recordsList.getSelectionModel().clearSelection();
+                        });
+
                     }
                 });
             }

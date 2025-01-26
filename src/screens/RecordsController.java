@@ -106,6 +106,10 @@ public class RecordsController implements Initializable {
                             replayMoves(gameId, this);
                         }
                     }
+
+                    Platform.runLater(() -> {
+                        recordsList.getSelectionModel().clearSelection();
+                    });
                 });
             }
         } catch (Exception e) {

@@ -195,7 +195,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
         a.initOwner(mainHeader.getScene().getWindow());
         a.setAlertType(AlertType.CONFIRMATION);
         a.setContentText(fromPlayer + " Wants To Play With You");
-        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+        ImageView icon = new ImageView(new Image("file:C:\\Users\\zeyad_maamoun\\Downloads"));
         icon.setFitWidth(50);
         icon.setFitHeight(50);
         a.setGraphic(icon);

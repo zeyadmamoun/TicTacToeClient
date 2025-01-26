@@ -8,12 +8,20 @@ package network;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.json.JSONObject;
 import screens.LoginScreenFXMLController;
 
@@ -23,17 +31,16 @@ import screens.LoginScreenFXMLController;
  */
 public class Client extends Thread {
 
+    //private instance so no one can accesss it directly
+    private static Client instance;
     private Socket soc;
     private DataInputStream ear;
     private DataOutputStream mouth;
     private JSONObject obj;
-    private boolean haveAccess = false;
     private LoginUiHandler loginHandler;
     private RegisterUIHandler registerHandler;
     private DashboadrdUiHandler dashboadrdUiHandler;
     private ServerGameHandler serverGameHandler;
-    //private instance so no one can accesss it directly
-    private static Client instance;
     private String userName;
     private int score;
     private boolean isServerAccept = false;
@@ -242,36 +249,47 @@ public class Client extends Thread {
         }
     }
 
-    public void sendLoginCredientials(String username, String password) throws IOException {
-        connectToServer();
-        JSONObject obj = new JSONObject();
-        obj.put("command", "login");
-        obj.put("username", username);
-        obj.put("password", password);
-        mouth.writeUTF(obj.toString());
-    }
-
-    public void sendRegisterCredientials(String username, String password) throws IOException {
-        connectToServer();
-        JSONObject obj = new JSONObject();
-        obj.put("command", "register");
-        obj.put("username", username);
-        obj.put("password", password);
-        mouth.writeUTF(obj.toString());
-    }
-
-    public void connectToServer() {
+    public void connectToServer() throws IOException {
+        
         if (soc != null) {
             return;
         }
+        //soc = new Socket("192.168.1.4", 5005);
+        soc = new Socket("127.0.0.1", 5005);
+        ear = new DataInputStream(soc.getInputStream());
+        mouth = new DataOutputStream(soc.getOutputStream());
+        start();
+
+    }
+
+    public void sendLoginCredientials(String username, String password) {
         try {
-            //soc = new Socket("192.168.1.4", 5005);
-            soc = new Socket("127.0.0.1", 5005);
-            ear = new DataInputStream(soc.getInputStream());
-            mouth = new DataOutputStream(soc.getOutputStream());
-            start();
+            connectToServer();
+            JSONObject obj = new JSONObject();
+            obj.put("command", "login");
+            obj.put("username", username);
+            obj.put("password", password);
+            mouth.writeUTF(obj.toString());
         } catch (IOException ex) {
-            Logger.getLogger(LoginScreenFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("hello error is here");
+            Platform.runLater(() -> {
+                loginHandler.notifyUserServerIsNotAvailable();
+            });
+        }
+    }
+
+    public void sendRegisterCredientials(String username, String password) {
+        try {
+            connectToServer();
+            JSONObject obj = new JSONObject();
+            obj.put("command", "register");
+            obj.put("username", username);
+            obj.put("password", password);
+            mouth.writeUTF(obj.toString());
+        } catch (IOException ex) {
+            Platform.runLater(() -> {
+                registerHandler.notifyUserServerIsNotAvailable();
+            });
         }
     }
 
@@ -428,7 +446,7 @@ public class Client extends Thread {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void sendLogoutRequest() {
         try {
             JSONObject obj = new JSONObject();
@@ -465,6 +483,8 @@ public class Client extends Thread {
         void loginSuccess();
 
         void LoginFailed();
+
+        void notifyUserServerIsNotAvailable();
     }
 
     public interface RegisterUIHandler {
@@ -472,6 +492,8 @@ public class Client extends Thread {
         void success();
 
         void failed();
+        
+        void notifyUserServerIsNotAvailable();
     }
 
     public interface DashboadrdUiHandler {

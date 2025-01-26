@@ -81,6 +81,7 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
             alert.setTitle("Signup Failed");
             alert.setHeaderText("Check Your credientials");
             alert.setContentText("Your Password Or Confirm Password Wrong !");
+            alert.initOwner(login_btn_s.getScene().getWindow());
             alert.showAndWait();
             return;
 
@@ -89,6 +90,7 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
             alert.setTitle("Signup Failed");
             alert.setHeaderText("check your credientials");
             alert.setContentText("You Have To Enter Your Information !");
+            alert.initOwner(login_btn_s.getScene().getWindow());
             ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
             icon.setFitWidth(50);
             icon.setFitHeight(50);
@@ -98,12 +100,7 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
             alert.showAndWait();
             return;
         }
-        try {
-            client.sendRegisterCredientials(user_signup_f.getText(), password_signup_f.getText());
-        } catch (IOException ex) {
-            Logger.getLogger(RegisterScreenController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        client.sendRegisterCredientials(user_signup_f.getText(), password_signup_f.getText());
     }
 
     @FXML
@@ -146,7 +143,19 @@ public class RegisterScreenController implements Initializable, RegisterUIHandle
         alert.showAndWait();
     }
 
-
+    @Override
+    public void notifyUserServerIsNotAvailable() {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.initOwner(c_password_signup_f.getScene().getWindow());
+        a.setContentText("Server is not available at the moment");
+        ImageView icon = new ImageView(new Image("/assets/strategic-plan.png"));
+        icon.setFitWidth(50);
+        icon.setFitHeight(50);
+        a.setGraphic(icon);
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
+        a.showAndWait();
+    }
 }
 
 
