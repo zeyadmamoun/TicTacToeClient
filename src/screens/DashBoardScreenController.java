@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
@@ -54,6 +56,7 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     private Scene scene;
     private Parent root;
     private int score;
+    private boolean isScreenAvialable = true;
     ArrayList<String> playersArrayList = new ArrayList<>();
     @FXML
     private ListView<String> playersList;
@@ -80,13 +83,12 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
     @FXML
     private Pane Pane;
 
-
     /**
      * Initializes the controller class.
      */
     @FXML
     private void navigateToRecording(javafx.event.ActionEvent event) throws IOException {
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/Records.fxml"));
         Parent root = loader.load();
 
@@ -119,9 +121,18 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
                 if (newValue != null) {
                     toPlayer = newValue;
                     client.sendRequestHandler(toPlayer);
-                    Platform.runLater(() -> {
-                        playersList.getSelectionModel().clearSelection();
-                    });
+                    // Disable the playersList for 3 seconds
+                    playersList.setDisable(true);
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Platform.runLater(() -> {
+                                playersList.setDisable(false);
+                                playersList.getSelectionModel().clearSelection();
+                            });
+                        }
+                    }, 3000);
                 }
             }
         });
@@ -189,49 +200,53 @@ public class DashBoardScreenController implements Initializable, Client.Dashboad
 
     @Override
     public void generateRequestPopup(String fromPlayer) {
-        System.out.println(fromPlayer + " wants to play with you");
-        this.requestingPlayer = fromPlayer;
-        Alert a = new Alert(AlertType.NONE);
-        a.initOwner(mainHeader.getScene().getWindow());
-        a.setAlertType(AlertType.CONFIRMATION);
-        a.setContentText(fromPlayer + " Wants To Play With You");
-        ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
-        icon.setFitWidth(50);
-        icon.setFitHeight(50);
-        a.setGraphic(icon);
-        DialogPane dialogPane = a.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
+        if (isScreenAvialable) {
+            isScreenAvialable = false;
+            System.out.println(fromPlayer + " wants to play with you");
+            this.requestingPlayer = fromPlayer;
+            Alert a = new Alert(AlertType.NONE);
+            a.initOwner(mainHeader.getScene().getWindow());
+            a.setAlertType(AlertType.CONFIRMATION);
+            a.setContentText(fromPlayer + " Wants To Play With You");
+            ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+            icon.setFitWidth(50);
+            icon.setFitHeight(50);
+            a.setGraphic(icon);
+            DialogPane dialogPane = a.getDialogPane();
+            dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
 
 //         DialogPane dialogPane = a.getDialogPane();
 //        dialogPane.getStylesheets().add(getClass().getResource("alert.css").toExternalForm());
-        final boolean[] autoClosed = {false};
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-            if (a.isShowing()) {
-                autoClosed[0] = true;
-                a.close();
-                client.sendRefuseToPlayer(client.getUserName(), requestingPlayer);
-                System.out.println("from player " + fromPlayer);
-                System.out.println("to player " + toPlayer);
-            }
-        }));
-        timeline.setCycleCount(1);
-        timeline.play();
-        Optional<ButtonType> result = a.showAndWait();
-        // Stop the timeline if the user responds before timeout
-        timeline.stop();
+            final boolean[] autoClosed = {false};
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+                if (a.isShowing()) {
+                    autoClosed[0] = true;
+                    a.close();
+                    client.sendRefuseToPlayer(client.getUserName(), requestingPlayer);
+                    System.out.println("from player " + fromPlayer);
+                    System.out.println("to player " + toPlayer);
+                }
+            }));
+            timeline.setCycleCount(1);
+            timeline.play();
+            Optional<ButtonType> result = a.showAndWait();
+            // Stop the timeline if the user responds before timeout
+            timeline.stop();
 
-        // Handle the user's response only if it wasn't auto-closed
-        if (!autoClosed[0]) {
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Handle accept
-                client.sendAcceptToPlayer(client.getUserName(), requestingPlayer);
-                switchToServerGameBoard();
-            } else {
-                // Handle refuse
-                client.sendRefuseToPlayer(client.getUserName(), requestingPlayer);
-                System.out.println("from player " + fromPlayer);
-                System.out.println("to player " + toPlayer);
+            // Handle the user's response only if it wasn't auto-closed
+            if (!autoClosed[0]) {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    // Handle accept
+                    client.sendAcceptToPlayer(client.getUserName(), requestingPlayer);
+                    switchToServerGameBoard();
+                } else {
+                    // Handle refuse
+                    client.sendRefuseToPlayer(client.getUserName(), requestingPlayer);
+                    System.out.println("from player " + fromPlayer);
+                    System.out.println("to player " + toPlayer);
+                }
             }
+            isScreenAvialable = true;
         }
     }
 
