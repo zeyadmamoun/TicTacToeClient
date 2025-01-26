@@ -156,10 +156,11 @@ public class VSComputerScreenController implements Initializable {
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         if (checkWinner()) {
-             if (player == 'x') {
-                displayAlert("player 1");
+            gameOver = true;
+            if (player == 'x') {
+                displayAlert("Player");
             } else {
-                displayAlert("player 2");
+                displayAlert("PC");
             }
         } else if (isBoardFull()) {
             gameOver = true;
@@ -168,37 +169,37 @@ public class VSComputerScreenController implements Initializable {
     }
 
     public boolean checkWinner() {
-        // Grid pane is at layout X: 258, Y: 174 with width 483 and height 386
-        double cellWidth = 483.0 / 3.0;
-        double cellHeight = 386.0 / 3.0;
-        double gridX = 258;
-        double gridY = 174;
+        // Grid pane is at layoutX: 209.0, layoutY: 122.0 with width 597.0 and height 483.0
+        double cellWidth = 597.0 / 3.0; // Width of each cell
+        double cellHeight = 483.0 / 3.0; // Height of each cell
+        double gridX = 209.0;
+        double gridY = 122.0;
 
         for (int i = 0; i < 3; i++) {
             // Horizontal lines
             if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
                 double y = gridY + (i + 0.5) * cellHeight;
-                drawWinnerLine(gridX + 50, y, gridX + 483 - 50, y);
+                drawWinnerLine(gridX + 50, y, gridX + 597 - 50, y);
                 return true;
             }
 
             // Vertical lines
             if (board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer) {
                 double x = gridX + (i + 0.5) * cellWidth;
-                drawWinnerLine(x, gridY + 50, x, gridY + 386 - 50);
+                drawWinnerLine(x, gridY + 50, x, gridY + 483 - 50);
                 return true;
             }
         }
 
         // Diagonal from top-left to bottom-right
         if (board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer) {
-            drawWinnerLine(gridX + 50, gridY + 50, gridX + 483 - 50, gridY + 386 - 50);
+            drawWinnerLine(gridX + 50, gridY + 50, gridX + 597 - 50, gridY + 483 - 50);
             return true;
         }
 
         // Diagonal from top-right to bottom-left
         if (board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer) {
-            drawWinnerLine(gridX + 483 - 50, gridY + 50, gridX - 150 + 50, gridY + 386 - 50);
+            drawWinnerLine(gridX + 597 - 50, gridY + 50, gridX + 50, gridY + 483 - 50);
             return true;
         }
 
@@ -391,6 +392,7 @@ public class VSComputerScreenController implements Initializable {
             System.out.println("Recording stopped.");
         }
     }
+
     public void displayAlert(String winner) {
         Alert a = new Alert(Alert.AlertType.NONE);
         a.initOwner(recordButton.getScene().getWindow());

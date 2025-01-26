@@ -173,37 +173,37 @@ public class LocalModeController implements Initializable {
     }
 
     public boolean checkWinner() {
-        // Grid pane is at layout X: 258, Y: 174 with width 483 and height 386
-        double cellWidth = 483.0 / 3.0;
-        double cellHeight = 386.0 / 3.0;
-        double gridX = 258;
-        double gridY = 174;
+        // Updated dimensions and positions to match the FXML
+        double cellWidth = 582.0 / 3.0;
+        double cellHeight = 478.0 / 3.0;
+        double gridX = 214;
+        double gridY = 116;
 
         for (int i = 0; i < 3; i++) {
             // Horizontal lines
             if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
                 double y = gridY + (i + 0.5) * cellHeight;
-                drawWinnerLine(gridX + 50, y, gridX + 483 - 50, y);
+                drawWinnerLine(gridX + 50, y, gridX + 582 - 50, y);
                 return true;
             }
 
             // Vertical lines
             if (board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer) {
                 double x = gridX + (i + 0.5) * cellWidth;
-                drawWinnerLine(x, gridY + 50, x, gridY + 386 - 50);
+                drawWinnerLine(x, gridY + 50, x, gridY + 478 - 50);
                 return true;
             }
         }
 
         // Diagonal from top-left to bottom-right
         if (board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer) {
-            drawWinnerLine(gridX + 50, gridY + 50, gridX + 483 - 50, gridY + 386 - 50);
+            drawWinnerLine(gridX + 50, gridY + 50, gridX + 582 - 50, gridY + 478 - 50);
             return true;
         }
 
         // Diagonal from top-right to bottom-left
         if (board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer) {
-            drawWinnerLine(gridX + 483 - 50, gridY + 50, gridX - 150 + 50, gridY + 386 - 50);
+            drawWinnerLine(gridX + 582 - 50, gridY + 50, gridX + 50, gridY + 478 - 50);
             return true;
         }
 

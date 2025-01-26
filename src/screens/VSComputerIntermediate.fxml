@@ -94,7 +94,7 @@
                 <padding>
                     <Insets bottom="5" left="10" right="10" top="5" />
                 </padding>
-                <Text fx:id="player1Name" fill="AQUA" text="Player 1">
+                <Text fx:id="player1Name" fill="AQUA" text="Player ">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
@@ -107,25 +107,14 @@
             </VBox>
          
                            <!-- Current Turn Indicator -->
-            <VBox alignment="CENTER" prefHeight="54.0" prefWidth="79.0" spacing="2">
-                <Text fill="AQUA" text="Current Turn">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Text>
-                <Text fx:id="currentSymbol" fill="WHITE" text="X">
-                    <font>
-                        <Font name="System Bold" size="20.0" />
-                    </font>
-                </Text>
-            </VBox>
+            <VBox alignment="CENTER" prefHeight="54.0" prefWidth="79.0" spacing="2" />
          
                            <!-- Player 2 Info -->
             <VBox alignment="CENTER" minWidth="80" prefWidth="100" spacing="2" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 10;">
                 <padding>
                     <Insets bottom="5" left="10" right="10" top="5" />
                 </padding>
-                <Text fx:id="player2Name" fill="AQUA" text="Player 2">
+                <Text fx:id="player2Name" fill="AQUA" text="PC">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>

@@ -202,5 +202,179 @@
                 "row": 2
             }
         ]
+    },
+    {
+        "gameId": "game1737908994743",
+        "date": "Sun Jan 26 18:29:55 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 2
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 2
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737909253275",
+        "date": "Sun Jan 26 18:34:14 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737909430239",
+        "date": "Sun Jan 26 18:37:12 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 2
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 2,
+                "row": 2
+            }
+        ]
+    },
+    {
+        "gameId": "game1737909508277",
+        "date": "Sun Jan 26 18:38:29 EET 2025",
+        "moves": [
+            {
+                "character": "X",
+                "column": 0,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 1,
+                "row": 1
+            },
+            {
+                "character": "X",
+                "column": 0,
+                "row": 1
+            },
+            {
+                "character": "O",
+                "column": 0,
+                "row": 2
+            },
+            {
+                "character": "X",
+                "column": 1,
+                "row": 0
+            },
+            {
+                "character": "O",
+                "column": 2,
+                "row": 0
+            }
+        ]
     }
 ]

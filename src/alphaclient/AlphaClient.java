@@ -35,7 +35,7 @@ public class AlphaClient extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
         Parent root = loader.load();
 
-        String mp3FilePath = "D:/Downloads/atart game.mp3"; 
+        String mp3FilePath = "C:\\Users\\zeyad_maamoun\\Downloads\\atartgame.mp3"; 
         Media media = new Media(Paths.get(mp3FilePath).toUri().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
