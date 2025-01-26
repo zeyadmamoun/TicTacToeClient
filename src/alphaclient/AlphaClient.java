@@ -21,14 +21,15 @@ import network.Client;
  *
  * @author zeyad_maamoun
  */
-
 public class AlphaClient extends Application {
+
     private Client client;
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/screens/ModesFXML.fxml"));
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.setTitle("Tic Tac Toe");
         stage.setHeight(711);
@@ -41,17 +42,17 @@ public class AlphaClient extends Application {
             alert.setTitle("Tic Tac Toe Game");
             alert.setHeaderText("Are you sure you want to exit?");
             alert.setContentText("choose ok to exit and cancel if you want to continue");
-              ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
-              icon.setFitWidth(50);
-             icon.setFitHeight(50);
-             alert.setGraphic(icon);
-             DialogPane dialogPane = alert.getDialogPane();
-             dialogPane.getStylesheets().add(getClass().getResource("/screens/alert.css").toExternalForm());
+            ImageView icon = new ImageView(new Image("file:D:/downloads/strategic-plan.png"));
+            icon.setFitWidth(50);
+            icon.setFitHeight(50);
+            alert.setGraphic(icon);
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(getClass().getResource("/screens/alert.css").toExternalForm());
             alert.showAndWait();
             if (alert.getResult() == ButtonType.OK) {
                 if (client.getSocket() != null) {
                     client.sendRequestClose();
-                } 
+                }
                 stage.close();
             } else {
                 event.consume();
@@ -66,5 +67,5 @@ public class AlphaClient extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
