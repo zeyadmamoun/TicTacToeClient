@@ -61,10 +61,11 @@ Example:
 ---
 
 ## Contributors  
-  
+
+- **[Zeyad Maamoun](https://github.com/zeyadmamoun)**
 - **[Nadia Farid](https://github.com/NadiaFarid799)**  
 - **[Suhaila Farahat](https://github.com/Suhaila-Farahat)**  
-- **[Mahmoud Adel](https://github.com/mahmoud126d)**  
+- **[Mahmoud Salah](https://github.com/mahmoud126d)**  
 - **[Mohammed Hussien](https://github.com/MohammedHussien10)**
 
 ---
