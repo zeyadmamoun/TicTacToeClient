@@ -107,19 +107,7 @@
             </VBox>
          
                            <!-- Current Turn Indicator -->
-            <VBox alignment="CENTER" prefHeight="117.0" prefWidth="79.0" spacing="2">
-            <children>
-               <Text fx:id="player2Name1" fill="AQUA" text="CurrentTurn">
-                  <font>
-                     <Font name="System Bold" size="16.0" />
-                  </font>
-               </Text>
-               <Text fx:id="currentSymbol" fill="WHITE" text="X">
-                  <font>
-                     <Font size="18.0" />
-                  </font>
-               </Text>
-            </children></VBox>
+            <VBox alignment="CENTER" prefHeight="117.0" prefWidth="79.0" spacing="2" />
          
                            <!-- Player 2 Info -->
             <VBox alignment="CENTER" minWidth="80" prefWidth="100" spacing="2" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 10;">

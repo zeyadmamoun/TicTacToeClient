@@ -103,6 +103,7 @@ public class VSComputerScreenController implements Initializable {
 
     @FXML
     private void restartButtonHandler(ActionEvent event) {
+        isRecording = !isRecording;
         enableBoard();
         removeWinnerLine();
         recordButton.setDisable(false);
@@ -150,8 +151,15 @@ public class VSComputerScreenController implements Initializable {
 
     private void makeMove(int row, int col, char player) {
         recordButton.setDisable(true);
-
-        recording.recordMove(row, col, player, currentPlayerName, gameId);
+        if (isRecording) {
+            if (currentPlayerName == "Player") {
+                currentPlayerName = "PC";
+            } else {
+                currentPlayerName = "Player";
+            }
+            recording.recordMove(row, col, currentPlayer, currentPlayerName, gameId);
+        }
+        //recording.recordMove(row, col, player, currentPlayerName, gameId);
         System.out.println("record method1");
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));

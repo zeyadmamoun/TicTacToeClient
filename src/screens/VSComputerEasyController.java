@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class VSComputerEasyController implements Initializable {
 
@@ -134,8 +138,8 @@ public class VSComputerEasyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttons = new Button[][]{{buttonOne, buttonTwo, buttonThree}, {buttonFour, buttonFive, buttonSix}, {buttonSeven, buttonEight, buttonNine}};
-        recording = new Recording();
-        gameId = generateNewGameId();
+//        recording = new Recording();
+//        gameId = generateNewGameId();
         initializeGame();
     }
 
@@ -150,6 +154,8 @@ public class VSComputerEasyController implements Initializable {
         currentPlayer = 'X';
         gameOver = false;
         counterCurrentTurn = 0;
+        recording = new Recording();
+        gameId = generateNewGameId();
     }
 
     private void handleMove(int row, int col) {
@@ -171,8 +177,12 @@ public class VSComputerEasyController implements Initializable {
         recordButton.setDisable(true);
 
         if (isRecording) {
-            recording.recordMove(row, col, player, currentPlayerName, gameId);
-            System.out.println("record method1");
+            if (currentPlayerName == "Player") {
+                currentPlayerName = "PC";
+            } else {
+                currentPlayerName = "Player";
+            }
+            recording.recordMove(row, col, currentPlayer, currentPlayerName, gameId);
         }
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
@@ -187,7 +197,7 @@ public class VSComputerEasyController implements Initializable {
             gameOver = true;
             displayAlert("draw");
         }
-        changeCurrentplayer();
+        //changeCurrentplayer();
     }
 
     public void displayAlert(String winner) {
@@ -405,12 +415,12 @@ public class VSComputerEasyController implements Initializable {
         stage.show();
     }
 
-    public void changeCurrentplayer() { //by mohamed
-        if (counterCurrentTurn % 2 != 0) {
-            currentSymbol.setText("O");
-        } else if (counterCurrentTurn % 2 == 0) {
-            currentSymbol.setText("X");
-        }
-    }
+//    public void changeCurrentplayer() { //by mohamed
+//        if (counterCurrentTurn % 2 != 0) {
+//            currentSymbol.setText("O");
+//        } else if (counterCurrentTurn % 2 == 0) {
+//            currentSymbol.setText("X");
+//        }
+//    }
 
 }

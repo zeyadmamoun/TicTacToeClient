@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class VSComputerIntermediateController implements Initializable {
 
@@ -54,6 +56,7 @@ public class VSComputerIntermediateController implements Initializable {
     private Pane gamePane;
 
     private Line winnerLine;
+    private String currentPlayerName;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,7 +77,7 @@ public class VSComputerIntermediateController implements Initializable {
                 buttons[i][j].setDisable(false);
             }
         }
-        
+        recording = new Recording();
         currentPlayer = 'X';
         gameOver = false;
     }
@@ -111,16 +114,23 @@ public class VSComputerIntermediateController implements Initializable {
 
     private void makeMove(int row, int col, char player) {
         recordButton.setDisable(true);
-
+        if (isRecording) {
+            if (currentPlayerName == "Player") {
+                currentPlayerName = "PC";
+            } else {
+                currentPlayerName = "Player";
+            }
+            recording.recordMove(row, col, currentPlayer, currentPlayerName, gameId);
+        }
         board[row][col] = player;
         buttons[row][col].setText(String.valueOf(player));
         buttons[row][col].setDisable(true);
 
         if (checkWinner()) {
             gameOver = true;
-            if(currentPlayer=='X'){
+            if (currentPlayer == 'X') {
                 displayAlert("You");
-            }else{
+            } else {
                 displayAlert("PC");
             }
             disableAllButtons();
@@ -319,6 +329,7 @@ public class VSComputerIntermediateController implements Initializable {
     private String generateNewGameId() {
         return "game" + System.currentTimeMillis();
     }
+
     public void displayAlert(String winner) {
         Alert a = new Alert(Alert.AlertType.NONE);
         a.initOwner(recordButton.getScene().getWindow());

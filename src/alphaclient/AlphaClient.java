@@ -34,23 +34,12 @@ public class AlphaClient extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/ModesFXML.fxml"));
         Parent root = loader.load();
-
-        String mp3FilePath = "C:\\Users\\zeyad_maamoun\\Downloads\\atartgame.mp3"; 
-        Media media = new Media(Paths.get(mp3FilePath).toUri().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
-
-        ModesFXMLController controller = loader.getController();
-        controller.setMediaPlayer(mediaPlayer);
-
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Tic Tac Toe");
         stage.setHeight(711);
         stage.setWidth(1000);
         stage.setResizable(false);
-
         stage.setOnCloseRequest(event -> {
             client = Client.getInstance();
 
@@ -72,7 +61,6 @@ public class AlphaClient extends Application {
                 if (client.getSocket() != null) {
                     client.sendRequestClose();
                 }
-                mediaPlayer.stop();
                 stage.close();
             } else {
                 event.consume();
