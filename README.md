@@ -35,11 +35,13 @@
 ## Screenshots  
 
 Example:  
-![Authentiacation System](project screenshots/Authentiacation System.PNG)  
-![DashBoard Screen](project screenshots/DashBoard Screen.PNG)
-![Local Multiplayer Game](project screenshots/Local Multiplayer Game.PNG)
-![Main Menu](project screenshots/Main Menu.PNG)
-![Replay Screen](project screenshots/Replay Screen.PNG)
+![Authentiacation System](./project%20screenshots/Authentiacation%20System.PNG)
+![Authentication System](./project%20screenshots/Authentication%20System.PNG)  
+![Dashboard Screen](./project%20screenshots/Dashboard%20Screen.PNG)  
+![Local Multiplayer Game](./project%20screenshots/Local%20Multiplayer%20Game.PNG)  
+![Main Menu](./project%20screenshots/Main%20Menu.PNG)  
+![Replay Screen](./project%20screenshots/Replay%20Screen.PNG)  
+
 ---
 
 ## How It Works  
